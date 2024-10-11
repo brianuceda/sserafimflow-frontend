@@ -1,3 +1,6 @@
 export const environment = {
-  state: 'production',
+  PRODUCTION: false,
+  ENV_NAME: 'development',
+  FRONTEND_URL: 'http://localhost:4200/',
+  BACKEND_URL: 'http://localhost:8080/api/v1/',
 };

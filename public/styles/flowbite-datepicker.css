@@ -1,0 +1,73 @@
+.datepicker.hidden {
+  @apply !hidden;
+}
+
+.datepicker-picker { /* Datepicker */
+  @apply dark:!bg-neutral-750 !border dark:!border-dark-5;
+}
+
+.datepicker-picker {
+  @apply !rounded-lg;
+}
+
+.datepicker-picker .datepicker-header .datepicker-title { /* ? Header: Title */
+  @apply dark:!bg-neutral-750 !mb-4 !shadow-none;
+}
+
+.datepicker-picker .days-of-week .dow { /* Titulos */
+  @apply dark:!font-semibold dark:!text-dark-light;
+}
+
+.datepicker-picker .datepicker-cell {  /* ? View: Celdas */
+  @apply 
+    dark:!text-dark-gray !font-normal /* Texto */
+    dark:hover:!bg-neutral-700 /* Hover:Fondo */
+    dark:hover:!border-dark-5; /* Hover:Borde */
+}
+.datepicker-picker .datepicker-cell.cursor-not-allowed,
+.datepicker-picker .datepicker-cell.disabled {  /* ? View: Celdas Bloqueadas */
+  @apply 
+    dark:!bg-opacity-50 dark:!text-dark-5 hover:!bg-transparent !cursor-not-allowed; /* Fondo, Texto */
+}
+
+.datepicker-picker .datepicker-cell.focused {  /* ? View: Celda Focuseada */
+  @apply dark:!bg-neutral-700; /* Fondo */
+}
+.datepicker-picker .datepicker-cell.selected {  /* ? View: Celda Seleccionada */
+  @apply dark:!bg-primary dark:!text-dark-light; /* Fondo */
+}
+
+.datepicker-picker .datepicker-controls { /* ? Controles */
+  @apply !flex !justify-between !gap-1;
+}
+
+.datepicker-picker .datepicker-header .datepicker-controls button { /* ? Header: Controles: Botones */
+  @apply
+    !h-auto !flex !justify-center !items-center /* Comportamiento */
+    dark:!bg-neutral-700 dark:hover:!bg-dark-hover /* Fondo, Hover:Fondo */
+    border dark:border-dark-5; /* Borde */
+}
+
+/* si tiene la propiedad disabled, aplicar esto */
+.datepicker-picker .datepicker-header .datepicker-controls button:disabled { /* ? Header: Controles: Botones: Deshabilitado */
+  @apply dark:!opacity-25 dark:hover:!bg-neutral-700 dark:!cursor-not-allowed; /* Fondo, Texto, Cursor */
+}
+
+.datepicker-picker .datepicker-footer { /* ? Footer */
+  @apply dark:!bg-neutral-750 !border-t dark:!border-dark-5 !mt-2;
+}
+
+.datepicker-picker .datepicker-footer .datepicker-controls { /* ? Footer: Controles */
+  @apply dark:!bg-neutral-750 dark:!border-dark-5 !gap-3 h-[44px];
+}
+
+.datepicker-picker .datepicker-footer .datepicker-controls button { /* ? Footer: Controles: Botones */
+  @apply
+    !h-auto !text-sm !rounded-lg dark:!text-white !font-normal !py-2.5 !px-5 !m-0 focus:!outline-none focus:!ring-0 !mt-1
+    dark:!bg-neutral-700 dark:hover:!bg-dark-hover /* Fondo, Hover:Fondo */
+    border dark:border-dark-5; /* Borde */
+}
+
+.datepicker-picker .datepicker-footer .datepicker-controls button:nth-child(1) { /* ? Header: Controles: Today */
+  @apply dark:!bg-neutral-750 dark:hover:!bg-dark-2 dark:!border-dark-5; /* Fondo, Hover:Fondo */
+} 

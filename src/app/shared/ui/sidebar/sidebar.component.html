@@ -1,0 +1,104 @@
+<!-- Plataforma -->
+<div id="hs-offcanvas-custom-backdrop-color" aria-labelledby="hs-offcanvas-custom-backdrop-color-label" class="hs-overlay-backdrop-open:hidden max-lg:hs-overlay-backdrop-open:block max-lg:hs-overlay-backdrop-open:grayscale lg:fixed z-[110] w-[272px] max-lg:w-[300px] h-dvh bg-neutral-800 border-r border-dark-5 hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-dark-5 [&::-webkit-scrollbar-thumb]:bg-neutral-500" role="dialog" tabindex="-1" aria-label="Sidebar">
+      
+  <!-- Cabecera -->
+  <div class="h-[60px] px-4 flex justify-between items-center border-b border-dark-5">
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center gap-3 font-semibold text-xl text-dark-light focus:outline-none focus:opacity-80" aria-label="Brand">
+      <picture class="size-10">
+        <source srcset="images/icon.avif" type="image/avif">
+        <img class="w-full h-full" type="image/webp" src="images/icon.webp" alt="Logo de Sserafim Flow">
+      </picture>
+      <h2>Sserafim Flow</h2>
+    </a>
+    <!-- Cerrar Sidebar -->
+    <button type="button" aria-label="Close" data-hs-overlay="#hs-offcanvas-custom-backdrop-color"
+      class="lg:hidden p-2 inline-flex justify-center items-center gap-x-2 text-start text-dark-gray text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-neutral-700 focus:outline-none focus:bg-neutral-700"
+    >
+      <span class="sr-only">Cerrar</span>
+      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Contenido -->
+  <nav class="hs-accordion-group px-4 py-5 w-full min-h-[calc(100%-60px)] flex flex-col justify-between flex-wrap" data-hs-accordion-always-open>
+    <!-- Superior -->
+    <ul class="sidebar-ul space-y-[6px]">
+      @for (padre of items; track $index) {
+        @if (padre.childrens && padre.childrens.length > 0) {
+          <!-- Padre (con hijos) -->
+          <li [id]="padre.id + '-accordion'" class="hs-accordion">
+            <button [attr.aria-controls]="padre.id + '-accordion'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+              <span [id]="'icon-' + $index"></span>
+              {{ padre.title }}
+              <svg class="hs-accordion-active:block ms-auto hidden size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+              <svg class="hs-accordion-active:hidden ms-auto block size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+
+            <!-- Hijos -->
+            <div [id]="padre.id + '-accordion'" [attr.aria-labelledby]="padre.id + '-accordion'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
+              <ul class="hs-accordion-group ps-3 py-2" data-hs-accordion-always-open>
+              @for (hijo of padre.childrens; track $index) {
+                @if (hijo.childrens && hijo.childrens.length > 0) {
+                  <!-- Hijo (con nietos) -->
+                  <li class="hs-accordion" [id]="padre.id + '-accordion-sub-' + $index" [ngClass]="{'mt-[6px]' : $index > 0}">
+                    <button [attr.aria-controls]="padre.id + '-accordion-sub-' + $index" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+                      {{ hijo.title }}
+                      <svg class="hs-accordion-active:block ms-auto hidden size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                      <svg class="hs-accordion-active:hidden ms-auto block size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+      
+                    <!-- Nietos -->
+                    <div [id]="padre.id + '-accordion-sub-' + $index" [attr.aria-labelledby]="padre.id + '-accordion-sub-' + $index" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
+                      <ul class="ps-2 py-1">
+                        @for (nieto of hijo.childrens; track $index) {
+                          <!-- Nieto -->
+                          <li [ngClass]="{'mt-[6px]' : $index > 0}">
+                            <a [routerLink]="nieto.route" (click)="setActive($event)" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+                              {{ nieto.title }}
+                            </a>
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  </li>
+                } @else {
+                  <!-- Hijo (sin nietos) -->
+                  <li [ngClass]="{'mt-[6px]' : $index > 0}">
+                    <a [routerLink]="hijo.route" (click)="setActive($event)" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+                      {{ hijo.title }}
+                    </a>
+                  </li>
+                }
+              }
+              </ul>
+            </div>
+          </li>
+        } @else {
+          <!-- Padre (sin hijos) -->
+          <li>
+            <a [routerLink]="padre.route" (click)="setActive($event)" data-hs-overlay="#hs-offcanvas-custom-backdrop-color" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-neutral-900 text-dark-gray">
+              <span [id]="'icon-' + $index"></span>
+              {{ padre.title }}
+            </a>
+          </li>
+        }
+      }
+    </ul>
+
+    <!-- Inferior -->
+    <ul class="mt-8">
+      <li>
+        <button
+          class="w-full py-3 px-4 inline-flex justify-center gap-2 items-center gap-x-2 text-sm rounded-lg border dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-950 dark:hover:bg-opacity-75 outline-none text-white disabled:opacity-50 disabled:pointer-events-none"
+        >
+          <!-- <svg class="w-4 h-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> -->
+          Cerrar sesión
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

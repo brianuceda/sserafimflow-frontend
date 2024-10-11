@@ -1,0 +1,483 @@
+<div
+  class="w-full min-h-dvh h-full flex justify-between items-center max-lg:gap-8 gradient-background"
+>
+  <!-- Imagen -->
+  <!-- <div
+    class="h-dvh w-full flex justify-center items-center aspect-square max-lg:hidden"
+  >
+    <img
+      src="images/lucky_block_1.gif"
+      alt="Imagen de lucky block"
+      class="transform transition-all duration-700 scale-x-[-1] pointer-events-none max-w-[500px]"
+    />
+  </div> -->
+
+  <!-- Contenido -->
+  <div class="max-w-[500px] max-lg:max-w-[unset] w-full">
+    <div
+      class="h-dvh flex flex-col justify-center p-4 sm:p-10 shadow-sm dark:bg-neutral-800 dark:border-r-[1px] dark:border-r-neutral-600"
+    >
+      <!-- Título -->
+      <div class="text-center">
+        <h1 class="block text-2xl font-bold text-white">Iniciar Sesión</h1>
+        <p class="mt-2 text-sm text-dark-gray">
+          Aún no tienes una cuenta?
+          <a
+            class="text-purple-400 decoration-2 hover:underline focus:outline-none focus:underline"
+            routerLink="/registrarse"
+          >
+            Registrate
+          </a>
+        </p>
+      </div>
+
+      <!-- Inputs -->
+      <div class="mt-5">
+        <!-- Google -->
+        <button
+          type="button"
+          class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-950 dark:hover:bg-opacity-75 outline-none text-white disabled:opacity-50 disabled:pointer-events-none"
+        >
+          <svg
+            class="w-4 h-auto"
+            width="46"
+            height="47"
+            viewBox="0 0 46 47"
+            fill="none"
+          >
+            <path
+              d="M46 24.0287C46 22.09 45.8533 20.68 45.5013 19.2112H23.4694V27.9356H36.4069C36.1429 30.1094 34.7347 33.37 31.5957 35.5731L31.5663 35.8669L38.5191 41.2719L38.9885 41.3306C43.4477 37.2181 46 31.1669 46 24.0287Z"
+              fill="#4285F4"
+            />
+            <path
+              d="M23.4694 47C29.8061 47 35.1161 44.9144 39.0179 41.3012L31.625 35.5437C29.6301 36.9244 26.9898 37.8937 23.4987 37.8937C17.2793 37.8937 12.0281 33.7812 10.1505 28.1412L9.88649 28.1706L2.61097 33.7812L2.52296 34.0456C6.36608 41.7125 14.287 47 23.4694 47Z"
+              fill="#34A853"
+            />
+            <path
+              d="M10.1212 28.1413C9.62245 26.6725 9.32908 25.1156 9.32908 23.5C9.32908 21.8844 9.62245 20.3275 10.0918 18.8588V18.5356L2.75765 12.8369L2.52296 12.9544C0.909439 16.1269 0 19.7106 0 23.5C0 27.2894 0.909439 30.8731 2.49362 34.0456L10.1212 28.1413Z"
+              fill="#FBBC05"
+            />
+            <path
+              d="M23.4694 9.07688C27.8699 9.07688 30.8622 10.9863 32.5344 12.5725L39.1645 6.11C35.0867 2.32063 29.8061 0 23.4694 0C14.287 0 6.36607 5.2875 2.49362 12.9544L10.0918 18.8588C11.9987 13.1894 17.25 9.07688 23.4694 9.07688Z"
+              fill="#EB4335"
+            />
+          </svg>
+          Iniciar sesión con Google
+        </button>
+
+        <!-- o -->
+        <div
+          class="py-3 flex items-center text-xs text-dark-7 uppercase before:flex-1 before:border-t before:border-dark-5 before:me-6 after:flex-1 after:border-t after:border-dark-5 after:ms-6 mt-2"
+        >
+          O
+        </div>
+
+        <!-- Form -->
+        <form>
+          <div class="grid gap-y-6">
+            <!-- Email -->
+            <div>
+              <label
+                for="email"
+                class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
+                >Correo electrónico</label
+              >
+              <div class="relative">
+                <!-- Part: Icon -->
+                <div
+                  class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
+                >
+                  <svg
+                    class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                </div>
+
+                <!-- Part: Input -->
+                <input
+                  id="email"
+                  name="email"
+                  formControlName="email"
+                  type="text"
+                  class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 dark:focus:border-purple-400 dark:focus:border-opacity-50 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500"
+                  placeholder="name@company.com"
+                />
+                <!-- Validators -->
+                @if (isRequired({field: 'email'})) {
+                <small class="text-red-400">Este campo es requerido</small>
+                } @if (hasEmailError()) {
+                <small class="text-red-400">El correo debe ser válido</small>
+                }
+              </div>
+            </div>
+
+            <!-- Strong Password -->
+            <div>
+              <label
+                for="strong-password-with-indicator-1"
+                class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
+                >Contraseña</label
+              >
+              <div class="relative flex-1">
+                <div class="relative">
+                  <!-- Part: Icon -->
+                  <div
+                    class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
+                  >
+                    <svg
+                      class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"
+                      ></path>
+                      <circle cx="16.5" cy="7.5" r=".5"></circle>
+                    </svg>
+                  </div>
+
+                  <!-- Part: Input -->
+                  <input
+                    id="strong-password-with-indicator-1"
+                    type="password"
+                    name="password"
+                    formControlName="password"
+                    class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 dark:focus:border-purple-400 dark:focus:border-opacity-50 dark:text-neutral-200 dark:placeholder-neutral-500"
+                    placeholder="Enter password"
+                  />
+
+                  <!-- Part: Eye button -->
+                  <button
+                    type="button"
+                    data-hs-toggle-password='{
+                    "target": "#hs-strong-password-with-indicator-and-hint-in-popover"
+                  }'
+                    class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-purple-500 dark:text-neutral-500 dark:focus:text-purple-500"
+                  >
+                    <svg
+                      class="shrink-0 size-3.5"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        class="hs-password-active:hidden"
+                        d="M9.88 9.88a3 3 0 1 0 4.24 4.24"
+                      ></path>
+                      <path
+                        class="hs-password-active:hidden"
+                        d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"
+                      ></path>
+                      <path
+                        class="hs-password-active:hidden"
+                        d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"
+                      ></path>
+                      <line
+                        class="hs-password-active:hidden"
+                        x1="2"
+                        x2="22"
+                        y1="2"
+                        y2="22"
+                      ></line>
+                      <path
+                        class="hidden hs-password-active:block"
+                        d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"
+                      ></path>
+                      <circle
+                        class="hidden hs-password-active:block"
+                        cx="12"
+                        cy="12"
+                        r="3"
+                      ></circle>
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  id="hs-strong-password-popover-1"
+                  class="hidden absolute z-10 w-full bg-white shadow-md rounded-lg p-4 dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:divide-neutral-700"
+                >
+                  <div
+                    id="hs-strong-password-in-popover-1"
+                    data-hs-strong-password='{
+                      "target": "#strong-password-with-indicator-1",
+                      "hints": "#hs-strong-password-popover-1",
+                      "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-purple-500 h-2 flex-auto rounded-full bg-purple-500 opacity-25 mx-1",
+                      "mode": "popover"
+                    }'
+                    class="mt-2 mb-4 -mx-1 flex"
+                  ></div>
+
+                  <div class="mb-3">
+                    <span class="text-sm text-gray-800 dark:text-neutral-200"
+                      >Nivel:
+                    </span>
+                    <span
+                      data-hs-strong-password-hints-weakness-text='["No detectado", "Débil", "Insegura", "Segura", "Muy segura", "Indetectable"]'
+                      class="text-sm font-semibold text-gray-800 dark:text-neutral-200"
+                    ></span>
+                  </div>
+
+                  <ul
+                    class="space-y-1 text-sm text-gray-500 dark:text-neutral-500"
+                  >
+                    <li
+                      data-hs-strong-password-hints-rule-text="min-length"
+                      class="hs-strong-password-active:text-purple-400 flex items-center gap-x-2"
+                    >
+                      <span class="hidden" data-check="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span data-uncheck="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18"></path>
+                          <path d="m6 6 12 12"></path>
+                        </svg>
+                      </span>
+                      La cantidad mínima de caracteres es 6.
+                    </li>
+                    <li
+                      data-hs-strong-password-hints-rule-text="lowercase"
+                      class="hs-strong-password-active:text-purple-400 flex items-center gap-x-2"
+                    >
+                      <span class="hidden" data-check="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span data-uncheck="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18"></path>
+                          <path d="m6 6 12 12"></path>
+                        </svg>
+                      </span>
+                      Debe contener minúsculas.
+                    </li>
+                    <li
+                      data-hs-strong-password-hints-rule-text="uppercase"
+                      class="hs-strong-password-active:text-purple-400 flex items-center gap-x-2"
+                    >
+                      <span class="hidden" data-check="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span data-uncheck="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18"></path>
+                          <path d="m6 6 12 12"></path>
+                        </svg>
+                      </span>
+                      Debe contener mayúsculas.
+                    </li>
+                    <li
+                      data-hs-strong-password-hints-rule-text="numbers"
+                      class="hs-strong-password-active:text-purple-400 flex items-center gap-x-2"
+                    >
+                      <span class="hidden" data-check="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span data-uncheck="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18"></path>
+                          <path d="m6 6 12 12"></path>
+                        </svg>
+                      </span>
+                      Debe contener números.
+                    </li>
+                    <li
+                      data-hs-strong-password-hints-rule-text="special-characters"
+                      class="hs-strong-password-active:text-purple-400 flex items-center gap-x-2"
+                    >
+                      <span class="hidden" data-check="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span data-uncheck="">
+                        <svg
+                          class="shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18"></path>
+                          <path d="m6 6 12 12"></path>
+                        </svg>
+                      </span>
+                      Debe contener caracteres especiales.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- End Strong Password -->
+
+            <!-- Checkbox -->
+            <div class="grid space-y-3">
+              <div class="relative flex items-start">
+                <div class="flex items-center h-5 mt-1">
+                  <input
+                    id="hs-checkbox-delete"
+                    name="hs-checkbox-delete"
+                    type="checkbox"
+                    class="appearance-none rounded text-purple-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-dark-5 checked:bg-purple-500 focus:outline-none focus:ring-0 focus:border-none focus:ring-offset-1 focus:ring-offset-purple-500"
+                    aria-describedby="hs-checkbox-delete-description"
+                    checked=""
+                  />
+                </div>
+                <label for="hs-checkbox-delete" class="ms-3">
+                  <span class="block text-sm text-neutral-300">Recuerdame</span>
+                  <span
+                    id="hs-checkbox-delete-description"
+                    class="block text-sm text-neutral-500"
+                    >Recuérdame por los próximos 3 meses</span
+                  >
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Ingresar
+            </button>
+          </div>
+        </form>
+        <!-- End Form -->
+      </div>
+    </div>
+  </div>
+</div>
