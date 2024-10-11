@@ -36,6 +36,11 @@ export const routes: Routes = [
         canActivate: [PrivateGuard],
       },
       {
+        path: 'docs',
+        loadChildren: () => import('./features/docs/docs.routes'),
+        canActivate: [PrivateGuard],
+      },
+      {
         path: '**',
         redirectTo: 'dashboard',
       }

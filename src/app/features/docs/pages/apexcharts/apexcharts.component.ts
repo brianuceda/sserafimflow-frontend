@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { ChartOptions } from '../../shared/data-access/chart.model';
-import { ChartComponent } from '../../shared/components/chart/chart.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartOptions } from '../../../../shared/data-access/chart.model';
+import { ChartComponent } from '../../../../shared/components/chart/chart.component';
 
 @Component({
-  selector: 'app-test-charts',
+  selector: 'app-apexcharts',
   standalone: true,
   imports: [ChartComponent, NgApexchartsModule],
-  templateUrl: './test-charts.component.html',
-  styleUrl: './test-charts.component.scss',
+  templateUrl: './apexcharts.component.html',
+  styleUrl: './apexcharts.component.scss',
 })
-export class TestChartsComponent {
+export default class ApexchartsComponent {
   public chartOptions1!: Partial<ChartOptions>;
   public chartOptions2!: Partial<ChartOptions>;
   public chartOptions3!: Partial<ChartOptions>;

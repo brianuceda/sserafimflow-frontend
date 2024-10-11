@@ -8,8 +8,8 @@ export const PrivateGuard: CanActivateFn = () => {
   console.log('buscando token: ' + token);
 
   if (!token) {
-    router.navigateByUrl('/login');
-    return false;
+    // router.navigateByUrl('/login');
+    return true; // false
   }
 
   return true;
@@ -20,8 +20,8 @@ export const PublicGuard: CanActivateFn = () => {
   const token = localStorage.getItem('token');
 
   if (token) {
-    router.navigateByUrl('/app/dashboard');
-    return false;
+    // router.navigateByUrl('/app/dashboard');
+    return true; // false
   }
 
   return true;
