@@ -6,7 +6,7 @@ import {
   provideEcharts,
   ThemeOption,
 } from 'ngx-echarts';
-import { DarkMode } from '../../../../shared/data-access/darkmode.echarts';
+import { DarkMode } from '../../../../shared/data-access/data/darkmode-echarts.data';
 import { CommonModule } from '@angular/common';
 
 @Component({

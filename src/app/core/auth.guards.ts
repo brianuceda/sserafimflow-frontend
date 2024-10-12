@@ -4,9 +4,7 @@ import { CanActivateFn, Router } from '@angular/router';
 export const PrivateGuard: CanActivateFn = () => {
   const router = inject(Router);
   const token = localStorage.getItem('token');
-
-  console.log('buscando token: ' + token);
-
+  
   if (!token) {
     // router.navigateByUrl('/login');
     return true; // false

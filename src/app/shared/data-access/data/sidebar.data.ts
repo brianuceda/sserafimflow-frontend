@@ -1,10 +1,4 @@
-export interface SidebarItem {
-  id?: string;
-  icon?: string;
-  title: string;
-  route?: string;
-  childrens?: SidebarItem[];
-}
+import { SidebarItem } from "../models/sidebar.model";
 
 export const sidebarData: SidebarItem[] = [
   {
@@ -57,8 +51,8 @@ export const sidebarData: SidebarItem[] = [
     route: '/app/docs',
     childrens: [
       {
-        title: 'Funcionamiento',
-        route: '/app/docs/funcionamiento'
+        title: 'Funcionalidad',
+        route: '/app/docs/funcionalidad'
       },
       {
         title: 'Componentes',

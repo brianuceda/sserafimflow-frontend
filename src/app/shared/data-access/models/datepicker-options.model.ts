@@ -1,0 +1,36 @@
+export interface DatepickerOptions {
+  autohide?: boolean;
+  beforeShowDay?: (date: Date) => boolean;
+  beforeShowDecade?: (date: Date) => boolean;
+  beforeShowMonth?: (date: Date) => boolean;
+  beforeShowYear?: (date: Date) => boolean;
+  buttons?: boolean;
+  calendarWeeks?: boolean;
+  clearBtn?: boolean;
+  dateDelimiter?: string;
+  datesDisabled?: string[];
+  daysOfWeekDisabled?: number[];
+  daysOfWeekHighlighted?: number[];
+  defaultViewDate?: string;
+  disableTouchKeyboard?: boolean;
+  format?: string;
+  language?: string;
+  maxDate?: string;
+  maxNumberOfDates?: number;
+  maxView?: number;
+  minDate?: string;
+  nextArrow?: string;
+  orientation?: string;
+  pickLevel?: number;
+  prevArrow?: string;
+  showDaysOfWeek?: boolean;
+  showOnClick?: boolean;
+  showOnFocus?: boolean;
+  startView?: number;
+  title?: string;
+  todayBtn?: boolean;
+  todayBtnMode?: number;
+  todayHighlight?: boolean;
+  updateOnBlur?: boolean;
+  weekStart?: number;
+}

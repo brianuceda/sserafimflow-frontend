@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export default [
   {
-    path: 'funcionamiento',
+    path: 'funcionalidad',
     loadComponent: () => import('./pages/functionality/functionality.component'),
   },
   {

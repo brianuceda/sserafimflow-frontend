@@ -1,9 +1,8 @@
-// Preline Base
-
 import { Component, Renderer2 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { sidebarData, SidebarItem } from './sidebar.data';
+import { sidebarData } from '../../data-access/data/sidebar.data';
+import { SidebarItem } from '../../data-access/models/sidebar.model';
 
 @Component({
   selector: 'app-sidebar',

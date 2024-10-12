@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ApexTheme, NgApexchartsModule } from 'ng-apexcharts';
-import { ChartOptions } from '../../data-access/chart.model';
+import { ChartOptions } from '../../data-access/models/chart.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
