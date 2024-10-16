@@ -1,8 +1,16 @@
 @import url('../public/styles/scrollbar.css');
 @import url('../public/styles/general.css');
-@import url('../public/styles/flowbite.css');
+@import url('../public/styles/apexcharts.css');
+@import url('../public/styles/flowbite-datepicker.css');
+@import url('../public/styles/preline-selector.css');
 
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

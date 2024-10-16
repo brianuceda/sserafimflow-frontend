@@ -1,0 +1,19 @@
+.content-container {
+  max-height: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.content-container.show {
+  max-height: 500px; /* Ajusta según el máximo que quieras */
+  visibility: visible;
+  opacity: 1;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.content-container.hide {
+  max-height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease-in, opacity 0.3s ease-in;
+}

@@ -1,16 +1,30 @@
 <!-- Plataforma -->
-<div id="hs-offcanvas-custom-backdrop-color" aria-labelledby="hs-offcanvas-custom-backdrop-color-label" class="hs-overlay-backdrop-open:hidden max-lg:hs-overlay-backdrop-open:block max-lg:hs-overlay-backdrop-open:grayscale lg:fixed z-[110] w-[272px] max-lg:w-[300px] h-dvh bg-neutral-800 border-r border-dark-5 hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-dark-5 [&::-webkit-scrollbar-thumb]:bg-neutral-500" role="dialog" tabindex="-1" aria-label="Sidebar">
+<div id="hs-offcanvas-custom-backdrop-color" aria-labelledby="hs-offcanvas-custom-backdrop-color-label" class="scrollbar-container hs-overlay-backdrop-open:hidden max-lg:hs-overlay-backdrop-open:block max-lg:hs-overlay-backdrop-open:grayscale lg:fixed z-[110] w-[272px] max-lg:w-full max-lg:max-w-[300px] h-dvh bg-neutral-800 border-r border-neutral-600 hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:bg-neutral-500" role="dialog" tabindex="-1" aria-label="Sidebar">
       
   <!-- Cabecera -->
-  <div class="h-[60px] px-4 flex justify-between items-center border-b border-dark-5">
+  <div class="h-[60px] px-4 flex justify-between items-center border-b border-neutral-600">
     <!-- Logo -->
-    <a routerLink="/" class="flex items-center gap-3 font-semibold text-xl text-dark-light focus:outline-none focus:opacity-80" aria-label="Brand">
-      <picture class="size-10">
-        <source srcset="images/icon.avif" type="image/avif">
-        <img class="w-full h-full" type="image/webp" src="images/icon.webp" alt="Logo de Sserafim Flow">
-      </picture>
-      <h2>Sserafim Flow</h2>
-    </a>
+    <div class="w-full flex justify-between items-center gap-3 text-neutral-200 focus:outline-none focus:opacity-80 transition-transform duration-300" aria-label="Brand">
+      <!-- Imagen + Nombre -->
+      <a (click)="goTo('/', 300)" aria-label="Close" data-hs-overlay="#hs-offcanvas-custom-backdrop-color" class="cursor-pointer hover:scale-[101%] h-auto w-full flex items-center gap-2">
+        <picture class="size-10">
+          <source srcset="images/icon.avif" type="image/avif">
+          <img class="w-full h-full" type="image/webp" src="images/icon.webp" alt="Logo de Sserafim Flow">
+        </picture>
+        <h2 class="font-semibold text-[clamp(18px,5vw,20px)] text-nowrap">Sserafim Flow</h2>
+      </a>
+
+      <!-- Puntito -->
+      <a class="inline-flex items-center gap-x-3 text-gray-800 text-xs font-medium rounded-full hover:text-gray-600 focus:outline-none focus:text-gray-600 dark:text-white dark:hover:text-neutral-200 dark:focus:text-neutral-200" routerLink="/">
+        <span class="relative -ms-1">
+          <span class="flex start-0 size-1.5">
+            <span class="animate-ping absolute inline-flex size-full rounded-full bg-green-400 opacity-75 dark:bg-green-400"></span>
+            <span class="relative inline-flex rounded-full size-1.5 bg-green-400"></span>
+          </span>
+        </span>
+      </a>
+    </div>
+
     <!-- Cerrar Sidebar -->
     <button type="button" aria-label="Close" data-hs-overlay="#hs-offcanvas-custom-backdrop-color"
       class="lg:hidden p-2 inline-flex justify-center items-center gap-x-2 text-start text-dark-gray text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-neutral-700 focus:outline-none focus:bg-neutral-700"
@@ -27,37 +41,37 @@
   <nav class="hs-accordion-group px-4 py-5 w-full min-h-[calc(100%-60px)] flex flex-col justify-between flex-wrap" data-hs-accordion-always-open>
     <!-- Superior -->
     <ul class="sidebar-ul space-y-[6px]">
-      @for (padre of items; track $index) {
+      @for (padre of items; let a = $index; track padre) {
         @if (padre.childrens && padre.childrens.length > 0) {
           <!-- Padre (con hijos) -->
-          <li [id]="padre.id + '-accordion'" class="hs-accordion">
-            <button [attr.aria-controls]="padre.id + '-accordion'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
-              <span [id]="'icon-' + $index"></span>
+          <li [id]="padre.route + '-accordion'" class="hs-accordion">
+            <button [attr.aria-controls]="padre.route + '-accordion'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+              <span [id]="'icon-' + a"></span>
               {{ padre.title }}
               <svg class="hs-accordion-active:block ms-auto hidden size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
               <svg class="hs-accordion-active:hidden ms-auto block size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </button>
 
             <!-- Hijos -->
-            <div [id]="padre.id + '-accordion'" [attr.aria-labelledby]="padre.id + '-accordion'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
+            <div [id]="padre.route + '-accordion'" [attr.aria-labelledby]="padre.route + '-accordion'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
               <ul class="hs-accordion-group ps-3 py-2" data-hs-accordion-always-open>
-              @for (hijo of padre.childrens; track $index) {
+              @for (hijo of padre.childrens; let b = $index; track hijo) {
                 @if (hijo.childrens && hijo.childrens.length > 0) {
                   <!-- Hijo (con nietos) -->
-                  <li class="hs-accordion" [id]="padre.id + '-accordion-sub-' + $index" [ngClass]="{'mt-[6px]' : $index > 0}">
-                    <button [attr.aria-controls]="padre.id + '-accordion-sub-' + $index" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+                  <li class="hs-accordion" [id]="padre.route + '-' + hijo.route + '-accordion-sub'" [ngClass]="{'mt-[6px]' : b > 0}">
+                    <button [attr.aria-controls]="padre.route + '-' + hijo.route + '-accordion-sub'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
                       {{ hijo.title }}
                       <svg class="hs-accordion-active:block ms-auto hidden size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
                       <svg class="hs-accordion-active:hidden ms-auto block size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </button>
       
                     <!-- Nietos -->
-                    <div [id]="padre.id + '-accordion-sub-' + $index" [attr.aria-labelledby]="padre.id + '-accordion-sub-' + $index" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
+                    <div [id]="padre.route + '-' + hijo.route + '-accordion-sub'" [attr.aria-labelledby]="padre.route + '-' + hijo.route + '-accordion-sub'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
                       <ul class="ps-2 py-1">
-                        @for (nieto of hijo.childrens; track $index) {
+                        @for (nieto of hijo.childrens; let c = $index; track nieto) {
                           <!-- Nieto -->
-                          <li [ngClass]="{'mt-[6px]' : $index > 0}">
-                            <a [routerLink]="nieto.route" (click)="setActive($event)" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+                          <li [ngClass]="{'mt-[6px]' : c > 0}">
+                            <a [routerLink]="[padre.route, hijo.route, nieto.route]" routerLinkActive="active" aria-label="Close" data-hs-overlay="#hs-offcanvas-custom-backdrop-color" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
                               {{ nieto.title }}
                             </a>
                           </li>
@@ -68,7 +82,7 @@
                 } @else {
                   <!-- Hijo (sin nietos) -->
                   <li [ngClass]="{'mt-[6px]' : $index > 0}">
-                    <a [routerLink]="hijo.route" (click)="setActive($event)" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+                    <a [routerLink]="[padre.route, hijo.route]" routerLinkActive="active" aria-label="Close" data-hs-overlay="#hs-offcanvas-custom-backdrop-color" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
                       {{ hijo.title }}
                     </a>
                   </li>
@@ -80,7 +94,7 @@
         } @else {
           <!-- Padre (sin hijos) -->
           <li>
-            <a [routerLink]="padre.route" (click)="setActive($event)" data-hs-overlay="#hs-offcanvas-custom-backdrop-color" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-neutral-900 text-dark-gray">
+            <a [routerLink]="[padre.route]" routerLinkActive="active" aria-label="Close" data-hs-overlay="#hs-offcanvas-custom-backdrop-color" class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-neutral-900 text-dark-gray">
               <span [id]="'icon-' + $index"></span>
               {{ padre.title }}
             </a>

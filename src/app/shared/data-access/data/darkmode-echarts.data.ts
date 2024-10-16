@@ -12,7 +12,7 @@ export const DarkMode = {
     '#91ca8c',
     '#cb7c20',
   ],
-  backgroundColor: '#424242',
+  backgroundColor: '#333333',
   textStyle: {},
   title: {
     textStyle: {

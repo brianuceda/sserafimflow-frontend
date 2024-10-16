@@ -4,7 +4,8 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}",
     "./node_modules/flowbite/**/*.js",
-    "./node_modules/preline/preline.js",
+    "./node_modules/flowbite-datepicker/**/*.js",
+    "./node_modules/preline/**/*.js",
   ],
   theme: {
     extend: {
@@ -22,6 +23,8 @@ module.exports = {
           light: "#f5f5f5",
           hover: "#2e2e2e",
         },
+        "neutral-950": "#111111",
+        "neutral-850": "#202020",
         "neutral-750": "#333333",
         "neutral-700": "#424242",
       },

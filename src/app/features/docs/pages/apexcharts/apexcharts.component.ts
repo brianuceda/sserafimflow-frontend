@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from '../../../../shared/data-access/models/chart.model';
-import { ChartComponent } from '../../../../shared/components/chart/chart.component';
+import { ChartApexchartsComponent } from '../../../../shared/components/chart-apexcharts/chart-apexcharts.component';
 
 @Component({
   selector: 'app-apexcharts',
   standalone: true,
-  imports: [ChartComponent, NgApexchartsModule],
+  imports: [ChartApexchartsComponent, NgApexchartsModule],
   templateUrl: './apexcharts.component.html',
   styleUrl: './apexcharts.component.scss',
 })

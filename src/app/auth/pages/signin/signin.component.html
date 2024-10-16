@@ -13,7 +13,7 @@
   </div> -->
 
   <!-- Contenido -->
-  <div class="max-w-[500px] max-lg:max-w-[unset] w-full">
+  <form class="max-w-[500px] max-lg:max-w-[unset] w-full" [formGroup]="form" (ngSubmit)="signIn()">
     <div
       class="h-dvh flex flex-col justify-center p-4 sm:p-10 shadow-sm dark:bg-neutral-800 dark:border-r-[1px] dark:border-r-neutral-600"
     >
@@ -35,6 +35,7 @@
       <div class="mt-5">
         <!-- Google -->
         <button
+          disabled
           type="button"
           class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-950 dark:hover:bg-opacity-75 outline-none text-white disabled:opacity-50 disabled:pointer-events-none"
         >
@@ -111,15 +112,15 @@
                   formControlName="email"
                   type="text"
                   class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 dark:focus:border-purple-400 dark:focus:border-opacity-50 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500"
-                  placeholder="name@company.com"
+                  placeholder="trabajador@company.com"
                 />
-                <!-- Validators -->
-                @if (isRequired({field: 'email'})) {
-                <small class="text-red-400">Este campo es requerido</small>
-                } @if (hasEmailError()) {
-                <small class="text-red-400">El correo debe ser válido</small>
-                }
               </div>
+              <!-- Validators -->
+              @if (isRequired({field: 'email'})) {
+                <small class="text-red-400">Este campo es requerido</small>
+              } @if (hasEmailError()) {
+                <small class="text-red-400">El correo debe ser válido</small>
+              }
             </div>
 
             <!-- Strong Password -->
@@ -161,7 +162,7 @@
                     name="password"
                     formControlName="password"
                     class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 dark:focus:border-purple-400 dark:focus:border-opacity-50 dark:text-neutral-200 dark:placeholder-neutral-500"
-                    placeholder="Enter password"
+                    placeholder="••••••••••••••"
                   />
 
                   <!-- Part: Eye button -->
@@ -469,7 +470,9 @@
             </div>
 
             <button
-              type="submit"
+              [disabled]="form.invalid"
+              (click)="signIn()"
+              type="button"
               class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none"
             >
               Ingresar
@@ -479,5 +482,5 @@
         <!-- End Form -->
       </div>
     </div>
-  </div>
+  </form>
 </div>

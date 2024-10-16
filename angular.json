@@ -36,8 +36,9 @@
             "scripts": [
               "node_modules/flowbite/dist/flowbite.js",
               "node_modules/flowbite-datepicker/dist/js/datepicker-full.js",
-              "node_modules/preline/preline.js",
-              "node_modules/apexcharts/dist/apexcharts.min.js"
+              "node_modules/preline/dist/preline.js",
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "node_modules/echarts/dist/echarts.min.js"
             ]
           },
           "configurations": {

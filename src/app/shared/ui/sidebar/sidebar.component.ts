@@ -1,5 +1,5 @@
-import { Component, Renderer2 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { sidebarData } from '../../data-access/data/sidebar.data';
 import { SidebarItem } from '../../data-access/models/sidebar.model';
@@ -14,10 +14,11 @@ import { SidebarItem } from '../../data-access/models/sidebar.model';
 export class SidebarComponent {
   public items: SidebarItem[] = sidebarData;
 
-  constructor(private renderer: Renderer2) {}
+  private _router = inject(Router);
 
   ngAfterViewInit() {
     this.loadIcons();
+    this.loadActiveAccordions();
   }
 
   loadIcons() {
@@ -30,22 +31,64 @@ export class SidebarComponent {
     }
   }
 
-  setActive(event: Event) {
-    event.preventDefault();
+  private loadActiveAccordions() {
+    let currentPath = this._router.url.split('/').filter((path: string) => path !== '');
+    currentPath.shift();
 
-    const clickedLink = event.target as HTMLElement;
-    const sidebar = document.querySelector('.sidebar-ul');
+    if (currentPath.length === 2) {
+      let padreId = currentPath[0] + '-accordion';
 
-    if (sidebar) {
-      const activeItems = sidebar.querySelectorAll('li > a.active');
-      activeItems.forEach((item) => {
-        this.renderer.removeClass(item, 'active');
-      });
+      this.expandAccordion(padreId);
+    }
 
-      // Aplicar solo a los elementos <a>
-      if (clickedLink.tagName === 'A') {
-        this.renderer.addClass(clickedLink, 'active');
-      }
+    if (currentPath.length === 3) {
+      let padreId = currentPath[0] + '-accordion';
+      let hijoId = currentPath[0] + '-' + currentPath[1] + '-accordion-sub';
+
+      this.expandAccordion(padreId);
+      this.expandAccordion(hijoId);
     }
   }
+
+  private expandAccordion(itemId: string) {
+    let item = document.getElementById(itemId);
+    let itemButton = item?.querySelector('button:first-child');
+    let itemContainer = item?.querySelector('#' + itemId);
+
+    // Pinta de color el texto del item
+    item?.classList.add('active');
+    // Rota el icono del item
+    itemButton?.setAttribute('aria-expanded', 'true');
+    // Expande el contenido del item
+    itemContainer?.classList.add('!block');
+  }
+
+  goTo(route: string, ms: number) {
+    setTimeout(() => {
+      this._router.navigate([route]);
+      setTimeout(() => {
+        document.getElementById('hs-offcanvas-custom-backdrop-color-backdrop')?.remove();
+      }, 50);
+    }, ms);
+  }
+
+  // Hacer la animación de cambio más suave (opcional)
+  // setActive(event: Event) {
+  //   event.preventDefault();
+
+  //   const clickedLink = event.target as HTMLElement;
+  //   const sidebar = document.querySelector('.sidebar-ul');
+
+  //   if (sidebar) {
+  //     const activeItems = sidebar.querySelectorAll('li > a.active');
+  //     activeItems.forEach((item) => {
+  //       this.renderer.removeClass(item, 'active');
+  //     });
+
+  //     // Aplicar solo a los elementos <a>
+  //     if (clickedLink.tagName === 'A') {
+  //       this.renderer.addClass(clickedLink, 'active');
+  //     }
+  //   }
+  // }
 }

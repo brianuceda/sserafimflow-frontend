@@ -1,0 +1,11 @@
+button > .truncate {
+  @apply !h-[20px];
+}
+
+[data-hs-select-dropdown] {
+  @apply !p-2 !z-30;
+}
+
+[data-hs-select-dropdown] > .disabled {
+  @apply !opacity-50 !pointer-events-none;
+}

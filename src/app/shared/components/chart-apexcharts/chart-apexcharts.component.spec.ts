@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginComponent } from './login.component';
+import { ChartApexchartsComponent } from './chart-apexcharts.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('ChartApexchartsComponent', () => {
+  let component: ChartApexchartsComponent;
+  let fixture: ComponentFixture<ChartApexchartsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginComponent]
+      imports: [ChartApexchartsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(ChartApexchartsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

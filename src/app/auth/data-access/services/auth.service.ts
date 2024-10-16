@@ -13,16 +13,15 @@ export class AuthService {
   private _baseUrl = environment.BACKEND_URL;
   private _httpClient: HttpClient = inject(HttpClient);
 
-  login(signInData: ModelCompanySignIn): Observable<AuthResponse> {
-    return this._httpClient.post(`${this._baseUrl}auth/login`, {
+  signin(signInData: ModelCompanySignIn): Observable<any> {
+    return this._httpClient.post(`${this._baseUrl}auth/signin`, {
       email: signInData.email,
       password: signInData.password,
-      role: signInData.role,
     });
   }
 
-  register(signUpData: ModelCompanySignUp): Observable<AuthResponse> {
-    return this._httpClient.post(`${this._baseUrl}auth/register`, {
+  signup(signUpData: ModelCompanySignUp): Observable<AuthResponse> {
+    return this._httpClient.post(`${this._baseUrl}auth/signup`, {
       email: signUpData.email,
       password: signUpData.password,
       role: signUpData.role,

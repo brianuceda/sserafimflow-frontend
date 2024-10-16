@@ -71,3 +71,12 @@
 .datepicker-picker .datepicker-footer .datepicker-controls button:nth-child(1) { /* ? Header: Controles: Today */
   @apply dark:!bg-neutral-750 dark:hover:!bg-dark-2 dark:!border-neutral-600; /* Fondo, Hover:Fondo */
 } 
+
+.style-dark.datepicker-input.in-edit {
+  @apply dark:!border-neutral-700;
+}
+
+.style-default.datepicker-input.in-edit {
+  @apply dark:!border-neutral-600;
+}
+

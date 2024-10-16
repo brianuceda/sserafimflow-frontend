@@ -1,31 +1,51 @@
 <section class="w-full flex flex-wrap gap-4 max-md:flex-col">
-  <h1 class="w-full font-medium text-xl mt-2 mb-4 text-center">Gráficos de Ejemplo de ApexCharts</h1>
+  <h1 class="w-full font-medium text-xl mt-2 mb-4 text-center">
+    Gráficos de Ejemplo de ApexCharts
+  </h1>
 
   <!-- <div class="w-full flex flex-wrap gap-4">
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions1"></app-chart>
-    <app-chart class="min-w-[350px] flex-1 flex justify-center items-center" [chartOptions]="chartOptions2"></app-chart>
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions3"></app-chart>
+    <app-chart-apexcharts class="min-w-[350px] flex-1" [chartOptions]="chartOptions1"></app-chart-apexcharts>
+    <app-chart-apexcharts class="min-w-[350px] flex-1 flex justify-center items-center" [chartOptions]="chartOptions2"></app-chart-apexcharts>
+    <app-chart-apexcharts class="min-w-[350px] flex-1" [chartOptions]="chartOptions3"></app-chart-apexcharts>
   </div>
   
   <div class="w-full flex flex-wrap gap-4">
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions5"></app-chart>
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions4"></app-chart>
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions1"></app-chart>
+    <app-chart-apexcharts class="min-w-[350px] flex-1" [chartOptions]="chartOptions5"></app-chart-apexcharts>
+    <app-chart-apexcharts class="min-w-[350px] flex-1" [chartOptions]="chartOptions4"></app-chart-apexcharts>
+    <app-chart-apexcharts class="min-w-[350px] flex-1" [chartOptions]="chartOptions1"></app-chart-apexcharts>
   </div> -->
-  
+
   <div class="w-full flex flex-wrap gap-4">
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions3"></app-chart>
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions5"></app-chart>
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions4"></app-chart>
+    <div class="min-w-[350px] flex-1 rounded-lg max-sm:rounded-none bg-neutral-750 p-3">
+      <app-chart-apexcharts
+        echarts
+        [chartOptions]="chartOptions3"
+      ></app-chart-apexcharts>
+    </div>
+    <div class="min-w-[350px] flex-1 rounded-lg max-sm:rounded-none bg-neutral-750 p-3">
+      <app-chart-apexcharts
+        echarts
+        [chartOptions]="chartOptions5"
+      ></app-chart-apexcharts>
+    </div>
+    <div class="min-w-[350px] flex-1 rounded-lg max-sm:rounded-none bg-neutral-750 p-3">
+      <app-chart-apexcharts
+        echarts
+        [chartOptions]="chartOptions4"
+      ></app-chart-apexcharts>
+    </div>
   </div>
-  
+
   <div class="w-full flex flex-wrap gap-4">
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions1"></app-chart>
+    <app-chart-apexcharts
+      class="min-w-[350px] flex-1 rounded-lg max-sm:rounded-none bg-neutral-750 p-3"
+      [chartOptions]="chartOptions1"
+    ></app-chart-apexcharts>
   </div>
-  
+
   <!-- <div class="w-full flex flex-wrap gap-4">
-    <app-chart class="min-w-[350px] flex-1 flex justify-center items-center" [chartOptions]="chartOptions2"></app-chart>
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions1"></app-chart>
-    <app-chart class="min-w-[350px] flex-1" [chartOptions]="chartOptions4"></app-chart>
+    <app-chart-apexcharts class="min-w-[350px] flex-1 flex justify-center items-center" [chartOptions]="chartOptions2"></app-chart-apexcharts>
+    <app-chart-apexcharts class="min-w-[350px] flex-1" [chartOptions]="chartOptions1"></app-chart-apexcharts>
+    <app-chart-apexcharts class="min-w-[350px] flex-1" [chartOptions]="chartOptions4"></app-chart-apexcharts>
   </div> -->
 </section>

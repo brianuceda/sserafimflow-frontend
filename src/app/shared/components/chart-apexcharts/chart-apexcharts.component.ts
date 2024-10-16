@@ -4,13 +4,13 @@ import { ChartOptions } from '../../data-access/models/chart.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-chart',
+  selector: 'app-chart-apexcharts',
   standalone: true,
   imports: [CommonModule, NgApexchartsModule],
-  templateUrl: './chart.component.html',
-  styleUrl: './chart.component.scss',
+  templateUrl: './chart-apexcharts.component.html',
+  styleUrl: './chart-apexcharts.component.scss'
 })
-export class ChartComponent implements OnInit {
+export class ChartApexchartsComponent {
   @Input() chartOptions!: Partial<ChartOptions>;
 
   @ViewChild('chart') chartElement!: ElementRef;

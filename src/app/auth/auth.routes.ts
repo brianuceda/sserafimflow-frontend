@@ -4,7 +4,7 @@ export default [
   // Español
   {
     path: 'iniciar-sesion',
-    loadComponent: () => import('./pages/login/login.component'),
+    loadComponent: () => import('./pages/signin/signin.component'),
   },
   {
     path: 'registrarse',

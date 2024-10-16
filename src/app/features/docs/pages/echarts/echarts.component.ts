@@ -20,10 +20,10 @@ import { CommonModule } from '@angular/common';
 export default class EchartsComponent {
   public theme: string | ThemeOption = DarkMode;
 
-  public chartOption1!: EChartsOption;
-  public chartOption2!: EChartsOption;
-  public chartOption3!: EChartsOption;
-  public chartOption4!: EChartsOption;
+  public chartOptions1!: EChartsOption;
+  public chartOptions2!: EChartsOption;
+  public chartOptions3!: EChartsOption;
+  public chartOptions4!: EChartsOption;
 
   ngOnInit() {
     this.loadChart1();
@@ -33,7 +33,7 @@ export default class EchartsComponent {
   }
 
   loadChart1() {
-    this.chartOption1 = {
+    this.chartOptions1 = {
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -136,7 +136,7 @@ export default class EchartsComponent {
       Showers: ROOT_PATH + '/images/showers_128.png',
     };
 
-    this.chartOption2 = {
+    this.chartOptions2 = {
       title: {
         text: 'Weather Statistics',
         subtext: 'Fake Data',
@@ -271,7 +271,7 @@ export default class EchartsComponent {
       data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
     }
 
-    this.chartOption3 = {
+    this.chartOptions3 = {
       legend: {
         data: ['bar', 'bar2'],
         align: 'left',
@@ -305,7 +305,7 @@ export default class EchartsComponent {
   }
 
   loadChart4() {
-    this.chartOption4 = {
+    this.chartOptions4 = {
       tooltip: {
         trigger: 'axis',
         axisPointer: {

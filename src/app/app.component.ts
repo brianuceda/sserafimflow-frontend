@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet, Event } from '@angular/router';
 import { NgxSonnerToaster } from 'ngx-sonner';
 
@@ -18,12 +18,16 @@ declare global {
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private _router = inject(Router);
 
   ngOnInit() {
-    initFlowbite();
+    this.initFlowbite();
     this.initPreline();
+  }
+
+  private initFlowbite() {
+    initFlowbite();
   }
 
   private initPreline() {
