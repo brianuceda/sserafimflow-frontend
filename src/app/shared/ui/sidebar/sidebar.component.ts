@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { sidebarData } from '../../data-access/data/sidebar.data';
+import { sidebarDataCompany } from '../../data-access/data/sidebar-company.data';
+import { sidebarDataBank } from '../../data-access/data/sidebar-bank.data';
 import { SidebarItem } from '../../data-access/models/sidebar.model';
+import { RoleService } from '../../data-access/services/role.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,9 +14,18 @@ import { SidebarItem } from '../../data-access/models/sidebar.model';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  public items: SidebarItem[] = sidebarData;
-
   private _router = inject(Router);
+  private _roleService = inject(RoleService);
+  
+  public items!: SidebarItem[];
+
+  constructor() {
+    if (this._roleService.isCompany()) {
+      this.items = sidebarDataCompany;
+    } else if (this._roleService.isBank()) {
+      this.items = sidebarDataBank;
+    }
+  }
 
   ngAfterViewInit() {
     this.loadIcons();

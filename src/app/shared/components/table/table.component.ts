@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, inject, Input, Output, ViewChild } from '@angular/core';
 import { toast } from 'ngx-sonner';
 import { FormsModule } from '@angular/forms';
 
@@ -38,22 +38,31 @@ export class TableComponent {
   @Input() headersDisplayedNames!: string[]; // * OBLIGATORIO
   @Input() dataTable!: any[]; // * OBLIGATORIO
 
-  @Input() haveSelectionCol: boolean = true; // ? OPCIONAL
-  @Input() haveActionsCol: ActionsCol = { edit: true, delete: true }; // ? OPCIONAL [edit, delete]
+  @Input() haveSelectionCol: boolean = false; // ? OPCIONAL
+  @Input() haveActionsCol: ActionsCol = { edit: false, delete: false }; // ? OPCIONAL [edit, delete]
+
+  @Input() selectedColumns!: Set<number>; // ? OPCIONAL
 
   public showedData: any[] = []; // NT
-  private selectedColumns: Set<number> = new Set(); // NT
   public isCtrlPressed: boolean = false; // NT
 
   @ViewChild('searchInputElement') searchInputElement!: ElementRef<HTMLInputElement>; // NT
   @ViewChild('tableElement') tableElement!: ElementRef<HTMLTableElement>; // NT
   @ViewChild('itemsPerPageMenuElement') itemsPerPageMenuElement!: ElementRef; // NT
 
+  @Output() emitActions = new EventEmitter<any>(); //NT
+  @Output() editRow = new EventEmitter<any>(); //NT
+  @Output() deleteRow = new EventEmitter<any>(); //NT
+
   private _cdr = inject(ChangeDetectorRef); // NT
 
   ngOnInit() {
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
     window.addEventListener('keyup', this.handleKeyUp.bind(this));
+
+    if (!this.selectedColumns) {
+      this.selectedColumns = new Set();
+    }
   }
 
   ngOnDestroy() {
@@ -63,7 +72,7 @@ export class TableComponent {
 
   ngAfterViewInit() {
     if (this.headersDisplayed && this.headersDisplayedNames && this.dataTable) {
-      this.resetTableConfig();
+      this.resetTableConfig(true);
     }
   }
 
@@ -282,12 +291,8 @@ export class TableComponent {
     }
   }
 
-  deleteSelectedRows() {
-    console.log('Rows to delete:', this.selectedColumns);
-  }
-
   // Restablece la tabla a su estado original
-  resetTableConfig() {
+  resetTableConfig(isInitLoad: boolean = false) {
     // Buscador
     if (this.searchInputElement) {
       this.searchInput = '';
@@ -308,10 +313,31 @@ export class TableComponent {
     this.currentPageValue = 1;
     this.updatePaginationValues(this.currentItemsPerPageValue);
 
-    // Checkboxes a deseleccionados en vista
-    this.toggleAllCheckboxesVisiblesInHTML();
+    if (this.haveSelectionCol) {
+      // Checkboxes a deseleccionados en vista
+      if (isInitLoad == false) {
+        this.toggleAllCheckboxesVisiblesInHTML();
+      }
+
+      // Checkboxes marcados por defecto
+      if (isInitLoad == true) {
+        this.updateShowedData();
+      }
+    }
 
     this._cdr.detectChanges();
+  }
+
+  emitActionsMethod() {
+    this.emitActions.emit(this.selectedColumns);
+  }
+
+  emitEditRow(item: any) {
+    this.editRow.emit(item);
+  }
+
+  emitDeleteRow(item: any) {
+    this.deleteRow.emit(item);
   }
 
   showSuccess(item: any) {

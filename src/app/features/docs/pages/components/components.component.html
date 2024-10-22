@@ -2211,8 +2211,6 @@
     class="min-w-[314px] w-full rounded-lg max-sm:rounded-none h-fit flex-auto p-3 flex flex-col gap-3 dark:bg-neutral-800"
   >
     <app-table
-      [haveSelectionCol]="false"
-      [haveActionsCol]="{edit: false, delete: false}"
       [style]="'dark'"
       [titleText]="'bg-neutral-800'"
       [headersDisplayed]="headersDisplayed"
@@ -2226,11 +2224,16 @@
     class="min-w-[314px] w-full rounded-lg max-sm:rounded-none h-fit flex-auto p-3 flex flex-col gap-3 dark:bg-neutral-750"
   >
     <app-table
-      [style]="'default'"
       [titleText]="'bg-neutral-750'"
+      [haveSelectionCol]="true"
+      [haveActionsCol]="{edit: false, delete: true}"
       [headersDisplayed]="headersDisplayed"
       [headersDisplayedNames]="headersDisplayedNames"
       [dataTable]="dataTable"
+      [selectedColumns]="selectedColumns"
+      (emitActions)="emitActionsMethod($event)"
+      (editRow)="emitEditRow($event)"
+      (deleteRow)="emitDeleteRow($event)"
     ></app-table>
   </div>
 </section>

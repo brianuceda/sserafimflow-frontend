@@ -3,11 +3,19 @@ import { Routes } from '@angular/router';
 export default [
   // Español
   {
-    path: 'iniciar-sesion',
-    loadComponent: () => import('./pages/signin/signin.component'),
+    path: 'empresa/iniciar-sesion',
+    loadComponent: () => import('./pages/company/login/login.component'),
   },
   {
-    path: 'registrarse',
-    loadComponent: () => import('./pages/signup/signup.component'),
+    path: 'empresa/registrarse',
+    loadComponent: () => import('./pages/company/register/register.component'),
+  },
+  {
+    path: 'banco/iniciar-sesion',
+    loadComponent: () => import('./pages/bank/login/login.component'),
+  },
+  {
+    path: 'banco/registrarse',
+    loadComponent: () => import('./pages/bank/register/register.component'),
   },
 ] as Routes;

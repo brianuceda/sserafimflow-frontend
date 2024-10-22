@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/internal/operators/filter';
-import { sidebarData } from '../../data-access/data/sidebar.data';
 import { SidebarItem } from '../../data-access/models/sidebar.model';
 import { CommonModule } from '@angular/common';
+import { sidebarDataCompany } from '../../data-access/data/sidebar-company.data';
+import { sidebarDataBank } from '../../data-access/data/sidebar-bank.data';
+import { RoleService } from '../../data-access/services/role.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,9 +15,19 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  public arrayPath: any[] = [];
-
   private _router = inject(Router);
+  private _roleService = inject(RoleService);
+
+  public arrayPath: any[] = [];
+  public items!: SidebarItem[];
+  
+  constructor() {
+    if (this._roleService.isCompany()) {
+      this.items = sidebarDataCompany;
+    } else if (this._roleService.isBank()) {
+      this.items = sidebarDataBank;
+    }
+  }
 
   ngOnInit(): void {
     this.updatePath(this._router.url);
@@ -36,16 +48,15 @@ export class NavbarComponent {
 
   private convertPathToTitles(paths: string[]): string[] {
     const titles: string[] = [];
-    let currentItems = sidebarData;
 
     paths.forEach(path => {
-      const matchedItem = this.findItemByRoute(path, currentItems);
+      const matchedItem = this.findItemByRoute(path, this.items);
       if (matchedItem) {
         titles.push(matchedItem.title);
 
         // Actualiza los elementos hijos para la siguiente búsqueda
         if (matchedItem.childrens) {
-          currentItems = matchedItem.childrens;
+          this.items = matchedItem.childrens;
         }
       }
     });

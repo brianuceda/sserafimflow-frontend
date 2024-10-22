@@ -5,7 +5,7 @@ export const routes: Routes = [
   // Rutas Públicas
   {
     path: '',
-    redirectTo: 'iniciar-sesion',
+    redirectTo: 'empresa/iniciar-sesion',
     pathMatch: 'full',
   },
   {
@@ -28,11 +28,6 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./features/dashboard/dashboard.routes'),
-        canActivate: [PrivateGuard],
-      },
-      {
-        path: 'bancos',
-        loadChildren: () => import('./features/bank/bank.routes'),
         canActivate: [PrivateGuard],
       },
       {

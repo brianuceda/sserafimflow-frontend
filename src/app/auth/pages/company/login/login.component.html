@@ -1,30 +1,19 @@
 <div
   class="w-full min-h-dvh h-full flex justify-between items-center max-lg:gap-8 gradient-background"
 >
-  <!-- Imagen -->
-  <!-- <div
-    class="h-dvh w-full flex justify-center items-center aspect-square max-lg:hidden"
-  >
-    <img
-      src="images/lucky_block_1.gif"
-      alt="Imagen de lucky block"
-      class="transform transition-all duration-700 scale-x-[-1] pointer-events-none max-w-[500px]"
-    />
-  </div> -->
-
   <!-- Contenido -->
-  <form class="max-w-[500px] max-lg:max-w-[unset] w-full" [formGroup]="form" (ngSubmit)="signIn()">
+  <form class="max-w-[500px] max-lg:max-w-[unset] w-full" [formGroup]="form" (ngSubmit)="companyLogin()">
     <div
       class="h-dvh flex flex-col justify-center p-4 sm:p-10 shadow-sm dark:bg-neutral-800 dark:border-r-[1px] dark:border-r-neutral-600"
     >
       <!-- Título -->
       <div class="text-center">
-        <h1 class="block text-2xl font-bold text-white">Iniciar Sesión</h1>
+        <h1 class="block text-2xl font-bold text-white">Ingresa como Empresa</h1>
         <p class="mt-2 text-sm text-dark-gray">
           Aún no tienes una cuenta?
           <a
             class="text-purple-400 decoration-2 hover:underline focus:outline-none focus:underline"
-            routerLink="/registrarse"
+            routerLink="/empresa/registrarse"
           >
             Registrate
           </a>
@@ -79,7 +68,7 @@
             <!-- Email -->
             <div>
               <label
-                for="email"
+                for="username"
                 class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
                 >Correo electrónico</label
               >
@@ -107,16 +96,16 @@
 
                 <!-- Part: Input -->
                 <input
-                  id="email"
-                  name="email"
-                  formControlName="email"
+                  id="username"
+                  name="username"
+                  formControlName="username"
                   type="text"
                   class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 dark:focus:border-purple-400 dark:focus:border-opacity-50 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500"
                   placeholder="trabajador@company.com"
                 />
               </div>
               <!-- Validators -->
-              @if (isRequired({field: 'email'})) {
+              @if (isRequired({field: 'username'})) {
                 <small class="text-red-400">Este campo es requerido</small>
               } @if (hasEmailError()) {
                 <small class="text-red-400">El correo debe ser válido</small>
@@ -169,7 +158,7 @@
                   <button
                     type="button"
                     data-hs-toggle-password='{
-                    "target": "#hs-strong-password-with-indicator-and-hint-in-popover"
+                    "target": "#strong-password-with-indicator-1"
                   }'
                     class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-purple-500 dark:text-neutral-500 dark:focus:text-purple-500"
                   >
@@ -471,7 +460,7 @@
 
             <button
               [disabled]="form.invalid"
-              (click)="signIn()"
+              (click)="companyLogin()"
               type="button"
               class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none"
             >

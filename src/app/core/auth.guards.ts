@@ -3,24 +3,28 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const PrivateGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
   
-  if (!token) {
-    // router.navigateByUrl('/login');
-    return true; // false
-  }
+  // if (!token) {
+  //   router.navigateByUrl('/empresa/iniciar-sesion');
+  //   return false;
+  // }
+
+  router.navigateByUrl('/app/dashboard');
 
   return true;
 };
 
 export const PublicGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
 
-  if (token) {
-    // router.navigateByUrl('/app/dashboard');
-    return true; // false
-  }
+  // if (token) {
+  //   router.navigateByUrl('/app/dashboard');
+  //   return false;
+  // }
+
+  router.navigateByUrl('/app/dashboard');
 
   return true;
 };

@@ -14,6 +14,7 @@ export default class ComponentsComponent implements OnInit {
   // Table
   public headersDisplayedNames: string[] = [];
   public headersDisplayed: string[] = [];
+  public selectedColumns: Set<number> = new Set();
   public dataTable: any[] = [];
 
   ngOnInit() {
@@ -67,6 +68,7 @@ export default class ComponentsComponent implements OnInit {
     // Datos obligatorios de la tabla
     this.headersDisplayed = ['name', 'age', 'email', 'address', 'note', 'alive'];
     this.headersDisplayedNames = ['Nombre', 'Edad', 'Correo electrónico', 'Dirección', 'Nota', 'Vive'];
+    this.selectedColumns = new Set([1, 2, 4]); 
 
     // Datos de prueba
     const firstNames = ['Carlos', 'Ana', 'Juan', 'María', 'Luis', 'Sofía', 'Pedro', 'Lucía', 'Miguel', 'Camila'];
@@ -89,5 +91,22 @@ export default class ComponentsComponent implements OnInit {
         alive: Math.random() >= 0.5 ? 'Sí' : 'No',
       });
     }
+  }
+
+  emitActionsMethod(event: any) {
+    console.log(event);
+  }
+
+  emitEditRow(item: any) {
+    console.log('Edit');
+    console.log(item);
+  }
+
+  emitDeleteRow(item: any) {
+    console.log('Delete');
+    console.log(item);
+
+    // eliminar todo
+    this.dataTable = [];
   }
 }
