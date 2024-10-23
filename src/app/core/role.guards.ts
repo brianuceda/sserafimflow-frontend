@@ -15,12 +15,12 @@ export const CompanyGuard: CanActivateFn = () => {
   const token = localStorage.getItem('token');
 
   if (!token) {
-    router.navigateByUrl('/login');
+    router.navigateByUrl('/empresa/iniciar-sesion');
     return false;
   }
-
+  
   if (!roleService.isCompany()) {
-    router.navigateByUrl('/app/dashboard');
+    router.navigateByUrl('/app/banco/dashboard');
     return false;
   }
 
@@ -33,12 +33,12 @@ export const BankGuard: CanActivateFn = () => {
   const token = localStorage.getItem('token');
 
   if (!token) {
-    router.navigateByUrl('/login');
+    router.navigateByUrl('/banco/iniciar-sesion');
     return false;
   }
 
   if (!roleService.isBank()) {
-    router.navigateByUrl('/app/dashboard');
+    router.navigateByUrl('/app/empresa/dashboard');
     return false;
   }
 

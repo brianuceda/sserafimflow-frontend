@@ -1,11 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { isRequired, hasEmailError } from '../../../../shared/utils/form-validators';
-import { FormBankLogin, FieldsBankLogin, ModelBankLogin } from '../../../data-access/models/bank-login.model';
+import { FormCompanyLogin, FieldsCompanyLogin, ModelCompanyLogin } from '../../../data-access/models/company-login.model';
 import { AuthService } from '../../../data-access/services/auth.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export default class LoginComponent {
   private _authService = inject(AuthService);
   private _router = inject(Router);
 
-  form = this._formBuilder.group<FormBankLogin>({
+  form = this._formBuilder.group<FormCompanyLogin>({
     username: this._formBuilder.control('', [
       Validators.required,
       Validators.email,
@@ -27,7 +27,7 @@ export default class LoginComponent {
     password: this._formBuilder.control('', [Validators.required]),
   });
 
-  isRequired(input: FieldsBankLogin) {
+  isRequired(input: FieldsCompanyLogin) {
     return isRequired(input, this.form);
   }
 
@@ -36,17 +36,17 @@ export default class LoginComponent {
   }
 
 
-  async bankLogin() {
+  async companyLogin() {
     if (this.form.invalid) return;
     const { username, password } = this.form.value;
     if (!username || !password) return;
 
-    const user: ModelBankLogin = {
+    const user: ModelCompanyLogin = {
       username,
       password,
     };
 
-    this._authService.bankLogin(user).subscribe({
+    this._authService.companyLogin(user).subscribe({
       next: (response: any) => {
         if (response.token) {
           localStorage.setItem('token', response.token);

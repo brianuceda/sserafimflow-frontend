@@ -46,6 +46,8 @@ export class SidebarComponent {
     let currentPath = this._router.url.split('/').filter((path: string) => path !== '');
     currentPath.shift();
 
+    console.log(currentPath);
+
     if (currentPath.length === 2) {
       let padreId = currentPath[0] + '-accordion';
 
