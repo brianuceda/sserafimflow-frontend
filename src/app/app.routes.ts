@@ -24,13 +24,11 @@ export const routes: Routes = [
     path: 'app',
     loadComponent: () => import('./shared/ui/layout-private/layout-private.component'),
     children: [
-      // Empresas
       {
         path: 'empresa',
         loadChildren: () => import('./features/company/company.routes'),
         canActivate: [CompanyGuard],
       },
-      // Bancos
       {
         path: 'banco',
         loadChildren: () => import('./features/bank/bank.routes'),

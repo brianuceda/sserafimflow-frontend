@@ -44,8 +44,8 @@
       @for (padre of items; let a = $index; track padre) {
         @if (padre.childrens && padre.childrens.length > 0) {
           <!-- Padre (con hijos) -->
-          <li [id]="padre.route + '-accordion'" class="hs-accordion">
-            <button [attr.aria-controls]="padre.route + '-accordion'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+          <li [id]="combinePathsOnFather(padre.route) + '-accordion'" class="hs-accordion">
+            <button (click)="closeAllAccordions(combinePathsOnFather(padre.route) + '-accordion')" [attr.aria-controls]="combinePathsOnFather(padre.route) + '-accordion'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
               <span [id]="'icon-' + a"></span>
               {{ padre.title }}
               <svg class="hs-accordion-active:block ms-auto hidden size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
@@ -53,20 +53,20 @@
             </button>
 
             <!-- Hijos -->
-            <div [id]="padre.route + '-accordion'" [attr.aria-labelledby]="padre.route + '-accordion'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
+            <div [id]="combinePathsOnFather(padre.route) + '-accordion'" [attr.aria-labelledby]="combinePathsOnFather(padre.route) + '-accordion'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
               <ul class="hs-accordion-group ps-3 py-2" data-hs-accordion-always-open>
               @for (hijo of padre.childrens; let b = $index; track hijo) {
                 @if (hijo.childrens && hijo.childrens.length > 0) {
                   <!-- Hijo (con nietos) -->
-                  <li class="hs-accordion" [id]="padre.route + '-' + hijo.route + '-accordion-sub'" [ngClass]="{'mt-[6px]' : b > 0}">
-                    <button [attr.aria-controls]="padre.route + '-' + hijo.route + '-accordion-sub'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
+                  <li class="hs-accordion" [id]="combinePathsOnFather(padre.route) + '-' + hijo.route + '-accordion-sub'" [ngClass]="{'mt-[6px]' : b > 0}">
+                    <button [attr.aria-controls]="combinePathsOnFather(padre.route) + '-' + hijo.route + '-accordion-sub'" aria-expanded="true" type="button" class="hs-accordion-toggle hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-dark-gray rounded-lg hover:bg-neutral-900 focus:outline-none">
                       {{ hijo.title }}
                       <svg class="hs-accordion-active:block ms-auto hidden size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
                       <svg class="hs-accordion-active:hidden ms-auto block size-4 text-dark-gray" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </button>
       
                     <!-- Nietos -->
-                    <div [id]="padre.route + '-' + hijo.route + '-accordion-sub'" [attr.aria-labelledby]="padre.route + '-' + hijo.route + '-accordion-sub'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
+                    <div [id]="combinePathsOnFather(padre.route) + '-' + hijo.route + '-accordion-sub'" [attr.aria-labelledby]="combinePathsOnFather(padre.route) + '-' + hijo.route + '-accordion-sub'" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden" role="region">
                       <ul class="ps-2 py-1">
                         @for (nieto of hijo.childrens; let c = $index; track nieto) {
                           <!-- Nieto -->

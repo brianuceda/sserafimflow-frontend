@@ -21,13 +21,7 @@ export class NavbarComponent {
   public arrayPath: any[] = [];
   public items!: SidebarItem[];
   
-  constructor() {
-    if (this._roleService.isCompany()) {
-      this.items = sidebarDataCompany;
-    } else if (this._roleService.isBank()) {
-      this.items = sidebarDataBank;
-    }
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.updatePath(this._router.url);
@@ -40,7 +34,10 @@ export class NavbarComponent {
   }
 
   private updatePath(url: string): void {
+    this.items = this._roleService.isCompany() ? sidebarDataCompany : sidebarDataBank;
+
     let currentPath = url.split('/').filter((path: string) => path !== '');
+    currentPath.shift();
     currentPath.shift();
 
     this.arrayPath = this.convertPathToTitles(currentPath);

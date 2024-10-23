@@ -42,21 +42,27 @@ export class SidebarComponent {
     }
   }
 
+  combinePathsOnFather(fatherPath: string | undefined) {
+    return fatherPath?.replace('/', '_');
+  }
+
   private loadActiveAccordions() {
     let currentPath = this._router.url.split('/').filter((path: string) => path !== '');
     currentPath.shift();
+    let firstTwo = currentPath.slice(0, 2).join('/').replace('/', '_');
+    let rest = currentPath.slice(2).join('/');
 
-    console.log(currentPath);
+    let separatedPaths = [firstTwo, rest];
 
-    if (currentPath.length === 2) {
-      let padreId = currentPath[0] + '-accordion';
+    if (separatedPaths.length === 2) {
+      let padreId = separatedPaths[0] + '-accordion';
 
       this.expandAccordion(padreId);
     }
 
-    if (currentPath.length === 3) {
-      let padreId = currentPath[0] + '-accordion';
-      let hijoId = currentPath[0] + '-' + currentPath[1] + '-accordion-sub';
+    if (separatedPaths.length === 3) {
+      let padreId = separatedPaths[0] + '-accordion';
+      let hijoId = separatedPaths[0] + '-' + separatedPaths[1] + '-accordion-sub';
 
       this.expandAccordion(padreId);
       this.expandAccordion(hijoId);
@@ -68,12 +74,23 @@ export class SidebarComponent {
     let itemButton = item?.querySelector('button:first-child');
     let itemContainer = item?.querySelector('#' + itemId);
 
-    // Pinta de color el texto del item
-    item?.classList.add('active');
-    // Rota el icono del item
-    itemButton?.setAttribute('aria-expanded', 'true');
-    // Expande el contenido del item
-    itemContainer?.classList.add('!block');
+    item?.classList.add('active'); // Color del texto
+    itemButton?.setAttribute('aria-expanded', 'true'); // Rotación del icono
+    itemContainer?.classList.add('!block'); // Expansión del contenido
+  }
+
+  closeAllAccordions(accordionToAvoidId: string) {
+    // let items = document.querySelectorAll('.hs-accordion:not(#' + accordionToAvoidId + ')');
+    
+    // items.forEach((item) => {
+    //   let itemButton = item.querySelector('button:first-child');
+    //   let itemContainer = item.querySelector('.hs-accordion-content');
+
+    //   item.classList.remove('active');
+    //   itemButton?.setAttribute('aria-expanded', 'false');
+    //   itemContainer?.classList.remove('!block');
+    //   itemContainer?.classList.add('!hidden');
+    // });
   }
 
   goTo(route: string, ms: number) {

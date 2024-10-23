@@ -50,7 +50,7 @@ export default class LoginComponent {
       next: (response: any) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
-          this._router.navigateByUrl('/app/dashboard');
+          this._router.navigateByUrl('/app/empresa/dashboard');
           setTimeout(() => {
             toast.success('Bienvenido nuevamente!');
           }, 100);

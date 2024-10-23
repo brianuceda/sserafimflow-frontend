@@ -41,9 +41,9 @@ export const sidebarDataCompany: SidebarItem[] = [
     title: 'Ventas',
     route: 'empresa/ventas',
     childrens: [
-      { title: 'Vender Documento', route: 'venta-documento' },
+      { title: 'Vender Documento', route: 'vender-documento' },
       { title: 'Documentos Vendidos', route: 'documentos-vendidos' },
-      { title: 'Ventas Pagadas', route: 'ventas-pagadas' },
+      { title: 'Ventas Cobradas', route: 'ventas-cobradas' },
     ],
   },
   {
