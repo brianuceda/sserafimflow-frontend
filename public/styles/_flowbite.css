@@ -1,8 +1,9 @@
+/* DatePicker */
 .datepicker.hidden {
   @apply !hidden;
 }
 
-.datepicker-picker { /* Datepicker */
+.datepicker-picker {
   @apply dark:!bg-neutral-800 !border dark:!border-neutral-600;
 }
 

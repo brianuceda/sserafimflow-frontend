@@ -1,10 +1,10 @@
 <div
-  class="w-full min-h-dvh h-full flex justify-between items-center max-lg:gap-8 gradient-background"
+  class="flex justify-between items-center max-lg:gap-8 gradient-background"
 >
   <!-- Contenido -->
   <form class="max-w-[500px] max-lg:max-w-[unset] w-full" [formGroup]="form" (ngSubmit)="bankLogin()">
     <div
-      class="h-dvh flex flex-col justify-center p-4 sm:p-10 shadow-sm dark:bg-neutral-800 dark:border-r-[1px] dark:border-r-neutral-600"
+      class="h-full min-h-dvh flex flex-col justify-center p-4 sm:p-10 shadow-sm dark:bg-neutral-800 dark:border-r-[1px] dark:border-r-neutral-600"
     >
       <!-- Título -->
       <div class="text-center">
@@ -55,7 +55,6 @@
           Iniciar sesión con Google
         </button>
 
-        <!-- o -->
         <div
           class="py-3 flex items-center text-xs text-dark-7 uppercase before:flex-1 before:border-t before:border-dark-5 before:me-6 after:flex-1 after:border-t after:border-dark-5 after:ms-6 mt-2"
         >
@@ -70,7 +69,7 @@
               <label
                 for="username"
                 class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
-                >Correo electrónico</label
+                >Correo Electrónico</label
               >
               <div class="relative">
                 <!-- Part: Icon -->
@@ -101,14 +100,18 @@
                   formControlName="username"
                   type="text"
                   class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 dark:focus:border-purple-400 dark:focus:border-opacity-50 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500"
-                  placeholder="trabajador@company.com"
+                  placeholder="trabajador@empresa.com"
                 />
               </div>
               <!-- Validators -->
               @if (isRequired({field: 'username'})) {
                 <small class="text-red-400">Este campo es requerido</small>
-              } @if (hasEmailError()) {
+              }
+              @if (hasEmailError({field: 'username'})) {
                 <small class="text-red-400">El correo debe ser válido</small>
+              }
+              @if (hasMaxLengthError({field: 'username'})) {
+                <small class="text-red-400">El correo no debe exceder los 150 caracteres</small>
               }
             </div>
 
@@ -206,14 +209,14 @@
                   </button>
                 </div>
                 <div
-                  id="hs-strong-password-popover-1"
+                  id="hs-strong-password-popover"
                   class="hidden absolute z-10 w-full bg-white shadow-md rounded-lg p-4 dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:divide-neutral-700"
                 >
                   <div
-                    id="hs-strong-password-in-popover-1"
+                    id="hs-strong-password-in-popover"
                     data-hs-strong-password='{
                       "target": "#strong-password-with-indicator-1",
-                      "hints": "#hs-strong-password-popover-1",
+                      "hints": "#hs-strong-password-popover",
                       "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-purple-500 h-2 flex-auto rounded-full bg-purple-500 opacity-25 mx-1",
                       "mode": "popover"
                     }'
@@ -432,7 +435,6 @@
                 </div>
               </div>
             </div>
-            <!-- End Strong Password -->
 
             <!-- Checkbox -->
             <div class="grid space-y-3">
@@ -444,7 +446,7 @@
                     type="checkbox"
                     class="appearance-none rounded text-purple-500 disabled:opacity-50 disabled:pointer-events-none bg-neutral-900 border-dark-5 checked:bg-purple-500 focus:outline-none focus:ring-0 focus:border-none focus:ring-offset-1 focus:ring-offset-purple-500"
                     aria-describedby="hs-checkbox-delete-description"
-                    checked=""
+                    [checked]="rememberMe"
                   />
                 </div>
                 <label for="hs-checkbox-delete" class="ms-3">
@@ -452,7 +454,7 @@
                   <span
                     id="hs-checkbox-delete-description"
                     class="block text-sm text-neutral-500"
-                    >Recuérdame por los próximos 3 meses</span
+                    >Recuérdame por los próximos 30 días</span
                   >
                 </label>
               </div>
@@ -462,7 +464,7 @@
               [disabled]="form.invalid"
               (click)="bankLogin()"
               type="button"
-              class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none"
+              class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none transition-colors duration-300"
             >
               Ingresar
             </button>

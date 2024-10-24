@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PrivateGuard, PublicGuard } from './core/auth.guards';
+import { PublicGuard } from './core/auth.guards';
 import { BankGuard, CompanyGuard } from './core/role.guards';
 
 export const routes: Routes = [
@@ -27,12 +27,10 @@ export const routes: Routes = [
       {
         path: 'empresa',
         loadChildren: () => import('./features/company/company.routes'),
-        canActivate: [CompanyGuard],
       },
       {
         path: 'banco',
         loadChildren: () => import('./features/bank/bank.routes'),
-        canActivate: [BankGuard],
       },
       {
         path: '**',

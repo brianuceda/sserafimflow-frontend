@@ -5,11 +5,10 @@ export interface ModelCompanyRegister {
   ruc: number;
   username: string;
   password: string;
-  image: any;
 }
 
 export interface FieldsCompanyRegister {
-  field: 'realName' | 'ruc' | 'username' | 'password' | 'image';
+  field: 'realName' | 'ruc' | 'username' | 'password';
 }
 
 export interface FormCompanyRegister {
@@ -17,5 +16,4 @@ export interface FormCompanyRegister {
   ruc: FormControl<number | null>;
   username: FormControl<string | null>;
   password: FormControl<string | null>;
-  image: FormControl<any | null>;
 }

@@ -1,0 +1,14 @@
+<div *ngIf="bankProfile">
+  <h2>{{ bankProfile.realName }}</h2>
+  <p><strong>RUC:</strong> {{ bankProfile.ruc }}</p>
+  <p><strong>Username:</strong> {{ bankProfile.username }}</p>
+  <p><strong>Currency:</strong> {{ bankProfile.currency }}</p>
+  <p><strong>Balance:</strong> {{ bankProfile.balance }}</p>
+  <p *ngIf="bankProfile.nominalRate">
+    <strong>Nominal Rate:</strong> {{ bankProfile.nominalRate }}
+  </p>
+  <p *ngIf="bankProfile.effectiveRate">
+    <strong>Effective Rate:</strong> {{ bankProfile.effectiveRate }}
+  </p>
+  <img class="size-32" [src]="bankProfile.imageUrl" alt="Bank Image" />
+</div>

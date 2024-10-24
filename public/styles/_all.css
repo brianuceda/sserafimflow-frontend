@@ -1,0 +1,31 @@
+input {
+  @apply !ring-0 focus:!ring-0 focus:!outline-none;
+}
+
+/* Notificacion */
+[data-type="success"], [data-type="success"] button {
+  @apply !bg-neutral-800 !border-neutral-850 !text-green-400;
+}
+
+[data-type="warning"], [data-type="warning"] button {
+  @apply !bg-[#242424] !border-neutral-900 !text-orange-300;
+}
+
+[data-type="error"], [data-type="error"] button {
+  @apply !bg-[#242424] !border-neutral-900 !text-red-400;
+}
+
+[data-type="info"], [data-type="info"] button {
+  @apply !bg-[#242424] !border-neutral-900 !text-purple-400;
+}
+
+[data-type="loading"], [data-type="loading"] button {
+  @apply !bg-[#242424] !border-neutral-900 !text-blue-400;
+}
+[data-type="loading"] button {
+  @apply !hidden;
+}
+
+.sonner-spinner .sonner-loading-bar {
+  @apply !bg-blue-400;
+}

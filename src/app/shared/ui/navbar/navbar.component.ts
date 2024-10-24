@@ -5,7 +5,7 @@ import { SidebarItem } from '../../data-access/models/sidebar.model';
 import { CommonModule } from '@angular/common';
 import { sidebarDataCompany } from '../../data-access/data/sidebar-company.data';
 import { sidebarDataBank } from '../../data-access/data/sidebar-bank.data';
-import { RoleService } from '../../data-access/services/role.service';
+import { JWTService } from '../../data-access/services/jwt.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +16,7 @@ import { RoleService } from '../../data-access/services/role.service';
 })
 export class NavbarComponent {
   private _router = inject(Router);
-  private _roleService = inject(RoleService);
+  private _jwtService = inject(JWTService);
 
   public arrayPath: any[] = [];
   public items!: SidebarItem[];
@@ -34,7 +34,7 @@ export class NavbarComponent {
   }
 
   private updatePath(url: string): void {
-    this.items = this._roleService.isCompany() ? sidebarDataCompany : sidebarDataBank;
+    this.items = this._jwtService.isCompany() ? sidebarDataCompany : sidebarDataBank;
 
     let currentPath = url.split('/').filter((path: string) => path !== '');
     currentPath.shift();

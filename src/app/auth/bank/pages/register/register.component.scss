@@ -1,5 +1,5 @@
 .gradient-background {
-  background: linear-gradient(300deg,#404040,#525252,#404040);
+  background: linear-gradient(300deg, #404040, #525252, #404040);
   background-size: 80% 80%;
   animation: gradient-animation 6s ease infinite;
 }
@@ -14,4 +14,16 @@
   100% {
     background-position: 0% 50%;
   }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+::-webkit-file-upload-button {
+  display: none;
 }

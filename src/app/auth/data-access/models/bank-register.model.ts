@@ -5,14 +5,14 @@ export interface ModelBankRegister {
   ruc: number;
   username: string;
   password: string;
-  image: any;
+  currency: 'PEN' | 'USD' | 'CAD' | 'EUR';
   nominalRate: number;
   effectiveRate: number;
-  extraCommission: number;
+  // extraCommission: number;
 }
 
 export interface FieldsBankRegister {
-  field: 'realName' | 'ruc' | 'username' | 'password' | 'image' | 'nominalRate' | 'effectiveRate' | 'extraCommission';
+  field: 'realName' | 'ruc' | 'username' | 'password' | 'currency' | 'nominalRate' | 'effectiveRate'; // | 'extraCommission';
 }
 
 export interface FormBankRegister {
@@ -20,8 +20,8 @@ export interface FormBankRegister {
   ruc: FormControl<number | null>;
   username: FormControl<string | null>;
   password: FormControl<string | null>;
-  image: FormControl<any | null>;
+  currency: FormControl<'PEN' | 'USD' | 'CAD' | 'EUR' | null>;
   nominalRate: FormControl<number | null>;
   effectiveRate: FormControl<number | null>;
-  extraCommission: FormControl<number | null>;
+  // extraCommission: FormControl<number | null>;
 }

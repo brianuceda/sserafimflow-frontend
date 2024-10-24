@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { CompanyGuard } from '../../core/role.guards';
 
 export default [
   {
@@ -9,14 +10,17 @@ export default [
   {
     path: 'dashboard',
     loadComponent: () => import('./dashboard/dashboard.component'),
+    canActivate: [CompanyGuard],
   },
   {
     path: 'perfil',
-    loadComponent: () => import('./profile/profile.component'),
+    loadComponent: () => import('./profile/profile/profile.component'),
+    canActivate: [CompanyGuard],
   },
   {
     path: 'bancos',
     loadComponent: () => import('./banks/banks.component'),
+    canActivate: [CompanyGuard],
   },
   {
     path: 'carteras',
@@ -33,6 +37,7 @@ export default [
   {
     path: 'reportes',
     loadComponent: () => import('./reports/reports.component'),
+    canActivate: [CompanyGuard],
   },
   {
     path: 'documentacion',

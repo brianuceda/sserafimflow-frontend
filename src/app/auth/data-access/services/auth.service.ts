@@ -13,21 +13,56 @@ export class AuthService {
   private _baseUrl = environment.BACKEND_URL;
   private _httpClient: HttpClient = inject(HttpClient);
 
-  companyLogin(signInData: ModelCompanyLogin): Observable<any> {
-    return this._httpClient.post(`${this._baseUrl}auth/company/login`, signInData);
+  bankLogin(signInData: ModelCompanyLogin, rememberMe: boolean): Observable<any> {
+    const formData = new FormData();
+
+    formData.append('dto', new Blob([JSON.stringify(signInData)], { type: 'application/json' }));
+    if (rememberMe) {
+      formData.append('rememberMe', JSON.stringify(rememberMe));
+    }
+
+    return this._httpClient.post<AuthResponse>(`${this._baseUrl}auth/bank/login`, formData);
   }
 
-  companyRegister(signUpData: ModelCompanyRegister): Observable<AuthResponse> {
-    return this._httpClient.post(`${this._baseUrl}auth/company/register`, signUpData);
+  bankRegister(signUpData: ModelCompanyRegister, imageUploaded: File, rememberMe: boolean): Observable<AuthResponse> {
+    const formData = new FormData();
+
+    formData.append('dto', new Blob([JSON.stringify(signUpData)], { type: 'application/json' }));
+    if (imageUploaded) {
+      formData.append('image', imageUploaded);
+    }
+    if (rememberMe) {
+      formData.append('rememberMe', JSON.stringify(rememberMe));
+    }
+
+    return this._httpClient.post<AuthResponse>(`${this._baseUrl}auth/bank/register`, formData);
   }
 
-  bankLogin(signInData: ModelCompanyLogin): Observable<any> {
-    return this._httpClient.post(`${this._baseUrl}auth/bank/login`, signInData);
+  companyLogin(signInData: ModelCompanyLogin, rememberMe: boolean): Observable<any> {
+    const formData = new FormData();
+
+    formData.append('dto', new Blob([JSON.stringify(signInData)], { type: 'application/json' }));
+    if (rememberMe) {
+      formData.append('rememberMe', JSON.stringify(rememberMe));
+    }
+
+    return this._httpClient.post<AuthResponse>(`${this._baseUrl}auth/company/login`, formData);
   }
 
-  bankRegister(signUpData: ModelCompanyRegister): Observable<AuthResponse> {
-    return this._httpClient.post(`${this._baseUrl}auth/bank/register`, signUpData);
+  companyRegister(signUpData: ModelCompanyRegister, imageUploaded: File | null, rememberMe: boolean): Observable<AuthResponse> {
+    const formData = new FormData();
+
+    formData.append('dto', new Blob([JSON.stringify(signUpData)], { type: 'application/json' }));
+    if (imageUploaded) {
+      formData.append('image', imageUploaded);
+    }
+    if (rememberMe) {
+      formData.append('rememberMe', JSON.stringify(rememberMe));
+    }
+
+    return this._httpClient.post<AuthResponse>(`${this._baseUrl}auth/company/register`, formData);
   }
+
 
   logOut(): Observable<any> {
     return this._httpClient.post(`${this._baseUrl}auth/logout`, {});

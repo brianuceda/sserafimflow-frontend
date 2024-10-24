@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { CommonModule } from '@angular/common';
-import { isRequired, hasEmailError } from '../../../../shared/utils/form-validators';
+import { hasAnyError, isValidPassword } from '../../../../shared/utils/form-validators';
 import { FormBankLogin, FieldsBankLogin, ModelBankLogin } from '../../../data-access/models/bank-login.model';
 import { AuthService } from '../../../data-access/services/auth.service';
 
@@ -15,6 +15,8 @@ import { AuthService } from '../../../data-access/services/auth.service';
   styleUrl: './login.component.scss'
 })
 export default class LoginComponent {
+  public rememberMe = false;
+
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
@@ -22,19 +24,27 @@ export default class LoginComponent {
   form = this._formBuilder.group<FormBankLogin>({
     username: this._formBuilder.control('', [
       Validators.required,
+      Validators.maxLength(150),
       Validators.email,
     ]),
-    password: this._formBuilder.control('', [Validators.required]),
+    password: this._formBuilder.control('', [
+      Validators.required,
+      Validators.maxLength(150),
+      isValidPassword(),
+    ]),
   });
 
   isRequired(input: FieldsBankLogin) {
-    return isRequired(input, this.form);
+    return hasAnyError(input, this.form, 'required');
   }
 
-  hasEmailError() {
-    return hasEmailError(this.form);
+  hasEmailError(input: FieldsBankLogin) {
+    return hasAnyError(input, this.form, 'email');
   }
 
+  hasMaxLengthError(input: FieldsBankLogin) {
+    return hasAnyError(input, this.form, 'maxlength');
+  }
 
   async bankLogin() {
     if (this.form.invalid) return;
@@ -46,7 +56,7 @@ export default class LoginComponent {
       password,
     };
 
-    this._authService.bankLogin(user).subscribe({
+    this._authService.bankLogin(user, this.rememberMe).subscribe({
       next: (response: any) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
@@ -55,7 +65,7 @@ export default class LoginComponent {
             toast.success('Bienvenido nuevamente!');
           }, 100);
         } else {
-          const errorMessage = response?.message || 'Ocurrió un error internamente';
+          const errorMessage = response?.message || 'Ocurrió un error interno';
           toast.error(errorMessage);
         }
       },

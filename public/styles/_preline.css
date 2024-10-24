@@ -1,3 +1,4 @@
+/* Selector */
 button > .truncate {
   @apply !h-[20px];
 }
@@ -9,3 +10,8 @@ button > .truncate {
 [data-hs-select-dropdown] > .disabled {
   @apply !opacity-50 !pointer-events-none;
 }
+
+/* Password Popover */
+/* #hs-strong-password-popover {
+  @apply !relative;
+} */

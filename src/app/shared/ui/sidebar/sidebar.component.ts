@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { sidebarDataCompany } from '../../data-access/data/sidebar-company.data';
 import { sidebarDataBank } from '../../data-access/data/sidebar-bank.data';
 import { SidebarItem } from '../../data-access/models/sidebar.model';
-import { RoleService } from '../../data-access/services/role.service';
+import { JWTService } from '../../data-access/services/jwt.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,16 +16,30 @@ import { RoleService } from '../../data-access/services/role.service';
 })
 export class SidebarComponent {
   private _router = inject(Router);
-  private _roleService = inject(RoleService);
+  private _jwtService = inject(JWTService);
+
+  public realName: string | undefined;
+  public username: string | undefined;
+  public image: string | undefined;
   
   public items!: SidebarItem[];
 
   constructor() {
-    if (this._roleService.isCompany()) {
+    // Siebar Data
+    if (this._jwtService.isCompany()) {
       this.items = sidebarDataCompany;
-    } else if (this._roleService.isBank()) {
+    } else if (this._jwtService.isBank()) {
       this.items = sidebarDataBank;
     }
+
+    // Real Name
+    this.realName = this._jwtService.getRealName();
+
+    // Username
+    this.username = this._jwtService.getUsername();
+
+    // Image
+    this.image = this._jwtService.getImage() || 'images/no-image-selected.webp';
   }
 
   ngAfterViewInit() {
@@ -79,46 +94,18 @@ export class SidebarComponent {
     itemContainer?.classList.add('!block'); // Expansión del contenido
   }
 
-  closeAllAccordions(accordionToAvoidId: string) {
-    // let items = document.querySelectorAll('.hs-accordion:not(#' + accordionToAvoidId + ')');
-    
-    // items.forEach((item) => {
-    //   let itemButton = item.querySelector('button:first-child');
-    //   let itemContainer = item.querySelector('.hs-accordion-content');
-
-    //   item.classList.remove('active');
-    //   itemButton?.setAttribute('aria-expanded', 'false');
-    //   itemContainer?.classList.remove('!block');
-    //   itemContainer?.classList.add('!hidden');
-    // });
-  }
-
-  goTo(route: string, ms: number) {
+  navigate(route: string) {
     setTimeout(() => {
       this._router.navigate([route]);
       setTimeout(() => {
         document.getElementById('hs-offcanvas-custom-backdrop-color-backdrop')?.remove();
       }, 50);
-    }, ms);
+    }, 300);
   }
 
-  // Hacer la animación de cambio más suave (opcional)
-  // setActive(event: Event) {
-  //   event.preventDefault();
-
-  //   const clickedLink = event.target as HTMLElement;
-  //   const sidebar = document.querySelector('.sidebar-ul');
-
-  //   if (sidebar) {
-  //     const activeItems = sidebar.querySelectorAll('li > a.active');
-  //     activeItems.forEach((item) => {
-  //       this.renderer.removeClass(item, 'active');
-  //     });
-
-  //     // Aplicar solo a los elementos <a>
-  //     if (clickedLink.tagName === 'A') {
-  //       this.renderer.addClass(clickedLink, 'active');
-  //     }
-  //   }
-  // }
+  logout(message?: string) {
+    this._jwtService.removeToken();
+    this._jwtService.returnToHome();
+    toast.success(message || 'Sesión cerrada correctamente');
+  }
 }
