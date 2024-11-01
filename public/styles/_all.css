@@ -3,7 +3,7 @@ input {
 }
 
 /* Notificacion */
-[data-type="success"], [data-type="success"] button {
+/* [data-type="success"], [data-type="success"] button {
   @apply !bg-neutral-800 !border-neutral-850 !text-green-400;
 }
 
@@ -24,7 +24,7 @@ input {
 }
 [data-type="loading"] button {
   @apply !hidden;
-}
+} */
 
 .sonner-spinner .sonner-loading-bar {
   @apply !bg-blue-400;
