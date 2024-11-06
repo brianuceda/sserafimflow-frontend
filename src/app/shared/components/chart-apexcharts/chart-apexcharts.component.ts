@@ -10,12 +10,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './chart-apexcharts.component.html',
   styleUrl: './chart-apexcharts.component.scss'
 })
-export class ChartApexchartsComponent {
+export class ChartApexchartsComponent implements AfterViewInit {
   @Input() chartOptions!: Partial<ChartOptions>;
 
   @ViewChild('chart') chartElement!: ElementRef;
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.loadChart();
   }
   

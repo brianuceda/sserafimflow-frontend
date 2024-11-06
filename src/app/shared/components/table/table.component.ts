@@ -32,7 +32,7 @@ export class TableComponent {
   public lowerSelectedSearchTerm?: string; // NT
 
   // Tabla
-  @Input() style: 'dark' | 'default' = 'default'; // ? OPCIONAL
+  @Input() style: 'dark' | 'default' | 'light' = 'default'; // ? OPCIONAL
   @Input() titleText?: string; // ? OPCIONAL
   @Input() headersDisplayed!: string[]; // * OBLIGATORIO
   @Input() headersDisplayedNames!: string[]; // * OBLIGATORIO
