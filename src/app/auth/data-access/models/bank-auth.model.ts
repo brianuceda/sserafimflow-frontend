@@ -2,7 +2,7 @@ import { FormControl } from '@angular/forms';
 import { CurrencyEnum } from '../../../shared/data-access/models/enums.model';
 
 export interface FieldsBankRegister {
-  field: 'realName' | 'ruc' | 'username' | 'password' | 'mainCurrency' | 'nominalRate' | 'effectiveRate';
+  field: 'realName' | 'ruc' | 'username' | 'password' | 'mainCurrency' | 'creationDate' | 'nominalRate' | 'effectiveRate';
 }
 
 export interface FieldsBankLogin {
@@ -15,6 +15,7 @@ export interface FormBankRegister {
   username: FormControl<string | null>;
   password: FormControl<string | null>;
   mainCurrency: FormControl<CurrencyEnum | null>;
+  creationDate: FormControl<string | null>;
   nominalRate: FormControl<number | null>;
   effectiveRate: FormControl<number | null>;
 }

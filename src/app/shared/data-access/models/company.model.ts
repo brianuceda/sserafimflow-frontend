@@ -8,6 +8,7 @@ export interface Company {
   password?: string;
   mainCurrency: CurrencyEnum;
   previewDataCurrency: CurrencyEnum;
-  balance: number;
   creationDate: string;
+  accountCreationDate: string;
+  balance: number;
 }

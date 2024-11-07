@@ -306,12 +306,12 @@
     <!-- Cuenta -->
     <ul class="space-y-4 p-4 border-t border-t-neutral-700">
       <li class="flex gap-3">
-        <div class="flex justify-center items-center">
-          <img [src]="image" alt="Foto de perfil" class="rounded-[50%] size-9">
+        <div class="flex justify-center items-center size-9 min-w-9">
+          <img [src]="image" alt="Foto de perfil" class="rounded-[50%] size-full">
         </div>
-        <div class="text-[12px]">
-          <p class="m-0 p-0 text-neutral-200 font-semibold">{{ realName }}</p>
-          <p class="m-0 p-0 text-neutral-400">{{ username }}</p>
+        <div class="text-[12px] overflow-hidden">
+          <p class="m-0 p-0 text-neutral-200 font-semibold overflow-hidden text-ellipsis">{{ realName }}</p>
+          <p class="m-0 p-0 text-neutral-400 overflow-hidden text-ellipsis">{{ username }}</p>
         </div>
       </li>
     </ul>

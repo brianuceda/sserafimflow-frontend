@@ -164,11 +164,6 @@ export default class DashboardComponent {
           'Dic',
         ],
       },
-      yaxis: {
-        title: {
-          text: 'documentos',
-        },
-      },
       fill: {
         opacity: 1,
       },
@@ -229,14 +224,6 @@ export default class DashboardComponent {
           'Dic',
         ],
       },
-      yaxis: {
-        title: {
-          text: 'dinero',
-        },
-        labels: {
-          formatter: (val: number) => val.toFixed(0)
-        },
-      },
       fill: {
         opacity: 1,
       },
@@ -272,6 +259,11 @@ export default class DashboardComponent {
           data: this.dashboardData.cantSoldInvoicesPerMonth,
         },
       ],
+      yaxis: {
+        title: {
+          text: 'documentos',
+        },
+      },
     }
   }
 
@@ -288,6 +280,18 @@ export default class DashboardComponent {
           data: this.dashboardData.amountSoldInvoicesPerMonth,
         },
       ],
+      yaxis: {
+        title: {
+          text: 'dinero',
+        },
+        labels: {
+          formatter: (val: number) => {
+            // Si algun valor es distinto de 0, formatea los valores a 2 decimales
+            let hasNonZeroValue = this.dashboardData.amountSoldInvoicesPerMonth.some((value: number) => value != 0);
+            return hasNonZeroValue ? val.toFixed(2) : val.toString();
+          }
+        },
+      },
     }
   }
 }

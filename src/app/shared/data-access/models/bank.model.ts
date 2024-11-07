@@ -8,6 +8,8 @@ export interface Bank {
   password: string;
   mainCurrency: CurrencyEnum;
   previewDataCurrency: CurrencyEnum;
+  creationDate: string;
+  accountCreationDate: string;
   nominalRate: number;
   effectiveRate: number;
 }

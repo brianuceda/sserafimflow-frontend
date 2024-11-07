@@ -31,6 +31,9 @@ export class SidebarComponent {
   public items!: SidebarItem[];
 
   constructor() {
+    // Datepicker oscuro
+    document.body.classList.remove('dark-dp');
+
     // Siebar Data
     if (this._jwtService.isCompany()) {
       this.items = sidebarDataCompany;

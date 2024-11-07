@@ -4,15 +4,11 @@
 }
 
 .datepicker-picker {
-  @apply dark:!bg-neutral-800 !border dark:!border-neutral-600;
-}
-
-.datepicker-picker {
-  @apply !rounded-lg;
+  @apply dark:!bg-neutral-750 !border dark:!border-neutral-800 !rounded-lg;
 }
 
 .datepicker-picker .datepicker-header .datepicker-title { /* ? Header: Title */
-  @apply dark:!bg-neutral-800 !mb-4 !shadow-none;
+  @apply dark:!bg-transparent !mb-4 !shadow-none;
 }
 
 .datepicker-picker .days-of-week .dow { /* Titulos */
@@ -22,9 +18,10 @@
 .datepicker-picker .datepicker-cell {  /* ? View: Celdas */
   @apply 
     dark:!text-dark-gray !font-normal /* Texto */
-    dark:hover:!bg-neutral-700 /* Hover:Fondo */
+    dark:hover:!bg-neutral-800 /* Hover:Fondo */
     dark:hover:!border-neutral-600; /* Hover:Borde */
 }
+
 .datepicker-picker .datepicker-cell.cursor-not-allowed,
 .datepicker-picker .datepicker-cell.disabled {  /* ? View: Celdas Bloqueadas */
   @apply 
@@ -32,7 +29,7 @@
 }
 
 .datepicker-picker .datepicker-cell.focused {  /* ? View: Celda Focuseada */
-  @apply dark:!bg-neutral-700; /* Fondo */
+  @apply dark:!bg-neutral-800; /* Fondo */
 }
 .datepicker-picker .datepicker-cell.selected {  /* ? View: Celda Seleccionada */
   @apply dark:!bg-primary dark:!text-dark-light; /* Fondo */
@@ -43,10 +40,8 @@
 }
 
 .datepicker-picker .datepicker-header .datepicker-controls button { /* ? Header: Controles: Botones */
-  @apply
-    !h-auto !flex !justify-center !items-center /* Comportamiento */
-    dark:!bg-neutral-750 dark:hover:!bg-dark-hover /* Fondo, Hover:Fondo */
-    border dark:border-neutral-600; /* Borde */
+  @apply !h-auto !flex !justify-center !items-center !transition-colors !duration-300
+    dark:!bg-neutral-775 dark:hover:!bg-neutral-800 border dark:border-neutral-600;
 }
 
 /* si tiene la propiedad disabled, aplicar esto */
@@ -55,23 +50,25 @@
 }
 
 .datepicker-picker .datepicker-footer { /* ? Footer */
-  @apply dark:!bg-neutral-800 !border-t dark:!border-neutral-600;
+  @apply dark:!bg-transparent !border-t dark:!border-neutral-600;
 }
 
 .datepicker-picker .datepicker-footer .datepicker-controls { /* ? Footer: Controles */
-  @apply dark:!bg-neutral-800 dark:!border-neutral-600 !gap-3 !h-auto !m-0;
+  @apply dark:!bg-transparent dark:!border-neutral-600 !gap-3 !h-auto !m-0;
 }
 
 .datepicker-picker .datepicker-footer .datepicker-controls button { /* ? Footer: Controles: Botones */
-  @apply
-    !h-auto !text-sm !rounded-lg dark:!text-white !font-normal !py-2.5 !px-5 !m-0 focus:!outline-none focus:!ring-0 !mt-4
-    dark:!bg-neutral-700 dark:hover:!bg-dark-hover /* Fondo, Hover:Fondo */
-    border dark:border-neutral-600; /* Borde */
+  @apply !h-auto !text-sm !rounded-lg dark:!text-white !font-normal !py-2.5 !px-5 !m-0 focus:!outline-none focus:!ring-0 !mt-4 !transition-colors !duration-300
+    dark:!bg-neutral-775 dark:hover:!bg-neutral-800 border dark:border-neutral-600;
 }
 
-.datepicker-picker .datepicker-footer .datepicker-controls button:nth-child(1) { /* ? Header: Controles: Today */
-  @apply dark:!bg-neutral-750 dark:hover:!bg-dark-2 dark:!border-neutral-600; /* Fondo, Hover:Fondo */
-} 
+.datepicker-picker .datepicker-footer .datepicker-controls button:nth-child(1) { /* ? Footer: Controles: Today */
+  @apply dark:!bg-neutral-800 dark:!border-neutral-600 dark:hover:!bg-neutral-850;
+}
+
+.datepicker-picker .datepicker-footer .datepicker-controls button:nth-child(2) { /* ? Footer: Controles: Clear */
+  @apply dark:!bg-neutral-775 dark:!border-neutral-600 dark:hover:!bg-neutral-800;
+}
 
 .style-dark.datepicker-input.in-edit {
   @apply dark:!border-neutral-700;
@@ -81,3 +78,16 @@
   @apply dark:!border-neutral-600;
 }
 
+/*?  Datepicker Oscuro?  */
+.dark-dp .datepicker-picker {
+  @apply dark:!bg-neutral-900 !border dark:!border-neutral-700 !rounded-lg;
+}
+
+.dark-dp .datepicker-picker .datepicker-header .datepicker-controls button,
+.dark-dp .datepicker-picker .datepicker-footer .datepicker-controls button { /* ? Header & Footer: Controles: Botones */
+  @apply dark:!bg-neutral-850 dark:hover:!bg-neutral-900 dark:!border-neutral-750 !transition-colors !duration-300;
+}
+
+.dark-dp .datepicker-picker .datepicker-footer .datepicker-controls button:nth-child(1) { /* ? Footer: Controles: Today */
+  @apply dark:!bg-neutral-900 dark:hover:!bg-neutral-950;
+}
