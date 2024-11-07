@@ -6,31 +6,25 @@ import { DashboardService } from '../../data-access/services/dashboard.service';
 import { Dashboard } from '../../data-access/models/dashboard.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { FormsModule } from '@angular/forms';
+import { DashboardSocketService } from '../../data-access/services/dashboard-socket.service';
+import { CompanyService } from '../../../profile/data-access/services/company.service';
+import { LoaderComponent } from '../../../../../shared/components/loader/loader.component';
+import { toast } from 'ngx-sonner';
+import { CurrencyEnum } from '../../../../../shared/data-access/models/enums.model';
+import { Company } from '../../../../../shared/data-access/models/company.model';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, MathjaxEcuationComponent, ChartApexchartsComponent, TableComponent],
+  imports: [FormsModule, MathjaxEcuationComponent, ChartApexchartsComponent, TableComponent, LoaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export default class DashboardComponent {
-  public selectedCurrency: 'PEN' | 'USD' = 'PEN';
+  public isLoading: boolean = true;
+  public selectedCurrency: CurrencyEnum = CurrencyEnum.PEN;
   public showExchangeRateTable: boolean = false;
-  public dashboardData: Dashboard = {
-    totalNominalValueIssued: '0',
-    totalNominalValueReceived: '0',
-    totalNominalValueDiscounted: '0',
-    pendingPortfoliosToPay: 0,
-    cantSoldLettersPerMonth: [],
-    cantSoldInvoicesPerMonth: [],
-    amountSoldLettersPerMonth: [],
-    amountSoldInvoicesPerMonth: [],
-    exchangeRate: {
-      date: Date.now().toString(),
-      currencyRates: [],
-    },
-  }
+  public dashboardData!: Dashboard;
   // Tasa de cambio
   public exchangeRateHeadersDisplayedNames = ['Nombre de la Moneda', 'Moneda', 'Precio de Compra', 'Precio de Venta'];
   public exchangeRateHeadersDisplayed = ['currencyname', 'currency', 'purchaseprice', 'saleprice'];
@@ -40,51 +34,81 @@ export default class DashboardComponent {
   public chartOptions2!: Partial<ChartOptions>;
 
   private _dashboardService = inject(DashboardService);
+  private _companyService = inject(CompanyService);
+  private _dashboardSocketService = inject(DashboardSocketService);
   private _cdr = inject(ChangeDetectorRef)
 
   ngOnInit() {
     this.loadChart1();
     this.loadChart2();
 
-    this._cdr.detectChanges();
-    this.callApi(this.selectedCurrency);
+    this.detectChangesWebSocket();
+    this.callApi();
   }
 
-  changeSelectedCurrency(event: Event) {
-    this.selectedCurrency = (event.target as HTMLSelectElement).value as 'PEN' | 'USD';
-    this.callApi(this.selectedCurrency);
-  }
+  changeCurrency(event: any) {
+    this.selectedCurrency = event.target.value;
+    
+    let company: Partial<Company> = {
+      previewDataCurrency: this.selectedCurrency
+    };
 
-  callApi(targetCurrency: 'PEN' | 'USD') {
-    this._dashboardService.getDashboard(targetCurrency).subscribe((data: Dashboard) => {
-      this.dashboardData = data;
-      this.dashboardData.totalNominalValueIssued = this.formatNumber(data.totalNominalValueIssued, targetCurrency);
-      this.dashboardData.totalNominalValueReceived = this.formatNumber(data.totalNominalValueReceived, targetCurrency);
-      this.dashboardData.totalNominalValueDiscounted = this.formatNumber(data.totalNominalValueDiscounted, targetCurrency);
+    console.log(company);
 
-      let date: number[] = (data.exchangeRate.date as string).split('-').map(Number);
-      this.dashboardData.exchangeRate.date = new Date(date[0], (date[1] - 1), date[2]).toLocaleDateString('es-PE', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-
-      this.exchangeRateData = [];
-      this.dashboardData.exchangeRate.currencyRates.forEach((rate: any) => {
-        this.exchangeRateData.push({
-          currencyname: rate.currencyName,
-          currency: rate.currency,
-          purchaseprice: rate.purchasePrice,
-          saleprice: rate.salePrice,
-        });
-      });
-
-      this.changeDataChart1();
-      this.changeDataChart2();
+    this._companyService.updateCompanyProfile(company).subscribe((data: any) => {
+      toast.info(data.message);
+      this.callApi(this.selectedCurrency);
     });
   }
 
-  private formatNumber(value: string, targetCurrency: 'PEN' | 'USD') {
+  callApi(targetCurrency?: CurrencyEnum) {
+    this._dashboardService.getDashboard(targetCurrency).subscribe((data: Dashboard) => {
+      this.updateData(data);
+      this.isLoading = false;
+    });
+  }
+
+  detectChangesWebSocket() {
+    this._dashboardSocketService.getDashboardUpdates().subscribe((data: Dashboard) => {
+      this.updateData(data);
+    });
+  }
+
+  updateData(data: Dashboard) {
+    this.dashboardData = data;
+    this.selectedCurrency = data.mainCurrency;
+    this.formatChanges(data);
+
+    this._cdr.detectChanges();
+  }
+
+  formatChanges(data: Dashboard) {
+    this.dashboardData.totalNominalValueIssued = this.formatNumber(data.totalNominalValueIssued, this.selectedCurrency);
+    this.dashboardData.totalNominalValueReceived = this.formatNumber(data.totalNominalValueReceived, this.selectedCurrency);
+    this.dashboardData.totalNominalValueDiscounted = this.formatNumber(data.totalNominalValueDiscounted, this.selectedCurrency);
+
+    let date: number[] = (data.exchangeRate.date as string).split('-').map(Number);
+    this.dashboardData.exchangeRate.date = new Date(date[0], (date[1] - 1), date[2]).toLocaleDateString('es-PE', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+
+    this.exchangeRateData = [];
+    this.dashboardData.exchangeRate.currencyRates.forEach((rate: any) => {
+      this.exchangeRateData.push({
+        currencyname: rate.currencyName,
+        currency: rate.currency,
+        purchaseprice: rate.purchasePrice,
+        saleprice: rate.salePrice,
+      });
+    });
+
+    this.changeDataChart1();
+    this.changeDataChart2();
+  }
+
+  private formatNumber(value: string, targetCurrency: CurrencyEnum) {
     return parseFloat(value).toLocaleString('es-PE', {
       style: 'currency',
       currency: targetCurrency,

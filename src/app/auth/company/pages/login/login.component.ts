@@ -4,8 +4,9 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { hasAnyError, isValidPassword } from '../../../../shared/utils/form-validators';
-import { FormCompanyLogin, FieldsCompanyLogin, ModelCompanyLogin } from '../../../data-access/models/company-login.model';
 import { AuthService } from '../../../data-access/services/auth.service';
+import { FieldsCompanyLogin, FormCompanyLogin } from '../../../data-access/models/company-auth.model';
+import { Company } from '../../../../shared/data-access/models/company.model';
 
 @Component({
   selector: 'app-login',
@@ -51,7 +52,7 @@ export default class LoginComponent {
     const { username, password } = this.form.value;
     if (!username || !password) return;
 
-    const user: ModelCompanyLogin = {
+    const user: Partial<Company> = {
       username,
       password,
     };
@@ -61,6 +62,7 @@ export default class LoginComponent {
         if (response.token) {
           localStorage.setItem('token', response.token);
           this._router.navigateByUrl('/app/empresa/dashboard');
+
           setTimeout(() => {
             toast.success('Bienvenido nuevamente!');
           }, 100);
@@ -76,30 +78,5 @@ export default class LoginComponent {
         toast.error(errorMessage);
       }
     });
-
-    //   const loginObservable = lastValueFrom(this._authService.companyLogin(user, this.rememberMe));
-
-    //   toast.promise(
-    //     loginObservable.then(() => {
-    //       return new Promise<void>((resolve) => {
-    //         loginObservable.then((response: any) => {
-    //           if (response.token) {
-    //             localStorage.setItem('token', response.token);
-    //             this._router.navigateByUrl('/app/empresa/dashboard');
-    //             resolve();
-    //           } else {
-    //             console.log('Error al iniciar sesión: ' + response?.message || 'Ocurrió un error interno');
-    //             resolve(Promise.reject());
-    //           }
-    //         });
-    //       });
-    //     }),
-    //     {
-    //       loading: 'Iniciando sesión...',
-    //       success: 'Sesión iniciada correctamente',
-    //       error: 'Ocurrió un error interno',
-    //     }
-    //   );
-    // }
   }
 }

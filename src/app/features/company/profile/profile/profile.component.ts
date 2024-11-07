@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { Company } from '../data-access/models/company.model';
 import { CompanyService } from '../data-access/services/company.service';
 import { CommonModule } from '@angular/common';
+import { Company } from '../../../../shared/data-access/models/company.model';
 
 @Component({
   selector: 'app-profile',

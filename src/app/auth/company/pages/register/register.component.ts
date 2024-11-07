@@ -5,7 +5,9 @@ import { RouterModule, Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { isValidPassword, hasAnyError } from '../../../../shared/utils/form-validators';
 import { AuthService } from '../../../data-access/services/auth.service';
-import { FieldsCompanyRegister, FormCompanyRegister, ModelCompanyRegister } from '../../../data-access/models/company-register.model';
+import { FieldsCompanyRegister, FormCompanyRegister } from '../../../data-access/models/company-auth.model';
+import { CurrencyEnum } from '../../../../shared/data-access/models/enums.model';
+import { Company } from '../../../../shared/data-access/models/company.model';
 
 @Component({
   selector: 'app-register',
@@ -43,6 +45,10 @@ export default class RegisterComponent {
       Validators.maxLength(150),
       isValidPassword(),
     ]),
+    mainCurrency: this._formBuilder.control(CurrencyEnum.PEN, [
+      Validators.required,
+      Validators.pattern(/^(PEN|USD|CAD|EUR)$/)
+    ]),
   });
 
   isRequired(input: FieldsCompanyRegister) {
@@ -63,14 +69,17 @@ export default class RegisterComponent {
 
   async companyRegister() {
     if (this.form.invalid) return;
-    const { realName, ruc, username, password } = this.form.value;
-    if (!realName || !ruc || !username || !password) return;
+    const { realName, ruc, username, password, mainCurrency } = this.form.value;
+    if (!realName || !ruc || !username || !password || !mainCurrency) return;
+    const previewDataCurrency = mainCurrency;
 
-    const user: ModelCompanyRegister = {
+    const user: Partial<Company> = {
       realName,
       ruc,
       username,
       password,
+      mainCurrency: mainCurrency as CurrencyEnum,
+      previewDataCurrency: previewDataCurrency as CurrencyEnum,
     };
 
     this._authService.companyRegister(user, this.imageUploaded, this.rememberMe).subscribe({

@@ -1,4 +1,4 @@
-import { CurrencyEnum } from "./backend.enum";
+import { CurrencyEnum } from "./enums.model";
 
 export interface CurrencyRate {
   currencyName: string;

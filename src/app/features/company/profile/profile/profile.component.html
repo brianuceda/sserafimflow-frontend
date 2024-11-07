@@ -2,7 +2,8 @@
   <h2>{{ companyProfile.realName }}</h2>
   <p><strong>RUC:</strong> {{ companyProfile.ruc }}</p>
   <p><strong>Username:</strong> {{ companyProfile.username }}</p>
-  <p><strong>Currency:</strong> {{ companyProfile.currency }}</p>
+  <p><strong>Main Currency:</strong> {{ companyProfile.mainCurrency }}</p>
+  <p><strong>Preview Data Currency:</strong> {{ companyProfile.previewDataCurrency }}</p>
   <p><strong>Balance:</strong> {{ companyProfile.balance }}</p>
   <img class="size-32" [src]="companyProfile.imageUrl" alt="Company Image" />
 </div>

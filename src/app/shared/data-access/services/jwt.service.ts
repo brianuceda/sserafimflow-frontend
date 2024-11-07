@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { catchError } from 'rxjs/internal/operators/catchError';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Company } from '../models/company.model';
+import { Bank } from '../models/bank.model';
 
 export interface TokenPayload {
   sub: string;
@@ -22,6 +25,10 @@ export class JWTService {
   private _baseUrl = environment.BACKEND_URL;
   private _router = inject(Router);
   private _httpClient = inject(HttpClient);
+
+  // BehaviorSubject para almacenar el objeto Company o Bank
+  private entitySubject = new BehaviorSubject<Company | Bank | null>(null);
+  public entity$ = this.entitySubject.asObservable();
 
   private decodeBase64ToUtf8(base64: string): string {
     try {
@@ -49,6 +56,7 @@ export class JWTService {
       return null;
     }
   }
+  
   public isCompany(): boolean {
     const decodedToken = this.decodeJwtPayload();
     return decodedToken?.role === 'COMPANY';
@@ -59,19 +67,12 @@ export class JWTService {
     return decodedToken?.role === 'BANK';
   }
 
-  public getRealName(): string | undefined {
-    const decodedToken = this.decodeJwtPayload();
-    return decodedToken?.realName || undefined;
+  public setEntity(entity: Company | Bank): void {
+    this.entitySubject.next(entity);
   }
 
-  public getUsername(): string | undefined {
-    const decodedToken = this.decodeJwtPayload();
-    return decodedToken?.sub || undefined;
-  }
-
-  public getImage(): string | undefined {
-    const decodedToken = this.decodeJwtPayload();
-    return decodedToken?.image || undefined;
+  public getEntity(): Company | Bank | null {
+    return this.entitySubject.getValue();
   }
 
   public isValidToken(): Observable<boolean> {

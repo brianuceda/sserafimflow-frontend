@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { FieldsBankRegister, FormBankRegister, ModelBankRegister } from '../../../data-access/models/bank-register.model';
+import { FieldsBankRegister, FormBankRegister } from '../../../data-access/models/bank-auth.model';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { hasAnyError, isValidPassword } from '../../../../shared/utils/form-validators';
 import { AuthService } from '../../../data-access/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { CurrencyEnum } from '../../../../shared/data-access/models/enums.model';
+import { Bank } from '../../../../shared/data-access/models/bank.model';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +45,7 @@ export default class RegisterComponent {
       Validators.maxLength(150),
       isValidPassword(),
     ]),
-    currency: this._formBuilder.control('PEN', [
+    mainCurrency: this._formBuilder.control(CurrencyEnum.PEN, [
       Validators.required,
       Validators.pattern(/^(PEN|USD|CAD|EUR)$/)
     ]),
@@ -85,15 +87,17 @@ export default class RegisterComponent {
 
   async bankRegister() {
     if (this.form.invalid) return;
-    const { realName, ruc, username, password, currency, nominalRate, effectiveRate } = this.form.value;
-    if (!realName || !ruc || !username || !password || !currency || !nominalRate || !effectiveRate) return;
+    const { realName, ruc, username, password, mainCurrency, nominalRate, effectiveRate } = this.form.value;
+    if (!realName || !ruc || !username || !password || !mainCurrency || !nominalRate || !effectiveRate) return;
+    const previewDataCurrency = mainCurrency;
 
-    const user: ModelBankRegister = {
+    const user: Partial<Bank> = {
       realName,
       ruc,
       username,
       password,
-      currency,
+      mainCurrency: mainCurrency as CurrencyEnum,
+      previewDataCurrency: previewDataCurrency as CurrencyEnum,
       nominalRate,
       effectiveRate,
     };
