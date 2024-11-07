@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/internal/operators/filter';
-import { SidebarItem } from '../../data-access/models/sidebar.model';
 import { CommonModule } from '@angular/common';
 import { sidebarDataCompany } from '../../data-access/data/sidebar-company.data';
 import { sidebarDataBank } from '../../data-access/data/sidebar-bank.data';
 import { JWTService } from '../../data-access/services/jwt.service';
+import { SidebarItem } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-navbar',

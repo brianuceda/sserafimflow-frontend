@@ -1,25 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { toast } from 'ngx-sonner';
 import { DatepickerFlowbiteComponent } from '../../../../components/datepicker-flowbite/datepicker-flowbite.component';
 import { TableComponent } from '../../../../components/table/table.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-components',
   standalone: true,
-  imports: [DatepickerFlowbiteComponent, TableComponent],
+  imports: [DatepickerFlowbiteComponent, TableComponent, ReactiveFormsModule],
   templateUrl: './components.component.html',
   styleUrl: './components.component.scss',
 })
 export default class ComponentsComponent implements OnInit {
+  // Datepicker
+  testForm!: FormGroup;
   // Table
   public headersDisplayedNames: string[] = [];
   public headersDisplayed: string[] = [];
   public selectedColumns: Set<number> = new Set();
   public dataTable: any[] = [];
+  
+  private _formBuilder = inject(FormBuilder);
 
   ngOnInit() {
     // Table
     this.generateTestData();
+    // Datepicker
+    this.testForm = this._formBuilder.group({
+      datepicker: ['']
+    });
+  }
+
+  // Datepicker
+  onDateChange(date: string) {
+    date = date.split('/').reverse().join('-');
+    this.testForm.controls['datepicker'].setValue(date);
+  }
+  onSubmit() {
+    console.log('Fecha seleccionada:', this.testForm.value.datepicker);
   }
 
   // Input Number

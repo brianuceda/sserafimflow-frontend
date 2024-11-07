@@ -1,4 +1,4 @@
-import { SidebarItem } from "../models/sidebar.model";
+import { SidebarItem } from "../../ui/sidebar/sidebar.component";
 
 export const sidebarDataCompany: SidebarItem[] = [
   {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { DatepickerOptions } from '../../data-access/models/datepicker-options.model';
 import { Datepicker } from 'flowbite-datepicker';
 import { CommonModule } from '@angular/common';
@@ -17,13 +17,16 @@ export class DatepickerFlowbiteComponent {
   @Input() startToday?: boolean = false;
   @Input() startDate?: string;
   @Input() customConfig?: DatepickerOptions;
+  @Input() disabled: boolean = false;
+
+  @Output() dateChanged = new EventEmitter<string>();
 
   @ViewChild('datepicker', { static: true }) datepicker!: ElementRef<HTMLInputElement>;
 
   ngAfterViewInit() {
-
     let defaultConfig: DatepickerOptions = {
       autohide: true,
+      // 2024-12-19
       format: 'dd/mm/yyyy',
       orientation: 'auto',
       clearBtn: true,
@@ -35,14 +38,18 @@ export class DatepickerFlowbiteComponent {
 
     let modifiedOptions = { ...defaultConfig, ...this.customConfig };
 
-    let datepicker = new Datepicker(this.datepicker.nativeElement, modifiedOptions);
+    const datepickerInstance = new Datepicker(this.datepicker.nativeElement, modifiedOptions);
+
+    this.datepicker.nativeElement.addEventListener('changeDate', (event: any) => {
+      this.dateChanged.emit(event.target.value);
+    });
 
     if (this.startToday === true) {
-      datepicker?.setDate(new Date().toLocaleDateString('es-ES'));
+      datepickerInstance?.setDate(new Date().toLocaleDateString('es-ES'));
     }
 
     if (this.startDate) {
-      datepicker?.setDate(this.startDate);
+      datepickerInstance?.setDate(this.startDate);
     }
   }
 }

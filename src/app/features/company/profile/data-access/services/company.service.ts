@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Company } from '../models/company.model';
 import { environment } from '../../../../../../environments/environment';
+import { Observable } from 'rxjs/internal/Observable';
+import { Company } from '../../../../../shared/data-access/models/company.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +10,13 @@ import { environment } from '../../../../../../environments/environment';
 export class CompanyService {
   private _baseUrl = environment.BACKEND_URL;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getCompanyProfile(): Observable<Company> {
     return this.http.get<Company>(`${this._baseUrl}company/profile`);
+  }
+
+  updateCompanyProfile(company: Partial<Company>): Observable<any> {
+    return this.http.put<any>(`${this._baseUrl}company/update-profile`, company);
   }
 }

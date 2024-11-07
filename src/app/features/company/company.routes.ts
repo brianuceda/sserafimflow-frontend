@@ -9,7 +9,7 @@ export default [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./dashboard/dashboard.component'),
+    loadComponent: () => import('./dashboard/pages/dashboard/dashboard.component'),
     canActivate: [CompanyGuard],
   },
   {

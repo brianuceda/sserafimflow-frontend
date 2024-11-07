@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { isValidPassword, hasAnyError } from '../../../../shared/utils/form-validators';
 import { AuthService } from '../../../data-access/services/auth.service';
-import { FieldsCompanyRegister, FormCompanyRegister, ModelCompanyRegister } from '../../../data-access/models/company-register.model';
+import { FieldsCompanyRegister, FormCompanyRegister } from '../../../data-access/models/company-auth.model';
+import { CurrencyEnum } from '../../../../shared/data-access/models/enums.model';
+import { Company } from '../../../../shared/data-access/models/company.model';
+import { DatepickerFlowbiteComponent } from '../../../../shared/components/datepicker-flowbite/datepicker-flowbite.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterModule, CommonModule, ReactiveFormsModule],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, DatepickerFlowbiteComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -18,32 +21,47 @@ export default class RegisterComponent {
   public imagePreview: string | null = null;
   public imageUploaded: any;
   public rememberMe = false;
+  
+  public form!: FormGroup<FormCompanyRegister>;
 
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
 
-  public form = this._formBuilder.group<FormCompanyRegister>({
-    realName: this._formBuilder.control('', [
-      Validators.required,
-      Validators.maxLength(255)
-    ]),
-    ruc: this._formBuilder.control(null, [
-      Validators.required,
-      Validators.minLength(11),
-      Validators.maxLength(11),
-    ]),
-    username: this._formBuilder.control('', [
-      Validators.required,
-      Validators.email,
-      Validators.maxLength(150)
-    ]),
-    password: this._formBuilder.control('', [
-      Validators.required,
-      Validators.maxLength(150),
-      isValidPassword(),
-    ]),
-  });
+  constructor() {
+    // Datepicker oscuro
+    document.body.classList.add('dark-dp');
+
+    this.form = this._formBuilder.group<FormCompanyRegister>({
+      realName: this._formBuilder.control('', [
+        Validators.required,
+        Validators.maxLength(255)
+      ]),
+      ruc: this._formBuilder.control(null, [
+        Validators.required,
+        Validators.minLength(11),
+        Validators.maxLength(11),
+      ]),
+      username: this._formBuilder.control('', [
+        Validators.required,
+        Validators.email,
+        Validators.maxLength(150)
+      ]),
+      password: this._formBuilder.control('', [
+        Validators.required,
+        Validators.maxLength(150),
+        isValidPassword(),
+      ]),
+      mainCurrency: this._formBuilder.control(CurrencyEnum.PEN, [
+        Validators.required,
+        Validators.pattern(/^(PEN|USD|CAD|EUR)$/)
+      ]),
+      creationDate: this._formBuilder.control('', [
+        Validators.required,
+      ]),
+    });
+
+  }
 
   isRequired(input: FieldsCompanyRegister) {
     return hasAnyError(input, this.form, 'required');
@@ -60,17 +78,24 @@ export default class RegisterComponent {
   hasMaxLengthError(input: FieldsCompanyRegister) {
     return hasAnyError(input, this.form, 'maxlength');
   }
+  
+  onDateChange(date: string) {
+    date = date.split('/').reverse().join('-');
+    this.form.controls['creationDate'].setValue(date);
+  }
 
   async companyRegister() {
     if (this.form.invalid) return;
-    const { realName, ruc, username, password } = this.form.value;
-    if (!realName || !ruc || !username || !password) return;
+    const { realName, ruc, username, password, mainCurrency, creationDate } = this.form.value;
+    if (!realName || !ruc || !username || !password || !mainCurrency || !creationDate) return;
 
-    const user: ModelCompanyRegister = {
+    const user: Partial<Company> = {
       realName,
       ruc,
       username,
       password,
+      mainCurrency: mainCurrency as CurrencyEnum,
+      creationDate,
     };
 
     this._authService.companyRegister(user, this.imageUploaded, this.rememberMe).subscribe({
@@ -99,9 +124,14 @@ export default class RegisterComponent {
   enforceRucPattern(event: Event) {
     const el = event.target as HTMLInputElement;
     const value = el.value.replace(/[^0-9]/g, '').slice(0, 11);
+  
     el.value = value;
-
-    this.form.get('ruc')?.setValue(Number(value), { emitEvent: false });
+  
+    if (value) {
+      this.form.get('ruc')?.setValue(Number(value), { emitEvent: false });
+    } else {
+      this.form.get('ruc')?.setValue(null, { emitEvent: false });
+    }
   }
 
   // Image

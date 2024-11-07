@@ -4,8 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { CommonModule } from '@angular/common';
 import { hasAnyError, isValidPassword } from '../../../../shared/utils/form-validators';
-import { FormBankLogin, FieldsBankLogin, ModelBankLogin } from '../../../data-access/models/bank-login.model';
 import { AuthService } from '../../../data-access/services/auth.service';
+import { FormBankLogin, FieldsBankLogin } from '../../../data-access/models/bank-auth.model';
+import { Bank } from '../../../../shared/data-access/models/bank.model';
 
 @Component({
   selector: 'app-login',
@@ -51,7 +52,7 @@ export default class LoginComponent {
     const { username, password } = this.form.value;
     if (!username || !password) return;
 
-    const user: ModelBankLogin = {
+    const user: Partial<Bank> = {
       username,
       password,
     };
@@ -61,6 +62,7 @@ export default class LoginComponent {
         if (response.token) {
           localStorage.setItem('token', response.token);
           this._router.navigateByUrl('/app/banco/dashboard');
+
           setTimeout(() => {
             toast.success('Bienvenido nuevamente!');
           }, 100);

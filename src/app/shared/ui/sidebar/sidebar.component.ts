@@ -3,9 +3,15 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { sidebarDataCompany } from '../../data-access/data/sidebar-company.data';
 import { sidebarDataBank } from '../../data-access/data/sidebar-bank.data';
-import { SidebarItem } from '../../data-access/models/sidebar.model';
 import { JWTService } from '../../data-access/services/jwt.service';
 import { toast } from 'ngx-sonner';
+
+export interface SidebarItem {
+  icon?: string;
+  title: string;
+  route?: string;
+  childrens?: SidebarItem[];
+}
 
 @Component({
   selector: 'app-sidebar',
@@ -25,6 +31,9 @@ export class SidebarComponent {
   public items!: SidebarItem[];
 
   constructor() {
+    // Datepicker oscuro
+    document.body.classList.remove('dark-dp');
+
     // Siebar Data
     if (this._jwtService.isCompany()) {
       this.items = sidebarDataCompany;
@@ -32,14 +41,10 @@ export class SidebarComponent {
       this.items = sidebarDataBank;
     }
 
-    // Real Name
-    this.realName = this._jwtService.getRealName();
-
-    // Username
-    this.username = this._jwtService.getUsername();
-
-    // Image
-    this.image = this._jwtService.getImage() || 'images/no-image-selected.webp';
+    const decodedToken = this._jwtService.decodeJwtPayload();
+    this.realName= decodedToken?.realName || undefined;
+    this.username = decodedToken?.sub || undefined;
+    this.image = decodedToken?.image || undefined;
   }
 
   ngAfterViewInit() {

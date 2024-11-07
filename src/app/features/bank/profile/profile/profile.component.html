@@ -2,8 +2,8 @@
   <h2>{{ bankProfile.realName }}</h2>
   <p><strong>RUC:</strong> {{ bankProfile.ruc }}</p>
   <p><strong>Username:</strong> {{ bankProfile.username }}</p>
-  <p><strong>Currency:</strong> {{ bankProfile.currency }}</p>
-  <p><strong>Balance:</strong> {{ bankProfile.balance }}</p>
+  <p><strong>Main Currency:</strong> {{ bankProfile.mainCurrency }}</p>
+  <p><strong>Preview Data Currency:</strong> {{ bankProfile.previewDataCurrency }}</p>
   <p *ngIf="bankProfile.nominalRate">
     <strong>Nominal Rate:</strong> {{ bankProfile.nominalRate }}
   </p>

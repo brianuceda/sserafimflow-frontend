@@ -2,7 +2,11 @@
   class="flex justify-between items-center max-lg:gap-8 gradient-background"
 >
   <!-- Contenido -->
-  <form class="max-w-[500px] max-lg:max-w-[unset] w-full" [formGroup]="form" (ngSubmit)="companyLogin()">
+  <form
+    class="scrollbar-container max-w-[500px] max-h-dvh max-lg:max-w-[unset] w-full"
+    [formGroup]="form"
+    (ngSubmit)="companyLogin()"
+  >
     <div
       class="h-full min-h-dvh flex flex-col justify-center p-4 sm:p-10 shadow-sm dark:bg-neutral-800 dark:border-r-[1px] dark:border-r-neutral-600"
     >
@@ -210,7 +214,7 @@
                 </div>
                 <div
                   id="hs-strong-password-popover"
-                  class="hidden absolute z-10 w-full bg-white shadow-md rounded-lg p-4 dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:divide-neutral-700"
+                  class="hidden absolute z-[100] w-full bg-white shadow-md rounded-lg p-4 dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:divide-neutral-700"
                 >
                   <div
                     id="hs-strong-password-in-popover"

@@ -1,0 +1,530 @@
+@if (isLoading !== true) {
+  <section class="w-full flex flex-wrap gap-4 max-md:flex-col">
+    <!-- Selección -->
+    <div class="w-full flex justify-between max-sm:justify-normal flex-wrap gap-4 max-sm:flex-col max-sm:gap-2">
+
+      <!-- Moneda Principal -->
+      <div class="w-[250px] max-sm:w-full">
+        <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
+          Moneda Principal
+        </h2>
+
+        <div>
+          <select
+            id="mainCurrency"
+            [(ngModel)]="selectedCurrency"
+            (change)="changeCurrency($event)"
+            class="relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg max-sm:rounded-none text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800"
+            data-hs-select='{
+              "placeholder": "<span class=\"inline-flex items-center text-neutral-500 \"><svg class=\"shrink-0 size-3.5 me-2\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3\"/></svg> Filtro</span>",
+    
+              "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span class=\"me-2\" data-icon></span><span class=\"text-gray-800 dark:text-neutral-200 \" data-title></span></button>",
+    
+              "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg max-sm:rounded-none text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800",
+    
+              "dropdownClasses": "mt-2 max-h-72 p-1 space-y-0.5 z-20 w-full bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-750 dark:border-neutral-800",
+    
+              "optionClasses": "py-2 px-3 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:text-neutral-200 dark:focus:bg-neutral-800",
+    
+              "optionTemplate": "<div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div><div class=\"hs-selected:font-semibold text-sm text-gray-800 dark:text-neutral-200 \" data-title></div></div><div class=\"ms-auto\"><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-4 text-purple-400\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z\"/></svg></span></div></div>",
+    
+              "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 dark:text-neutral-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+            }'
+          >
+            <option [selected]="selectedCurrency === 'PEN'" value='PEN'
+              data-hs-select-option='{
+                "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/peru-svgrepo-com.svg\" alt=\"PEN\" />"
+              }'
+            >
+              Sol Peruano
+            </option>
+            <option [selected]="selectedCurrency === 'USD'"value='USD'
+              data-hs-select-option='{
+                "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/united-states-svgrepo-com.svg\" alt=\"USD\" />"
+              }'
+            >
+              Dólar Americano
+            </option>
+            <option [selected]="selectedCurrency === 'CAD'" value='CAD' disabled
+              data-hs-select-option='{
+                "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/canada-svgrepo-com.svg\" alt=\"CAD\" />"
+              }'
+            >
+              Dólar Canadiense
+            </option>
+            <option [selected]="selectedCurrency === 'EUR'" value='EUR' disabled
+              data-hs-select-option='{
+                "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/european-union-europe-svgrepo-com.svg\" alt=\"EUR\" />"
+              }'
+            >
+              Euro
+            </option>
+          </select>
+        </div>
+      </div>
+  
+      <!-- Tasa de Cambio -->
+      <div class="mb-4 max-sm:ml-3 flex flex-col items-end max-sm:items-start">
+        <h2 class="mb-[6px] font-semibold text-[18px]" for="showExchangeRateTable">
+          Tasas de Cambio 
+          <span class="text-[14px] text-neutral-400"> ({{ dashboardData.exchangeRate.date }})</span>
+        </h2>
+        <div class="relative w-fit">
+          <!-- Part: Input -->
+          <input
+            id="showExchangeRateTable"
+            name="showExchangeRateTable"
+            type="checkbox"
+            [(ngModel)]="showExchangeRateTable"
+            class="peer relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer focus:ring-purple-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-purple-600 checked:border-purple-600 focus:checked:border-purple-600 dark:border-opacity-65 dark:checked:bg-purple-500 dark:checked:border-purple-500 dark:checked:hover:bg-purple-500 dark:focus:ring-offset-0 before:inline-block before:size-6 before:bg-white checked:before:bg-purple-200 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-purple-200 dark:focus-visible:border-purple-400 dark:focus-visible:border-opacity-50 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800"
+          />
+  
+          <!-- Part: Icons -->
+          <span
+            class="peer-checked:text-white text-gray-500 size-6 absolute top-0.5 start-0.5 flex justify-center items-center pointer-events-none transition-colors duration-300 dark:text-neutral-500"
+          >
+            <svg
+              class="shrink-0 size-3"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </span>
+          <span
+            class="peer-checked:text-purple-600 text-gray-500 size-6 absolute top-0.5 end-0.5 flex justify-center items-center pointer-events-none transition-colors ease-in-out duration-200 dark:text-neutral-500"
+          >
+            <svg
+              class="shrink-0 size-3"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+    </div>
+    
+    <!-- Tabla de Tasas de Cambio del dia -->
+    @if (dashboardData.exchangeRate.currencyRates.length > 0 && showExchangeRateTable) {
+      <app-table
+        class="block w-full"
+        [style]="'light'"
+        [headersDisplayed]="exchangeRateHeadersDisplayed"
+        [headersDisplayedNames]="exchangeRateHeadersDisplayedNames"
+        [dataTable]="exchangeRateData"
+      ></app-table>
+    }
+  
+    <!-- Descripción General -->
+    <div class="w-full">
+      <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
+        Descripción General
+      </h2>
+  
+      <!-- Fila 1 -->
+      <div class="flex gap-3 mb-3 max-sm:gap-2 max-sm:mb-2 flex-wrap">
+        <!-- Item 1 -->
+        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 18.6667C12 20.876 15.5813 22.6667 20 22.6667C24.4187 22.6667 28 20.876 28 18.6667C28 16.4573 24.4187 14.6667 20 14.6667C15.5813 14.6667 12 16.4573 12 18.6667Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 18.6667V24C12 26.208 15.5813 28 20 28C24.4187 28 28 26.208 28 24V18.6667"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 8C4 9.42933 5.52533 10.7493 8 11.464C10.4747 12.1787 13.5253 12.1787 16 11.464C18.4747 10.7493 20 9.42933 20 8C20 6.57067 18.4747 5.25067 16 4.536C13.5253 3.82133 10.4747 3.82133 8 4.536C5.52533 5.25067 4 6.57067 4 8Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 8V21.3333C4 22.5173 5.02933 23.2667 6.66667 24"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 14.6667C4 15.8507 5.02933 16.6 6.66667 17.3333"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="flex flex-col justify-center">
+            <h3 class="text-sm text-neutral-400 font-semibold">
+              Valor nominal total emitido
+            </h3>
+            <p class="font-semibold">
+              {{ dashboardData.totalNominalValueIssued }}
+            </p>
+          </div>
+        </div>
+  
+        <!-- Item 2 -->
+        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 18.6667C12 20.876 15.5813 22.6667 20 22.6667C24.4187 22.6667 28 20.876 28 18.6667C28 16.4573 24.4187 14.6667 20 14.6667C15.5813 14.6667 12 16.4573 12 18.6667Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 18.6667V24C12 26.208 15.5813 28 20 28C24.4187 28 28 26.208 28 24V18.6667"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 8C4 9.42933 5.52533 10.7493 8 11.464C10.4747 12.1787 13.5253 12.1787 16 11.464C18.4747 10.7493 20 9.42933 20 8C20 6.57067 18.4747 5.25067 16 4.536C13.5253 3.82133 10.4747 3.82133 8 4.536C5.52533 5.25067 4 6.57067 4 8Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 8V21.3333C4 22.5173 5.02933 23.2667 6.66667 24"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 14.6667C4 15.8507 5.02933 16.6 6.66667 17.3333"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="flex flex-col justify-center">
+            <h3 class="text-sm text-neutral-400 font-semibold">
+              Valor nominal total recibido
+            </h3>
+            <p class="font-semibold">
+              {{ dashboardData.totalNominalValueReceived }}
+            </p>
+          </div>
+        </div>
+        
+        <!-- Item 3 -->
+        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 18.6667C12 20.876 15.5813 22.6667 20 22.6667C24.4187 22.6667 28 20.876 28 18.6667C28 16.4573 24.4187 14.6667 20 14.6667C15.5813 14.6667 12 16.4573 12 18.6667Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 18.6667V24C12 26.208 15.5813 28 20 28C24.4187 28 28 26.208 28 24V18.6667"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 8C4 9.42933 5.52533 10.7493 8 11.464C10.4747 12.1787 13.5253 12.1787 16 11.464C18.4747 10.7493 20 9.42933 20 8C20 6.57067 18.4747 5.25067 16 4.536C13.5253 3.82133 10.4747 3.82133 8 4.536C5.52533 5.25067 4 6.57067 4 8Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 8V21.3333C4 22.5173 5.02933 23.2667 6.66667 24"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 14.6667C4 15.8507 5.02933 16.6 6.66667 17.3333"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="flex flex-col justify-center">
+            <h3 class="text-sm text-neutral-400 font-semibold">
+              Valor nominal total descontado
+            </h3>
+            <p class="font-semibold">
+              {{ dashboardData.totalNominalValueDiscounted }}
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Fila 2 -->
+      <div class="flex gap-3 max-sm:gap-2 flex-wrap">
+        <!-- Item 4 -->
+        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22.6667 10.6667H6.66668M22.6667 10.6667C23.0203 10.6667 23.3594 10.8071 23.6095 11.0572C23.8595 11.3072 24 11.6464 24 12V15.4667M22.6667 10.6667L17.3333 5.33334M6.66668 10.6667C6.31305 10.6667 5.97392 10.8071 5.72387 11.0572C5.47382 11.3072 5.33334 11.6464 5.33334 12V25.3333C5.33334 25.687 5.47382 26.0261 5.72387 26.2761C5.97392 26.5262 6.31305 26.6667 6.66668 26.6667H22.6667C23.0203 26.6667 23.3594 26.5262 23.6095 26.2761C23.8595 26.0261 24 25.687 24 25.3333V21.8667M6.66668 10.6667L12 5.33334L17.3333 10.6667M25.3333 16H20C19.2928 16 18.6145 16.281 18.1144 16.7811C17.6143 17.2811 17.3333 17.9594 17.3333 18.6667C17.3333 19.3739 17.6143 20.0522 18.1144 20.5523C18.6145 21.0524 19.2928 21.3333 20 21.3333H25.3333C25.687 21.3333 26.0261 21.1929 26.2762 20.9428C26.5262 20.6928 26.6667 20.3536 26.6667 20V17.3333C26.6667 16.9797 26.5262 16.6406 26.2762 16.3905C26.0261 16.1405 25.687 16 25.3333 16Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="flex flex-col justify-center">
+            <h3 class="text-sm text-neutral-400 font-semibold">
+              Carteras pendientes de pago
+            </h3>
+            <p class="font-semibold">
+              {{ dashboardData.pendingPortfoliosToPay }}
+            </p>
+          </div>
+        </div>
+  
+        <!-- Item 5 -->
+        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 20L20 12"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12.6667 13.3333C13.0349 13.3333 13.3333 13.0349 13.3333 12.6667C13.3333 12.2985 13.0349 12 12.6667 12C12.2985 12 12 12.2985 12 12.6667C12 13.0349 12.2985 13.3333 12.6667 13.3333Z"
+                fill="#B3B3B3"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M19.3334 20C19.7015 20 20 19.7015 20 19.3333C20 18.9651 19.7015 18.6667 19.3334 18.6667C18.9652 18.6667 18.6667 18.9651 18.6667 19.3333C18.6667 19.7015 18.9652 20 19.3334 20Z"
+                fill="#B3B3B3"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6.66667 9.6C6.66667 8.82203 6.97572 8.07592 7.52582 7.52582C8.07593 6.97571 8.82204 6.66666 9.6 6.66666H10.9333C11.7079 6.66622 12.4508 6.35947 13 5.81333L13.9333 4.88C14.2059 4.60586 14.53 4.38832 14.887 4.23987C15.244 4.09143 15.6267 4.01501 16.0133 4.01501C16.3999 4.01501 16.7827 4.09143 17.1397 4.23987C17.4966 4.38832 17.8207 4.60586 18.0933 4.88L19.0267 5.81333C19.5759 6.35947 20.3188 6.66622 21.0933 6.66666H22.4267C23.2046 6.66666 23.9507 6.97571 24.5009 7.52582C25.051 8.07592 25.36 8.82203 25.36 9.6V10.9333C25.3604 11.7079 25.6672 12.4508 26.2133 13L27.1467 13.9333C27.4208 14.2059 27.6383 14.53 27.7868 14.887C27.9352 15.2439 28.0117 15.6267 28.0117 16.0133C28.0117 16.3999 27.9352 16.7827 27.7868 17.1397C27.6383 17.4966 27.4208 17.8207 27.1467 18.0933L26.2133 19.0267C25.6672 19.5759 25.3604 20.3188 25.36 21.0933V22.4267C25.36 23.2046 25.051 23.9507 24.5009 24.5008C23.9507 25.051 23.2046 25.36 22.4267 25.36H21.0933C20.3188 25.3604 19.5759 25.6672 19.0267 26.2133L18.0933 27.1467C17.8207 27.4208 17.4966 27.6383 17.1397 27.7868C16.7827 27.9352 16.3999 28.0117 16.0133 28.0117C15.6267 28.0117 15.244 27.9352 14.887 27.7868C14.53 27.6383 14.2059 27.4208 13.9333 27.1467L13 26.2133C12.4508 25.6672 11.7079 25.3604 10.9333 25.36H9.6C8.82204 25.36 8.07593 25.051 7.52582 24.5008C6.97572 23.9507 6.66667 23.2046 6.66667 22.4267V21.0933C6.66623 20.3188 6.35947 19.5759 5.81334 19.0267L4.88 18.0933C4.60587 17.8207 4.38833 17.4966 4.23988 17.1397C4.09143 16.7827 4.01501 16.3999 4.01501 16.0133C4.01501 15.6267 4.09143 15.2439 4.23988 14.887C4.38833 14.53 4.60587 14.2059 4.88 13.9333L5.81334 13C6.35947 12.4508 6.66623 11.7079 6.66667 10.9333V9.6Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="flex flex-col justify-center">
+            <h3 class="text-sm text-neutral-400 font-semibold">
+              Tasa de periodo más usada
+            </h3>
+            <p class="font-semibold">
+              @if (dashboardData.mostUsedPeriodRate == 'NOMINAL') {
+                <span>Nominal</span>
+              } @else if (dashboardData.mostUsedPeriodRate == 'EFFECTIVE') {
+                <span>Efectiva</span>
+              } @else {
+                <span>?</span>
+              }
+            </p>
+          </div>
+        </div>
+        
+        <!-- Item 6 -->
+        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 16C12 17.0609 12.4214 18.0783 13.1716 18.8284C13.9217 19.5786 14.9391 20 16 20C17.0609 20 18.0783 19.5786 18.8284 18.8284C19.5786 18.0783 20 17.0609 20 16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12C14.9391 12 13.9217 12.4214 13.1716 13.1716C12.4214 13.9217 12 14.9391 12 16Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4 10.6667C4 9.95942 4.28095 9.28115 4.78105 8.78105C5.28115 8.28095 5.95942 8 6.66667 8H25.3333C26.0406 8 26.7189 8.28095 27.219 8.78105C27.719 9.28115 28 9.95942 28 10.6667V21.3333C28 22.0406 27.719 22.7189 27.219 23.219C26.7189 23.719 26.0406 24 25.3333 24H6.66667C5.95942 24 5.28115 23.719 4.78105 23.219C4.28095 22.7189 4 22.0406 4 21.3333V10.6667Z"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M24 16H24.0133"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M8 16H8.01333"
+                stroke="#B3B3B3"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="flex flex-col justify-center">
+            <h3 class="text-sm text-neutral-400 font-semibold">
+              Divisa más usada
+            </h3>
+            <p class="font-semibold">
+              @if (dashboardData.mostUsedCurrency == 'PEN') {
+                <span>PEN</span>
+              } @else if (dashboardData.mostUsedCurrency == 'USD') {
+                <span>USD</span>
+              } @else {
+                <span>?</span>
+              }
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Gráficos -->
+    <div class="w-full flex flex-wrap gap-3">
+      <!-- Item 1 -->
+      <div class="min-w-[600px] max-sm:min-w-[300px] flex-1">
+        <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
+          Cantidad de Letras vs Facturas
+        </h2>
+        <div class="rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <app-chart-apexcharts [chartOptions]="chartOptions1"></app-chart-apexcharts>
+        </div>
+      </div>
+  
+      <!-- Item 2 -->
+      <div class="min-w-[600px] max-sm:min-w-[300px] flex-1">
+        <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
+          Ventas de Letras vs Facturas
+        </h2>
+        <div class="rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+          <app-chart-apexcharts [chartOptions]="chartOptions2"></app-chart-apexcharts>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Fórmulas -->
+    <div class="w-full">
+      <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
+        Fórmulas Utilizadas
+      </h2>
+      <div class="flex gap-3 max-sm:gap-2 flex-wrap">
+        <!-- Ecuación para el TEP -->
+        <div class="flex flex-col min-w-[350px] flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+          <h3 class="text-sm text-center text-neutral-400 font-semibold">
+            Tasa Efectiva del Periodo (TEP)
+          </h3>
+          <div class="flex justify-center items-center flex-1">
+            <app-mathjax-ecuation latexCode="\[ \text{TEP} = \left( 1 + \frac{\text{TN}}{m} \right)^n - 1 \]"></app-mathjax-ecuation>
+          </div>
+        </div>
+  
+        <!-- Ecuación para la Tasa de Descuento -->
+        <div class="flex flex-col min-w-[350px] flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+          <h3 class="text-sm text-center text-neutral-400 font-semibold">
+            Tasa Descontada (%d)
+          </h3>
+          <div class="flex justify-center items-center flex-1">
+            <app-mathjax-ecuation latexCode="\[ d = \frac{\text{TEP}}{1 + \text{TEP}} \]"></app-mathjax-ecuation>
+          </div>
+        </div>
+  
+        <!-- Ecuación para el Valor Neto -->
+        <div class="flex flex-col min-w-[350px] flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+          <h3 class="text-sm text-center text-neutral-400 font-semibold">
+            Valor Recibido
+          </h3>
+          <div class="flex justify-center items-center flex-1">
+            <app-mathjax-ecuation latexCode="\[ \text{Valor Neto} = \text{Valor Nominal} \times (1 - d) \]"></app-mathjax-ecuation>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </section>
+} @else {
+  <section class="w-full h-full flex justify-center items-center">
+    <app-loader></app-loader>
+  </section>
+}
+

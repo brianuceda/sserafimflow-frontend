@@ -22,6 +22,7 @@
     "@preline/select": "^2.5.0",
     "@preline/strong-password": "^2.5.0",
     "@preline/toggle-password": "^2.5.0",
+    "@stomp/stompjs": "^7.0.0",
     "apexcharts": "^3.54.0",
     "dropzone": "^6.0.0-beta.2",
     "echarts": "^5.5.1",
@@ -33,6 +34,7 @@
     "ngx-sonner": "^2.0.2",
     "preline": "^2.5.0",
     "rxjs": "~7.8.0",
+    "sockjs-client": "^1.6.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },
@@ -45,6 +47,7 @@
     "@types/dropzone": "^5.7.8",
     "@types/jasmine": "~5.1.0",
     "@types/lodash": "^4.17.10",
+    "@types/sockjs-client": "^1.5.4",
     "autoprefixer": "^10.4.20",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",

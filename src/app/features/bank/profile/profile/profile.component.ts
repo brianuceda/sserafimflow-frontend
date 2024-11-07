@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { Bank } from '../data-access/models/bank.model';
 import { BankService } from '../data-access/services/bank.service';
 import { CommonModule } from '@angular/common';
+import { Bank } from '../../../../shared/data-access/models/bank.model';
 
 @Component({
   selector: 'app-profile',
