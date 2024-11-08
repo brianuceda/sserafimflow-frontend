@@ -62,9 +62,6 @@ export default class ProfileComponent {
     this._companyService.getCompanyProfile().subscribe({
       next: (data: Company) => {
         this.companyProfile = { ...data };
-
-        console.log('datos llegando...');
-        console.log(data);
         
         // Variable temporal para guardar lo que llega del backend
         this.tempSaveInitialCompanyProfile = {
@@ -171,9 +168,6 @@ export default class ProfileComponent {
       return;
     }
 
-    console.log('enviando datos...');
-    console.log(user);
-
     this._companyService.updateCompanyProfile(user).subscribe({
       next: (response: any) => {
         toast.success(response.message);
@@ -199,8 +193,5 @@ export default class ProfileComponent {
     });
 
     toast.info('Cambios descartados');
-
-    console.log('datos reseteados...');
-    console.log(this.form.value);
   }
 }
