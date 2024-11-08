@@ -22,7 +22,7 @@ export default class RegisterComponent {
   public imageUploaded: any;
   public rememberMe = false;
   
-  public form!: FormGroup<FormCompanyRegister>;
+  public form!: FormGroup<Partial<FormCompanyRegister>>;
 
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
@@ -32,7 +32,7 @@ export default class RegisterComponent {
     // Datepicker oscuro
     document.body.classList.add('dark-dp');
 
-    this.form = this._formBuilder.group<FormCompanyRegister>({
+    this.form = this._formBuilder.group<Partial<FormCompanyRegister>>({
       realName: this._formBuilder.control('', [
         Validators.required,
         Validators.maxLength(255)
@@ -49,7 +49,7 @@ export default class RegisterComponent {
       ]),
       password: this._formBuilder.control('', [
         Validators.required,
-        Validators.maxLength(150),
+        Validators.maxLength(50),
         isValidPassword(),
       ]),
       mainCurrency: this._formBuilder.control(CurrencyEnum.PEN, [
@@ -81,7 +81,9 @@ export default class RegisterComponent {
   
   onDateChange(date: string) {
     date = date.split('/').reverse().join('-');
-    this.form.controls['creationDate'].setValue(date);
+    if (this.form.controls['creationDate']) {
+      this.form.controls['creationDate'].setValue(date);
+    }
   }
 
   async companyRegister() {

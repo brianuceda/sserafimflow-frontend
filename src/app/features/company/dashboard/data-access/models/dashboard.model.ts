@@ -2,9 +2,9 @@ import { CurrencyEnum } from "../../../../../shared/data-access/models/enums.mod
 import { ExchangeRate } from "../../../../../shared/data-access/models/exchange-rate.mode";
 
 export interface Dashboard {
-  totalNominalValueIssued: string;
-  totalNominalValueReceived: string;
-  totalNominalValueDiscounted: string;
+  totalNominalValueIssued: number | string;
+  totalNominalValueReceived: number | string;
+  totalNominalValueDiscounted: number | string;
   pendingPortfoliosToPay: number;
   mostUsedPeriodRate?: 'NOMINAL' | 'EFFECTIVE';
   mostUsedCurrency?: CurrencyEnum;
@@ -12,6 +12,7 @@ export interface Dashboard {
   cantSoldInvoicesPerMonth: number[];
   amountSoldLettersPerMonth: number[];
   amountSoldInvoicesPerMonth: number[];
-  exchangeRate: ExchangeRate;
   mainCurrency: CurrencyEnum;
+  
+  todayExchangeRate: ExchangeRate;
 }

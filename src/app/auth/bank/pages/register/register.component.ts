@@ -49,7 +49,7 @@ export default class RegisterComponent {
       ]),
       password: this._formBuilder.control('', [
         Validators.required,
-        Validators.maxLength(150),
+        Validators.maxLength(50),
         isValidPassword(),
       ]),
       mainCurrency: this._formBuilder.control(CurrencyEnum.PEN, [

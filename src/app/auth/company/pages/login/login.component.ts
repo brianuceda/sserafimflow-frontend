@@ -30,7 +30,7 @@ export default class LoginComponent {
     ]),
     password: this._formBuilder.control('', [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(50),
       isValidPassword(),
     ]),
   });

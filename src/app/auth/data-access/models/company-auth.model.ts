@@ -14,8 +14,10 @@ export interface FormCompanyRegister {
   ruc: FormControl<number | null>;
   username: FormControl<string | null>;
   password: FormControl<string | null>;
-  mainCurrency: FormControl<CurrencyEnum | null>;
   creationDate: FormControl<string | null>;
+  accountCreationDate: FormControl<string | null>;
+  mainCurrency: FormControl<CurrencyEnum | null>;
+  previewDataCurrency: FormControl<CurrencyEnum | null>;
 }
 
 export interface FormCompanyLogin {

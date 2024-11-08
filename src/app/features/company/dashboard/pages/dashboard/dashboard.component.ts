@@ -21,8 +21,8 @@ import { Company } from '../../../../../shared/data-access/models/company.model'
   styleUrl: './dashboard.component.scss'
 })
 export default class DashboardComponent {
-  public isLoading: boolean = true;
-  public selectedCurrency: CurrencyEnum = CurrencyEnum.PEN;
+  public isLoading: true | false | null = true;
+  public previewDataCurrency: CurrencyEnum = CurrencyEnum.PEN;
   public showExchangeRateTable: boolean = false;
   public dashboardData!: Dashboard;
   // Tasa de cambio
@@ -47,55 +47,68 @@ export default class DashboardComponent {
   }
 
   changeCurrency(event: any) {
-    this.selectedCurrency = event.target.value;
+    this.previewDataCurrency = event.target.value;
     
     let company: Partial<Company> = {
-      previewDataCurrency: this.selectedCurrency
+      previewDataCurrency: this.previewDataCurrency
     };
 
     console.log(company);
 
     this._companyService.updateCompanyProfile(company).subscribe((data: any) => {
       toast.info(data.message);
-      this.callApi(this.selectedCurrency);
+      this.callApi(this.previewDataCurrency);
     });
   }
 
   callApi(targetCurrency?: CurrencyEnum) {
-    this._dashboardService.getDashboard(targetCurrency).subscribe((data: Dashboard) => {
-      this.updateData(data);
-      this.isLoading = false;
-    });
+    this._dashboardService.getDashboard(targetCurrency).subscribe({
+      next: (data) => {
+        this.updateData(data);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error(error);
+        this.isLoading = null;
+      }
+    })
   }
 
   detectChangesWebSocket() {
-    this._dashboardSocketService.getDashboardUpdates().subscribe((data: Dashboard) => {
-      this.updateData(data);
-    });
+    this._dashboardSocketService.getDashboardUpdates().subscribe({
+      next: (data: Dashboard) => {
+        this.updateData(data);
+        this.isLoading = false;
+      },
+      error: (error: any) => {
+        console.error(error);
+        this.isLoading = null;
+      }
+    })
   }
 
   updateData(data: Dashboard) {
     this.dashboardData = data;
-    this.selectedCurrency = data.mainCurrency;
+    this.previewDataCurrency = data.mainCurrency;
     this.formatChanges(data);
 
     this._cdr.detectChanges();
   }
 
   formatChanges(data: Dashboard) {
-    this.dashboardData.totalNominalValueIssued = this.formatNumber(data.totalNominalValueIssued, this.selectedCurrency);
-    this.dashboardData.totalNominalValueReceived = this.formatNumber(data.totalNominalValueReceived, this.selectedCurrency);
-    this.dashboardData.totalNominalValueDiscounted = this.formatNumber(data.totalNominalValueDiscounted, this.selectedCurrency);
+    this.dashboardData.totalNominalValueIssued = this.formatNumber(data.totalNominalValueIssued, this.previewDataCurrency);
+    this.dashboardData.totalNominalValueReceived = this.formatNumber(data.totalNominalValueReceived, this.previewDataCurrency);
+    this.dashboardData.totalNominalValueDiscounted = this.formatNumber(data.totalNominalValueDiscounted, this.previewDataCurrency);
 
-    let date: number[] = (data.exchangeRate.date as string).split('-').map(Number);
-    this.dashboardData.exchangeRate.date = new Date(date[0], (date[1] - 1), date[2]).toLocaleDateString('es-PE', {
+    let date: number[] = (data.todayExchangeRate.date as string).split('-').map(Number);
+    this.dashboardData.todayExchangeRate.date = new Date(date[0], (date[1] - 1), date[2]).toLocaleDateString('es-PE', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
 
     this.exchangeRateData = [];
-    this.dashboardData.exchangeRate.currencyRates.forEach((rate: any) => {
+    this.dashboardData.todayExchangeRate.currencyRates.forEach((rate: any) => {
       this.exchangeRateData.push({
         currencyname: rate.currencyName,
         currency: rate.currency,
@@ -108,8 +121,8 @@ export default class DashboardComponent {
     this.changeDataChart2();
   }
 
-  private formatNumber(value: string, targetCurrency: CurrencyEnum) {
-    return parseFloat(value).toLocaleString('es-PE', {
+  private formatNumber(value: string | number, targetCurrency: CurrencyEnum) {
+    return parseFloat(value.toString()).toLocaleString('es-PE', {
       style: 'currency',
       currency: targetCurrency,
       minimumFractionDigits: 1,
@@ -230,7 +243,7 @@ export default class DashboardComponent {
       tooltip: {
         y: {
           formatter: (val: any) => {
-            return this.formatNumber(val, this.selectedCurrency);
+            return this.formatNumber(val, this.previewDataCurrency);
           },
         },
       },

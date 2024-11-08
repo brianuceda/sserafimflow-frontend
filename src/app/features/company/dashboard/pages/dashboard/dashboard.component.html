@@ -1,18 +1,18 @@
-@if (isLoading !== true) {
+@if (isLoading === false) {
   <section class="w-full flex flex-wrap gap-4 max-md:flex-col">
     <!-- Selección -->
     <div class="w-full flex justify-between max-sm:justify-normal flex-wrap gap-4 max-sm:flex-col max-sm:gap-2">
 
-      <!-- Moneda Principal -->
-      <div class="w-[250px] max-sm:w-full">
+      <!-- Moneda de Previsualización de Datos -->
+      <div class="flex-1">
         <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
-          Moneda Principal
+          Moneda de Previsualización de Datos
         </h2>
 
-        <div>
+        <div class="w-[250px] max-sm:w-full">
           <select
-            id="mainCurrency"
-            [(ngModel)]="selectedCurrency"
+            id="previewDataCurrency"
+            [(ngModel)]="previewDataCurrency"
             (change)="changeCurrency($event)"
             class="relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg max-sm:rounded-none text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800"
             data-hs-select='{
@@ -31,28 +31,28 @@
               "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 dark:text-neutral-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
             }'
           >
-            <option [selected]="selectedCurrency === 'PEN'" value='PEN'
+            <option [selected]="previewDataCurrency === 'PEN'" value='PEN'
               data-hs-select-option='{
                 "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/peru-svgrepo-com.svg\" alt=\"PEN\" />"
               }'
             >
               Sol Peruano
             </option>
-            <option [selected]="selectedCurrency === 'USD'"value='USD'
+            <option [selected]="previewDataCurrency === 'USD'"value='USD'
               data-hs-select-option='{
                 "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/united-states-svgrepo-com.svg\" alt=\"USD\" />"
               }'
             >
               Dólar Americano
             </option>
-            <option [selected]="selectedCurrency === 'CAD'" value='CAD' disabled
+            <option [selected]="previewDataCurrency === 'CAD'" value='CAD' disabled
               data-hs-select-option='{
                 "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/canada-svgrepo-com.svg\" alt=\"CAD\" />"
               }'
             >
               Dólar Canadiense
             </option>
-            <option [selected]="selectedCurrency === 'EUR'" value='EUR' disabled
+            <option [selected]="previewDataCurrency === 'EUR'" value='EUR' disabled
               data-hs-select-option='{
                 "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/european-union-europe-svgrepo-com.svg\" alt=\"EUR\" />"
               }'
@@ -67,7 +67,7 @@
       <div class="mb-4 max-sm:ml-3 flex flex-col items-end max-sm:items-start">
         <h2 class="mb-[6px] font-semibold text-[18px]" for="showExchangeRateTable">
           Tasas de Cambio 
-          <span class="text-[14px] text-neutral-400"> ({{ dashboardData.exchangeRate.date }})</span>
+          <span class="text-[14px] text-neutral-400"> ({{ dashboardData.todayExchangeRate.date }})</span>
         </h2>
         <div class="relative w-fit">
           <!-- Part: Input -->
@@ -123,7 +123,7 @@
     </div>
     
     <!-- Tabla de Tasas de Cambio del dia -->
-    @if (dashboardData.exchangeRate.currencyRates.length > 0 && showExchangeRateTable) {
+    @if (dashboardData.todayExchangeRate.currencyRates.length > 0 && showExchangeRateTable) {
       <app-table
         class="block w-full"
         [style]="'light'"
@@ -140,9 +140,9 @@
       </h2>
   
       <!-- Fila 1 -->
-      <div class="flex gap-3 mb-3 max-sm:gap-2 max-sm:mb-2 flex-wrap">
+      <div class="flex max-sm:flex-col gap-3 mb-3 max-sm:gap-2 flex-wrap max-sm:mb-2">
         <!-- Item 1 -->
-        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+        <div class="flex gap-3 min-w-[350px] max-sm:min-w-full flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
           <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
             <svg
               width="32"
@@ -199,7 +199,7 @@
         </div>
   
         <!-- Item 2 -->
-        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+        <div class="flex gap-3 min-w-[350px] max-sm:min-w-full flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
           <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
             <svg
               width="32"
@@ -256,7 +256,7 @@
         </div>
         
         <!-- Item 3 -->
-        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+        <div class="flex gap-3 min-w-[350px] max-sm:min-w-full flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
           <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
             <svg
               width="32"
@@ -314,9 +314,9 @@
       </div>
       
       <!-- Fila 2 -->
-      <div class="flex gap-3 max-sm:gap-2 flex-wrap">
+      <div class="flex max-sm:flex-col gap-3 max-sm:gap-2 flex-wrap">
         <!-- Item 4 -->
-        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+        <div class="flex gap-3 min-w-[350px] max-sm:min-w-full flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
           <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
             <svg
               width="32"
@@ -345,7 +345,7 @@
         </div>
   
         <!-- Item 5 -->
-        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+        <div class="flex gap-3 min-w-[350px] max-sm:min-w-full flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
           <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
             <svg
               width="32"
@@ -403,7 +403,7 @@
         </div>
         
         <!-- Item 6 -->
-        <div class="flex gap-3 min-w-[350px] flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
+        <div class="flex gap-3 min-w-[350px] max-sm:min-w-full flex-1 h-fit rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-3">
           <div class="size-14 flex justify-center items-center rounded-lg bg-neutral-800">
             <svg
               width="32"
@@ -463,7 +463,7 @@
     <!-- Gráficos -->
     <div class="w-full flex flex-wrap gap-3">
       <!-- Item 1 -->
-      <div class="min-w-[600px] max-sm:min-w-[300px] flex-1">
+      <div class="min-w-[600px] max-sm:min-w-[300px] max-[320px]:min-w-full flex-1">
         <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
           Cantidad de Letras vs Facturas
         </h2>
@@ -473,7 +473,7 @@
       </div>
   
       <!-- Item 2 -->
-      <div class="min-w-[600px] max-sm:min-w-[300px] flex-1">
+      <div class="min-w-[600px] max-sm:min-w-[300px] max-[320px]:min-w-full flex-1">
         <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
           Ventas de Letras vs Facturas
         </h2>
@@ -490,41 +490,44 @@
       </h2>
       <div class="flex gap-3 max-sm:gap-2 flex-wrap">
         <!-- Ecuación para el TEP -->
-        <div class="flex flex-col min-w-[350px] flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+        <div class="flex flex-col min-w-[350px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
           <h3 class="text-sm text-center text-neutral-400 font-semibold">
             Tasa Efectiva del Periodo (TEP)
           </h3>
           <div class="flex justify-center items-center flex-1">
-            <app-mathjax-ecuation latexCode="\[ \text{TEP} = \left( 1 + \frac{\text{TN}}{m} \right)^n - 1 \]"></app-mathjax-ecuation>
+            <app-mathjax-ecuation class="w-full" latexCode="\[ \text{TEP} = \left( 1 + \frac{\text{TN}}{m} \right)^n - 1 \]"></app-mathjax-ecuation>
           </div>
         </div>
   
         <!-- Ecuación para la Tasa de Descuento -->
-        <div class="flex flex-col min-w-[350px] flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+        <div class="flex flex-col min-w-[350px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
           <h3 class="text-sm text-center text-neutral-400 font-semibold">
             Tasa Descontada (%d)
           </h3>
           <div class="flex justify-center items-center flex-1">
-            <app-mathjax-ecuation latexCode="\[ d = \frac{\text{TEP}}{1 + \text{TEP}} \]"></app-mathjax-ecuation>
+            <app-mathjax-ecuation class="w-full" latexCode="\[ d = \frac{\text{TEP}}{1 + \text{TEP}} \]"></app-mathjax-ecuation>
           </div>
         </div>
   
         <!-- Ecuación para el Valor Neto -->
-        <div class="flex flex-col min-w-[350px] flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+        <div class="flex flex-col min-w-[350px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
           <h3 class="text-sm text-center text-neutral-400 font-semibold">
             Valor Recibido
           </h3>
           <div class="flex justify-center items-center flex-1">
-            <app-mathjax-ecuation latexCode="\[ \text{Valor Neto} = \text{Valor Nominal} \times (1 - d) \]"></app-mathjax-ecuation>
+            <app-mathjax-ecuation class="w-full" latexCode="\[ \text{Valor Neto} = \text{Valor Nominal} \times (1 - d) \]"></app-mathjax-ecuation>
           </div>
         </div>
       </div>
     </div>
   
   </section>
-} @else {
+} @else if (isLoading === true) {
   <section class="w-full h-full flex justify-center items-center">
     <app-loader></app-loader>
   </section>
+} @else if (isLoading === null) {
+  <section class="w-full h-full flex justify-center items-center">
+    <p class="text-red-200 dark:text-red-400">¡Ocurrió un error interno!</p>
+  </section>
 }
-
