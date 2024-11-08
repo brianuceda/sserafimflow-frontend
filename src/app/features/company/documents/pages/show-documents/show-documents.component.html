@@ -1,1 +1,86 @@
-<p>show-documents works!</p>
+<section class="w-full h-full">
+  <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
+    Tipo de Documento
+  </h2>
+  
+  <!-- Filtro de búsqueda -->
+  <div class="w-[300px] max-sm:w-full">
+    <select
+      id="previewDataCurrency"
+      [(ngModel)]="selectedState"
+      (change)="changeCurrency($event)"
+      class="relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg max-sm:rounded-none text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800"
+      data-hs-select='{
+        "placeholder": "<span class=\"inline-flex items-center text-neutral-500 \"><svg class=\"shrink-0 size-3.5 me-2\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3\"/></svg> Filtro</span>",
+
+        "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span class=\"me-2\" data-icon></span><span class=\"text-gray-800 dark:text-neutral-200 \" data-title></span></button>",
+
+        "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg max-sm:rounded-none text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800",
+
+        "dropdownClasses": "mt-2 max-h-72 p-1 space-y-0.5 z-20 w-full bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-750 dark:border-neutral-800",
+
+        "optionClasses": "py-2 px-3 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:text-neutral-200 dark:focus:bg-neutral-800",
+
+        "optionTemplate": "<div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div><div class=\"hs-selected:font-semibold text-sm text-gray-800 dark:text-neutral-200 \" data-title></div></div><div class=\"ms-auto\"><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-4 text-purple-400\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z\"/></svg></span></div></div>",
+
+        "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 dark:text-neutral-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+      }'
+    >
+      <option
+        [selected]="selectedState === 'ALL'"
+        value='ALL'
+        data-hs-select-option='{
+          "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/more-svgrepo-com.svg\" alt=\"PEN\" />"
+        }'
+      >
+        Todos
+      </option>
+      <option
+        [selected]="selectedState === 'NOT_SELLED'"
+        value='NOT_SELLED'
+        data-hs-select-option='{
+          "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/water-fee-svgrepo-com.svg\" alt=\"USD\" />"
+        }'
+      >
+        No Vendidos
+      </option>
+      <option
+        [selected]="selectedState === 'PENDING'"
+        value='PENDING'
+        data-hs-select-option='{
+          "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/gas-costs-svgrepo-com.svg\" alt=\"CAD\" />"
+        }'
+      >
+        Pendientes de Pago
+      </option>
+      <option
+        [selected]="selectedState === 'PAID'"
+        value='PAID'
+        data-hs-select-option='{
+          "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/fund-collection-svgrepo-com.svg\" alt=\"EUR\" />"
+        }'
+      >
+        Pagados
+      </option>
+    </select>
+  </div>
+  
+  @if (isLoading === false) {
+
+    <!-- Data -->
+
+  } @else if (isLoading === true) {
+
+    <section class="w-full h-full flex justify-center items-center">
+      <app-loader></app-loader>
+    </section>
+
+  } @else if (isLoading === null) {
+
+    <section class="w-full h-full flex justify-center items-center">
+      <p class="text-red-200 dark:text-red-400">¡Ocurrió un error interno!</p>
+    </section>
+
+  }
+</section>
+

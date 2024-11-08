@@ -1,7 +1,6 @@
 import { MathjaxEcuationComponent } from '../../../../../shared/components/mathjax-ecuation/mathjax-ecuation.component';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { ChartOptions } from '../../../../../shared/data-access/models/chart.model';
-import { ChartApexchartsComponent } from '../../../../../shared/components/chart-apexcharts/chart-apexcharts.component';
+import { ChartApexchartsComponent, ChartOptions } from '../../../../../shared/components/chart-apexcharts/chart-apexcharts.component';
 import { DashboardService } from '../../data-access/services/dashboard.service';
 import { Dashboard } from '../../data-access/models/dashboard.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
@@ -12,11 +11,12 @@ import { LoaderComponent } from '../../../../../shared/components/loader/loader.
 import { toast } from 'ngx-sonner';
 import { CurrencyEnum } from '../../../../../shared/data-access/models/enums.model';
 import { Company } from '../../../../../shared/data-access/models/company.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, MathjaxEcuationComponent, ChartApexchartsComponent, TableComponent, LoaderComponent],
+  imports: [FormsModule, CommonModule, MathjaxEcuationComponent, ChartApexchartsComponent, TableComponent, LoaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -53,10 +53,8 @@ export default class DashboardComponent {
       previewDataCurrency: this.previewDataCurrency
     };
 
-    console.log(company);
-
     this._companyService.updateCompanyProfile(company).subscribe((data: any) => {
-      toast.info(data.message);
+      toast.info("Moneda de visualización actualizada");
       this.callApi(this.previewDataCurrency);
     });
   }
