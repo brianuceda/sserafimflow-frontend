@@ -12,9 +12,4 @@ export default [
     loadComponent: () => import('./pages/create-modify-document/create-modify-document.component'),
     canActivate: [CompanyGuard],
   },
-  {
-    path: 'eliminar',
-    loadComponent: () => import('./pages/delete-document/delete-document.component'),
-    canActivate: [CompanyGuard],
-  },
 ] as Routes;

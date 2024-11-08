@@ -2812,7 +2812,8 @@
     </div>
   </div>
 
-  <!-- ? Columna 6 -->
+  @if (false) {
+    <!-- ? Columna 6 -->
   <div
     class="min-w-[314px] w-full rounded-lg max-sm:rounded-none h-fit flex-auto p-3 flex flex-col gap-3 dark:bg-neutral-800"
   >
@@ -2840,6 +2841,19 @@
       (emitActions)="emitActionsMethod($event)"
       (editRow)="emitEditRow($event)"
       (deleteRow)="emitDeleteRow($event)"
+    ></app-table>
+  </div>
+  }
+  
+  <div
+    class="min-w-[314px] w-full rounded-lg max-sm:rounded-none h-fit flex-auto p-3 flex flex-col gap-3"
+  >
+    <app-table
+      [style]="'light'"
+      [titleText]="'bg-neutral-800'"
+      [headersDisplayed]="headersDisplayed"
+      [headersDisplayedNames]="headersDisplayedNames"
+      [dataTable]="dataTable"
     ></app-table>
   </div>
 </section>

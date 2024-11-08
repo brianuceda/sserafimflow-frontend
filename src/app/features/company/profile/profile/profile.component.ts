@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CompanyService } from '../data-access/services/company.service';
 import { CommonModule } from '@angular/common';
 import { Company } from '../../../../shared/data-access/models/company.model';
@@ -27,6 +27,8 @@ export default class ProfileComponent {
 
   private _formBuilder = inject(FormBuilder);
   private _companyService = inject(CompanyService);
+  // change detector
+  private _chdr = inject(ChangeDetectorRef);
 
   constructor() {
     this.form = this._formBuilder.group<Partial<FormCompanyRegister>>({
@@ -169,9 +171,15 @@ export default class ProfileComponent {
     }
 
     this._companyService.updateCompanyProfile(user).subscribe({
-      next: (response: any) => {
-        toast.success(response.message);
+      next: (data: Company) => {
+        toast.success('Perfil actualizado correctamente');
+
         this.tempSaveInitialCompanyProfile = { ...user };
+
+        this.companyProfile = { ...data };
+        this.companyProfile.balance = this.formatNumber(data.balance, data.mainCurrency);
+
+        this._chdr.detectChanges();
       },
       error: (error: any) => {
         console.log(error);

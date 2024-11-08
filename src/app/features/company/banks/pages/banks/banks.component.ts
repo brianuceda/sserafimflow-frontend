@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { LoaderComponent } from '../../../shared/components/loader/loader.component';
-import { Bank } from '../../../shared/data-access/models/bank.model';
-import { BanksService } from './data-access/services/banks.service';
+import { LoaderComponent } from '../../../../../shared/components/loader/loader.component';
+import { Bank } from '../../../../../shared/data-access/models/bank.model';
+import { BanksService } from '../../data-access/services/banks.service';
 
 @Component({
   selector: 'app-banks',

@@ -33,7 +33,6 @@ export const sidebarDataCompany: SidebarItem[] = [
     childrens: [
       { title: 'Mostrar', route: 'mostrar' },
       { title: 'Crear y Modificar', route: 'crear' },
-      { title: 'Eliminar', route: 'eliminar' },
     ],
   },
   {
