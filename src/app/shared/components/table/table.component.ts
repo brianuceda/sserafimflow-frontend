@@ -8,6 +8,8 @@ export interface ActionsCol {
   delete: boolean;
 }
 
+export type ItemsPerPage = 5 | 10 | 15 | 30 | 50 | 100;
+
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -20,8 +22,7 @@ export class TableComponent {
   // ! IMPORTANTE: LOS IDS DEBEN SER ÚNICAMENTE NÚMEROS, NO SE PERMITEN STRINGS
 
   // Filas por página
-  public itemsPerPage: number[] = [5, 10, 15, 30, 50, 100]; // ? OPCIONAL
-  public currentItemsPerPageValue: number = this.itemsPerPage[0]; // NT
+  public itemsPerPage: ItemsPerPage[] = [5, 10, 15, 30, 50, 100]; // ? OPCIONAL
   public isDivOpen: boolean = false; // NT
   // Paginación
   public pagesValues: number[] = [1]; // NT
@@ -34,6 +35,7 @@ export class TableComponent {
   // Tabla
   @Input() style: 'dark' | 'default' | 'light' = 'default'; // ? OPCIONAL
   @Input() titleText?: string; // ? OPCIONAL
+  @Input() currentItemsPerPageValue: ItemsPerPage = 5; // ? OPCIONAL
   @Input() headersDisplayed!: string[]; // * OBLIGATORIO
   @Input() headersDisplayedNames!: string[]; // * OBLIGATORIO
   @Input() dataTable!: any[]; // * OBLIGATORIO
@@ -229,7 +231,7 @@ export class TableComponent {
   }
 
   // Actualiza la cantidad de elementos mostrados en la tabla
-  changeTableSize(newSize: number) {
+  changeTableSize(newSize: ItemsPerPage) {
     this.currentItemsPerPageValue = newSize;
     this.currentPageValue = 1; // Restablece a la primera página al cambiar el tamaño
 

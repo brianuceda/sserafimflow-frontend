@@ -1,10 +1,11 @@
 <section class="w-full h-full">
+  <!-- Título -->
   <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
     Tipo de Documento
   </h2>
   
   <!-- Filtro de búsqueda -->
-  <div class="w-[300px] max-sm:w-full">
+  <div class="relative max-w-[448px] max-sm:max-w-full mb-4">
     <select
       id="previewDataCurrency"
       [(ngModel)]="selectedState"
@@ -68,16 +69,28 @@
   @if (isLoading === false) {
 
     <!-- Data -->
+    <div>
+      <app-table
+        class="min-w-[314px] w-full"
+        [style]="'light'"
+        [haveSelectionCol]="true"
+        [haveActionsCol]="{edit: true, delete: true}"
+        [headersDisplayed]="headersDisplayed"
+        [headersDisplayedNames]="headersDisplayedNames"
+        [dataTable]="dataTable"
+        [selectedColumns]="selectedColumns"
+      ></app-table>
+    </div>
 
   } @else if (isLoading === true) {
 
-    <section class="w-full h-full flex justify-center items-center">
+    <section>
       <app-loader></app-loader>
     </section>
 
   } @else if (isLoading === null) {
 
-    <section class="w-full h-full flex justify-center items-center">
+    <section>
       <p class="text-red-200 dark:text-red-400">¡Ocurrió un error interno!</p>
     </section>
 
