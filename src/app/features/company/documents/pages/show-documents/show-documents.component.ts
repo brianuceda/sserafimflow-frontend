@@ -33,8 +33,6 @@ export default class ShowDocumentsComponent {
 
   private formatNumber(value: string | number, targetCurrency: CurrencyEnum) {
     return parseFloat(value.toString()).toLocaleString('es-PE', {
-      style: 'currency',
-      currency: targetCurrency,
       minimumFractionDigits: 1,
       maximumFractionDigits: 3,
     });
@@ -137,7 +135,7 @@ export default class ShowDocumentsComponent {
     let states: { [key: string]: string } = {
       'NOT_SELLED': 'No Vendido',
       'PENDING': 'Pendiente',
-      'PAID': 'Pagado',
+      'PAID': 'Cobrado',
     };
 
     this.dataTable = this.documents.map((document) => {

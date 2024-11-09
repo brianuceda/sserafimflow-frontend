@@ -278,10 +278,10 @@
                    <td class="p-4 whitespace-nowrap text-[13px] max-sm:text-xs font-medium text-neutral-800 dark:text-neutral-200">
                     <span
                       [ngClass]="{
-                        'py-[2px] px-4 rounded-xl !text-[12px] !font-semibold !text-neutral-800 cursor-pointer hover:scale-50' : item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'Pendiente' || item[header.toLowerCase()] === 'Pagado',
+                        'py-[2px] px-4 rounded-xl !text-[12px] !font-semibold !text-neutral-800 cursor-pointer hover:scale-50' : item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'Pendiente' || item[header.toLowerCase()] === 'Cobrado',
                         '!bg-blue-300' : item[header.toLowerCase()] === 'No Vendido',
                         '!bg-yellow-100' : item[header.toLowerCase()] === 'Pendiente',
-                        '!bg-purple-300' : item[header.toLowerCase()] === 'Pagado',
+                        '!bg-purple-300' : item[header.toLowerCase()] === 'Cobrado',
                       }"
                     >
                       {{ item[header.toLowerCase()] }}
