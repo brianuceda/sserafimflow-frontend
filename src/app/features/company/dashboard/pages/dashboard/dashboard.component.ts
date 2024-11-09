@@ -35,7 +35,7 @@ export default class DashboardComponent {
 
   private _dashboardService = inject(DashboardService);
   private _companyService = inject(CompanyService);
-  private _dashboardSocketService = inject(DashboardSocketService);
+  // private _dashboardSocketService = inject(DashboardSocketService);
   private _cdr = inject(ChangeDetectorRef)
 
   ngOnInit() {
@@ -73,16 +73,16 @@ export default class DashboardComponent {
   }
 
   detectChangesWebSocket() {
-    this._dashboardSocketService.getDashboardUpdates().subscribe({
-      next: (data: Dashboard) => {
-        this.updateData(data);
-        this.isLoading = false;
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.isLoading = null;
-      }
-    })
+    // this._dashboardSocketService.getDashboardUpdates().subscribe({
+    //   next: (data: Dashboard) => {
+    //     this.updateData(data);
+    //     this.isLoading = false;
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.isLoading = null;
+    //   }
+    // })
   }
 
   updateData(data: Dashboard) {
