@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { ChartApexchartsComponent } from '../../../../components/chart-apexcharts/chart-apexcharts.component';
-import { ChartOptions } from '../../../../data-access/models/chart.model';
+import { ChartApexchartsComponent, ChartOptions } from '../../../../components/chart-apexcharts/chart-apexcharts.component';
 
 @Component({
   selector: 'app-apexcharts',

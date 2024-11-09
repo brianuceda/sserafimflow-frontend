@@ -178,6 +178,8 @@ export default class ProfileComponent {
 
         this.companyProfile = { ...data };
         this.companyProfile.balance = this.formatNumber(data.balance, data.mainCurrency);
+        this.companyProfile.creationDate = data.creationDate.split('-').reverse().join('/')
+        this.companyProfile.accountCreationDate = this.formatTimestamp(data.accountCreationDate);
 
         this._chdr.detectChanges();
       },

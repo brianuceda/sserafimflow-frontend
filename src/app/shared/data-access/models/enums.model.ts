@@ -9,3 +9,15 @@ export enum CurrencyEnum {
   CAD = 'CAD',
   EUR = 'EUR',
 }
+
+export enum StateEnum {
+  ALL = 'ALL',
+  NOT_SELLED = 'NOT_SELLED',
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+}
+
+export enum DocumentTypeEnum {
+  INVOICE = 'INVOICE',
+  LETTER = 'LETTER',
+}

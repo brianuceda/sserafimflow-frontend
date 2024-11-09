@@ -1,19 +1,17 @@
 <!-- Table (si se quiere cambiar el tamaño, cambiar el 'max-w-[...]') -->
 @if (headersDisplayed && headersDisplayedNames && dataTable) {
-<div class="w-full sm:overflow-x-visible">
-  <div class="min-w-full inline-block align-middle w-[inherit]">
-    <!-- titleText -->
-    @if (titleText) {
-    <h2 class="font-medium text-xl mb-4 dark:text-neutral-200">
-      {{ titleText }}
-    </h2>
-    }
+  <div class="w-full sm:overflow-x-visible">
+    <div class="min-w-full inline-block align-middle w-[inherit]">
+      <!-- titleText -->
+      @if (titleText) {
+      <h2 class="font-medium text-xl mb-4 dark:text-neutral-200">
+        {{ titleText }}
+      </h2>
+      }
 
-    <!-- Opciones -->
-    @if (dataTable.length > 5) {
-      <div
-        class="mb-4 w-full flex justify-between items-center flex-wrap gap-1 max-sm:gap-2 max-sm:flex-col"
-      >
+      <!-- Opciones -->
+      <div class="mb-4 w-full flex justify-between items-center flex-wrap gap-1 max-sm:gap-2 max-sm:flex-col">
+
         <!-- Búsqueda -->
         <div
           class="relative max-w-md max-sm:max-w-full w-full flex gap-1 max-sm:gap-2 flex-wrap"
@@ -50,7 +48,9 @@
                 'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
                   style === 'dark',
                 'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                  style === 'default'
+                  style === 'default',
+                'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                  style === 'light'
               }"
               placeholder="Buscar..."
               (input)="onSearch($event)"
@@ -68,7 +68,9 @@
                 'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
                   style === 'dark',
                 'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                  style === 'default'
+                  style === 'default',
+                'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                  style === 'light'
               }"
             >
               <option value="" class="hidden">Elije una opción</option>
@@ -81,10 +83,10 @@
           </div>
         </div>
 
+
         <!-- Configuración Personalizada -->
-        <div
-          class="w-auto flex flex-wrap items-center gap-1 max-sm:gap-2 min-h-10 max-sm:w-full"
-        >
+        <div class="w-auto flex flex-wrap items-center gap-1 max-sm:gap-2 min-h-10 max-sm:w-full">
+          <!-- Emitir acciones -->
           <button
             *ngIf="haveSelectionCol"
             (click)="emitActionsMethod()"
@@ -94,7 +96,9 @@
               'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
                 style === 'dark',
               'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                style === 'default'
+                style === 'default',
+              'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                style === 'light'
             }"
           >
             <svg
@@ -116,6 +120,8 @@
               <path d="M6.337 17.657a8 8 0 0 1 0 -11.314"></path>
             </svg>
           </button>
+
+          <!-- Reiniciar tabla -->
           <button
             (click)="resetTableConfig()"
             title="Restablecer configuraciones"
@@ -124,7 +130,9 @@
               'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
                 style === 'dark',
               'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                style === 'default'
+                style === 'default',
+              'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                style === 'light'
             }"
           >
             <svg
@@ -144,409 +152,457 @@
             </svg>
           </button>
         </div>
+
       </div>
-    }
 
-    <!-- Tabla -->
-    <div
-      class="scrollbar-container !overflow-y-hidden border rounded-lg max-sm:rounded-none"
-      [ngClass]="{
-        'dark:border-neutral-700': style === 'dark',
-        'dark:border-neutral-600': style === 'default',
-        'dark:border-neutral-800' : style === 'light'
-      }"
-    >
-      <table
-        #tableElement
-        class="min-w-full table-auto divide-y divide-gray-200 dark:divide-neutral-700">
-        <!-- Cabecera -->
-        <thead
-          class="bg-gray-50 transition-all duration-300 ease-in-out"
-          [ngClass]="{
-            'dark:bg-neutral-950': style === 'dark',
-            'dark:bg-neutral-850': style === 'default',
-            'dark:bg-neutral-800' : style === 'light'
-          }"
-        >
-          <tr class="divide-x divide-gray-200 dark:divide-neutral-700">
-            <!-- Selector -->
-            @if (haveSelectionCol) {
-            <th scope="col" class="w-4 px-4 py-3 max-sm:px-3">
-              <div class="flex items-center h-4">
-                <input
-                  id="column-checkbox-table"
-                  type="checkbox"
-                  class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:focus:ring-0 dark:focus:ring-offset-0"
-                  [ngClass]="{
-                    'dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-purple-500 dark:checked:border-purple-500':
-                      style === 'dark',
-                    'dark:bg-neutral-700 dark:border-neutral-500 dark:checked:bg-purple-400 dark:checked:border-purple-400':
-                      style === 'default'
-                  }"
-                  (click)="toggleAllCheckboxesVisiblesInHTML($event)"
-                />
-                <label class="sr-only">Checkbox</label>
-              </div>
-            </th>
-            }
-
-            <!-- Elementos -->
-            @for (item of headersDisplayedNames; track item) {
-            <th
-              scope="col"
-              class="px-4 py-3 text-[13px] max-sm:text-sm text-start font-medium text-gray-500 uppercase dark:text-neutral-400"
-            >
-              {{ item }}
-            </th>
-            }
-
-            <!-- Acciones -->
-            @if (haveActionsCol.edit === true || haveActionsCol.delete === true)
-            {
-            <th
-              scope="col"
-              class="px-4 py-3 text-[13px] max-sm:text-sm font-medium text-gray-500 uppercase dark:text-neutral-400 text-center"
-            >
-              Acciones
-            </th>
-            }
-          </tr>
-        </thead>
-
-        <!-- Contenido de la Tabla -->
-        <tbody
-          class="divide-y divide-gray-200 scrollbar-container dark:divide-neutral-700">
-          <!-- Si hay elementos o coincidencias -->
-          @for (item of showedData; track $index) {
-          <tr
-            [ngClass]="{
-              'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                style === 'dark',
-              'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                style === 'default',
-              'dark:bg-neutral-750 dark:hover:bg-neutral-800 dark:border-neutral-800':
-                style === 'light',
-              'cursor-pointer': isCtrlPressed && haveSelectionCol
-            }"
-            (click)="toggleCheckboxOfRow($event, item)"
-          >
-            <!-- Selector -->
-            @if (haveSelectionCol) {
-            <td class="w-4 p-4 max-sm:px-3">
-              <div class="flex items-center h-4">
-                <input
-                  type="checkbox"
-                  class="row-checkbox-table border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:focus:ring-0 dark:focus:ring-offset-0"
-                  [ngClass]="{
-                    'dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-purple-500 dark:checked:border-purple-500':
-                      style === 'dark',
-                    'dark:bg-neutral-700 dark:border-neutral-500 dark:checked:bg-purple-400 dark:checked:border-purple-400':
-                      style === 'default'
-                  }"
-                  [value]="item.id"
-                  (change)="toggleCheckboxByInput($event, item)"
-                />
-                <label class="sr-only">Checkbox</label>
-              </div>
-            </td>
-            }
-
-            <!-- Renderiza dinámicamente las columnas basado en headersDisplayed -->
-            @for (header of headersDisplayed; track $index) {
-            <td
-              class="p-4 whitespace-nowrap text-[13px] max-sm:text-xs font-medium text-gray-800 dark:text-neutral-200"
-            >
-              {{ item[header.toLowerCase()] }}
-            </td>
-            }
-
-            <!-- Acciones -->
-            @if (haveActionsCol.edit === true || haveActionsCol.delete === true)
-            {
-            <td
-              class="p-4 whitespace-nowrap text-sm font-medium flex items-center justify-center gap-3"
-            >
-              @if (haveActionsCol.edit === true) {
-              <button
-                (click)="emitEditRow(showedData[$index])"
-                type="button"
-                class="inline-flex items-center gap-x-2 text-[13px] max-sm:text-xs font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-purple-400 dark:hover:text-purple-500 dark:focus:text-purple-400"
-              >
-                <svg
-                  class="w-6 h-auto"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
-                  />
-                </svg>
-              </button>
-              } @if (haveActionsCol.delete === true) {
-              <button
-                (click)="emitDeleteRow(showedData[$index])"
-                type="button"
-                class="inline-flex items-center gap-x-2 text-[13px] max-sm:text-xs font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-red-400 dark:hover:text-red-500 dark:focus:text-red-400"
-              >
-                <svg
-                  class="w-5 h-auto"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 482.428 482.429"
-                >
-                  <g>
-                    <g>
-                      <path
-                        d="M381.163,57.799h-75.094C302.323,25.316,274.686,0,241.214,0c-33.471,0-61.104,25.315-64.85,57.799h-75.098
-                      c-30.39,0-55.111,24.728-55.111,55.117v2.828c0,23.223,14.46,43.1,34.83,51.199v260.369c0,30.39,24.724,55.117,55.112,55.117
-                      h210.236c30.389,0,55.111-24.729,55.111-55.117V166.944c20.369-8.1,34.83-27.977,34.83-51.199v-2.828
-                      C436.274,82.527,411.551,57.799,381.163,57.799z M241.214,26.139c19.037,0,34.927,13.645,38.443,31.66h-76.879
-                      C206.293,39.783,222.184,26.139,241.214,26.139z M375.305,427.312c0,15.978-13,28.979-28.973,28.979H136.096
-                      c-15.973,0-28.973-13.002-28.973-28.979V170.861h268.182V427.312z M410.135,115.744c0,15.978-13,28.979-28.973,28.979H101.266
-                      c-15.973,0-28.973-13.001-28.973-28.979v-2.828c0-15.978,13-28.979,28.973-28.979h279.897c15.973,0,28.973,13.001,28.973,28.979
-                      V115.744z"
-                      />
-                      <path
-                        d="M171.144,422.863c7.218,0,13.069-5.853,13.069-13.068V262.641c0-7.216-5.852-13.07-13.069-13.07
-                      c-7.217,0-13.069,5.854-13.069,13.07v147.154C158.074,417.012,163.926,422.863,171.144,422.863z"
-                      />
-                      <path
-                        d="M241.214,422.863c7.218,0,13.07-5.853,13.07-13.068V262.641c0-7.216-5.854-13.07-13.07-13.07
-                      c-7.217,0-13.069,5.854-13.069,13.07v147.154C228.145,417.012,233.996,422.863,241.214,422.863z"
-                      />
-                      <path
-                        d="M311.284,422.863c7.217,0,13.068-5.853,13.068-13.068V262.641c0-7.216-5.852-13.07-13.068-13.07
-                      c-7.219,0-13.07,5.854-13.07,13.07v147.154C298.213,417.012,304.067,422.863,311.284,422.863z"
-                      />
-                    </g>
-                  </g>
-                </svg>
-              </button>
-              }
-            </td>
-            }
-          </tr>
-          }
-
-          <!-- Si no hay elementos o coincidencias de búsqueda -->
-          <tr *ngIf="showedData.length === 0">
-            <td
-              [attr.colspan]="headersDisplayed.length + 2"
-              class="p-4 text-center text-sm max-sm:text-[13px] dark:text-neutral-200"
-              [ngClass]="{
-                'dark:bg-neutral-900 dark:border-neutral-700': style === 'dark',
-                'dark:bg-neutral-800 dark:border-neutral-600':
-                  style === 'default'
-              }"
-            >
-              No se encontraron resultados
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Páginas -->
-    @if (dataTable.length > 5) {
+      <!-- Tabla -->
       <div
-        class="w-full mt-3 flex justify-between flex-wrap max-sm:flex-col gap-3"
+        class="scrollbar-container !overflow-y-hidden border rounded-lg max-sm:rounded-none"
+        [ngClass]="{
+          'dark:border-neutral-700': style === 'dark',
+          'dark:border-neutral-600': style === 'default',
+          'dark:border-neutral-800' : style === 'light'
+        }"
       >
-        <!-- Filas por página -->
-        <div
-          class="max-md:w-full max-md:justify-center flex items-center flex-wrap gap-2 text-sm max-sm:text-[14px] dark:text-neutral-200"
-        >
-          <p>Mostrando</p>
+        <table
+          #tableElement
+          class="min-w-full table-auto divide-y divide-gray-200 dark:divide-neutral-700">
 
-          <div class="relative" #itemsPerPageMenuElement>
-            <!-- Botón para abrir el div hacia arriba -->
-            <button
-              (click)="this.isDivOpen = !this.isDivOpen"
-              class="size-10 flex justify-center items-center rounded-lg border transition-colors duration-300"
-              [ngClass]="{
-                'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                  style === 'dark',
-                'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                  style === 'default'
-              }"
-            >
-              <p class="text-center">
-                {{ currentItemsPerPageValue }}
-              </p>
-            </button>
+          <!-- Cabecera -->
+          <thead
+            class="bg-gray-50 transition-all duration-300 ease-in-out"
+            [ngClass]="{
+              'dark:bg-neutral-950': style === 'dark',
+              'dark:bg-neutral-850': style === 'default',
+              'dark:bg-neutral-800' : style === 'light'
+            }"
+          >
 
-            <!-- Div que se expande hacia arriba -->
-            <div
-              class="content-container w-max absolute bottom-full left-0 mb-2 rounded-lg bg-white border border-gray-200 transition-all duration-300 overflow-hidden"
-              [ngClass]="{
-                show: isDivOpen,
-                hide: !isDivOpen,
-                'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                  style === 'dark',
-                'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                  style === 'default'
-              }"
-            >
-              <div class="flex flex-col-reverse">
-                @for (item of itemsPerPage; track $index) {
-                <button
-                  class="size-10 disabled:opacity-50 disabled:cursor-default disabled:pointer-events-none"
-                  [ngClass]="{
-                    'rounded-b-lg': $index === 0,
-                    'rounded-t-lg': $index === itemsPerPage.length - 1,
-                    'text-purple-400': item === currentItemsPerPageValue,
-                    'border-t': $index < itemsPerPage.length - 1,
-                    'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                      style === 'dark',
-                    'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                      style === 'default'
-                  }"
-                  (click)="changeTableSize(item)"
+            <!-- Cabezas xd -->
+            <tr class="divide-x divide-gray-200 dark:divide-neutral-700">
+
+              <!-- Selector -->
+              @if (haveSelectionCol) {
+                <th scope="col" class="w-4 px-4 py-3 max-sm:px-3">
+                  <div class="flex items-center h-4">
+                    <input
+                      id="column-checkbox-table"
+                      type="checkbox"
+                      class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:focus:ring-0 dark:focus:ring-offset-0 cursor-pointer"
+                      [ngClass]="{
+                        'dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-purple-500 dark:checked:border-purple-500':
+                          style === 'dark',
+                        'dark:bg-neutral-700 dark:border-neutral-500 dark:checked:bg-purple-400 dark:checked:border-purple-400':
+                          style === 'default',
+                        'dark:bg-neutral-700 dark:border-neutral-600 dark:checked:bg-purple-400 dark:checked:border-purple-400':
+                          style === 'light'
+                      }"
+                      (click)="toggleAllCheckboxesVisiblesInHTML($event)"
+                    />
+                    <label class="sr-only">Checkbox</label>
+                  </div>
+                </th>
+              }
+
+              <!-- Elementos -->
+              @for (item of headersDisplayedNames; track item) {
+                <th
+                  scope="col"
+                  class="px-4 py-3 text-[13px] max-sm:text-sm text-start font-medium text-gray-500 uppercase dark:text-neutral-400"
                 >
                   {{ item }}
-                </button>
+                </th>
+              }
+
+              <!-- Acciones -->
+              @if (haveActionsCol.edit === true || haveActionsCol.delete === true) {
+                <th scope="col" class="px-4 py-3 text-[13px] max-sm:text-sm font-medium text-gray-500 uppercase dark:text-neutral-400 text-center">
+                  Acciones
+                </th>
+              }
+              
+            </tr>
+
+          </thead>
+
+          <!-- Contenido de la Tabla -->
+          <tbody class="divide-y divide-gray-200 scrollbar-container dark:divide-neutral-700">
+
+            <!-- Si hay elementos -->
+            @for (item of showedData; track $index) {
+              <tr
+                [ngClass]="{
+                  'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
+                    style === 'dark',
+                  'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
+                    style === 'default',
+                  'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                    style === 'light',
+                  'cursor-pointer': isCtrlPressed && haveSelectionCol
+                }"
+                (click)="toggleCheckboxOfRow($event, item)"
+              >
+
+                <!-- Selector -->
+                @if (haveSelectionCol) {
+                  <td class="w-4 p-4 max-sm:px-3">
+                    <div class="flex items-center h-4">
+                      <input
+                        type="checkbox"
+                        class="row-checkbox-table border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:focus:ring-0 dark:focus:ring-offset-0 cursor-pointer"
+                        [ngClass]="{
+                          'dark:bg-neutral-800 dark:border-neutral-600 dark:checked:bg-purple-500 dark:checked:border-purple-500':
+                            style === 'dark',
+                          'dark:bg-neutral-700 dark:border-neutral-500 dark:checked:bg-purple-400 dark:checked:border-purple-400':
+                            style === 'default',
+                          'dark:bg-neutral-700 dark:border-neutral-600 dark:checked:bg-purple-400 dark:checked:border-purple-400':
+                            style === 'light'
+                        }"
+                        [value]="item.id"
+                        (change)="toggleCheckboxByInput($event, item)"
+                      />
+                      <label class="sr-only">Checkbox</label>
+                    </div>
+                  </td>
                 }
+
+                <!-- Renderiza dinámicamente las columnas basado en headersDisplayed -->
+                @for (header of headersDisplayed; track $index) {
+
+                  <!-- Simple -->
+                  <!-- <td class="p-4 whitespace-nowrap text-[13px] max-sm:text-xs font-medium text-gray-800 dark:text-neutral-200">
+                    {{ item[header.toLowerCase()] }}
+                  </td> -->
+
+                  <!-- Para el TF -->
+                   <td class="p-4 whitespace-nowrap text-[13px] max-sm:text-xs font-medium text-neutral-800 dark:text-neutral-200">
+                    <span
+                      [ngClass]="{
+                        'py-[2px] px-4 rounded-xl !text-[12px] !font-semibold !text-neutral-800 cursor-pointer hover:scale-50' : item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'Pendiente' || item[header.toLowerCase()] === 'Cobrado',
+                        '!bg-blue-300' : item[header.toLowerCase()] === 'No Vendido',
+                        '!bg-yellow-100' : item[header.toLowerCase()] === 'Pendiente',
+                        '!bg-purple-300' : item[header.toLowerCase()] === 'Cobrado',
+                      }"
+                    >
+                      {{ item[header.toLowerCase()] }}
+                    </span>
+                  </td>
+                }
+
+                <!-- Acciones -->
+                @if (haveActionsCol.edit === true || haveActionsCol.delete === true) {
+                  <td class="p-4 whitespace-nowrap text-sm font-medium flex items-center justify-center gap-3">
+                    
+                    <!-- Editar -->
+                    @if (haveActionsCol.edit === true) {
+                      <button
+                        (click)="emitEditRow(showedData[$index])"
+                        type="button"
+                        class="inline-flex items-center gap-x-2 text-[13px] max-sm:text-xs font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-purple-400 dark:hover:text-purple-500 dark:focus:text-purple-400"
+                      >
+                        <svg
+                          class="w-6 h-auto"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+                          />
+                        </svg>
+                      </button>
+                    }
+                    
+                    <!-- Eliminar -->
+                    @if (haveActionsCol.delete === true) {
+                      <button
+                        (click)="emitDeleteRow(showedData[$index])"
+                        type="button"
+                        class="inline-flex items-center gap-x-2 text-[13px] max-sm:text-xs font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-red-400 dark:hover:text-red-500 dark:focus:text-red-400"
+                      >
+                        <svg
+                          class="w-5 h-auto"
+                          fill="currentColor"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 482.428 482.429"
+                        >
+                          <g>
+                            <g>
+                              <path
+                                d="M381.163,57.799h-75.094C302.323,25.316,274.686,0,241.214,0c-33.471,0-61.104,25.315-64.85,57.799h-75.098
+                              c-30.39,0-55.111,24.728-55.111,55.117v2.828c0,23.223,14.46,43.1,34.83,51.199v260.369c0,30.39,24.724,55.117,55.112,55.117
+                              h210.236c30.389,0,55.111-24.729,55.111-55.117V166.944c20.369-8.1,34.83-27.977,34.83-51.199v-2.828
+                              C436.274,82.527,411.551,57.799,381.163,57.799z M241.214,26.139c19.037,0,34.927,13.645,38.443,31.66h-76.879
+                              C206.293,39.783,222.184,26.139,241.214,26.139z M375.305,427.312c0,15.978-13,28.979-28.973,28.979H136.096
+                              c-15.973,0-28.973-13.002-28.973-28.979V170.861h268.182V427.312z M410.135,115.744c0,15.978-13,28.979-28.973,28.979H101.266
+                              c-15.973,0-28.973-13.001-28.973-28.979v-2.828c0-15.978,13-28.979,28.973-28.979h279.897c15.973,0,28.973,13.001,28.973,28.979
+                              V115.744z"
+                              />
+                              <path
+                                d="M171.144,422.863c7.218,0,13.069-5.853,13.069-13.068V262.641c0-7.216-5.852-13.07-13.069-13.07
+                              c-7.217,0-13.069,5.854-13.069,13.07v147.154C158.074,417.012,163.926,422.863,171.144,422.863z"
+                              />
+                              <path
+                                d="M241.214,422.863c7.218,0,13.07-5.853,13.07-13.068V262.641c0-7.216-5.854-13.07-13.07-13.07
+                              c-7.217,0-13.069,5.854-13.069,13.07v147.154C228.145,417.012,233.996,422.863,241.214,422.863z"
+                              />
+                              <path
+                                d="M311.284,422.863c7.217,0,13.068-5.853,13.068-13.068V262.641c0-7.216-5.852-13.07-13.068-13.07
+                              c-7.219,0-13.07,5.854-13.07,13.07v147.154C298.213,417.012,304.067,422.863,311.284,422.863z"
+                              />
+                            </g>
+                          </g>
+                        </svg>
+                      </button>
+                    }
+
+                  </td>
+                }
+
+              </tr>
+            }
+
+            <!-- Si no hay elementos o coincidencias de búsqueda -->
+            <tr *ngIf="showedData.length === 0">
+              <td
+                [attr.colspan]="headersDisplayed.length + 2"
+                class="p-4 text-center text-sm max-sm:text-[13px] dark:text-neutral-200"
+                [ngClass]="{
+                  'dark:bg-neutral-900 dark:border-neutral-700': style === 'dark',
+                  'dark:bg-neutral-800 dark:border-neutral-600':
+                    style === 'default',
+                  'dark:bg-neutral-750 dark:border-neutral-800' : style === 'light'
+                }"
+              >
+                No se encontraron resultados
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+
+      <!-- Páginas -->
+      @if (dataTable.length > 5) {
+        <div class="w-full mt-3 flex justify-between flex-wrap max-sm:flex-col gap-3">
+
+          <!-- Filas por página -->
+          <div
+            class="max-md:w-full max-md:justify-center flex items-center flex-wrap gap-2 text-sm max-sm:text-[14px] dark:text-neutral-200">
+            <p>Mostrando</p>
+
+            <!-- Cambiar cantidad de elementos por página -->
+            <div class="relative" #itemsPerPageMenuElement>
+
+              <!-- Botón para abrir el div hacia arriba -->
+              <button
+                (click)="this.isDivOpen = !this.isDivOpen"
+                class="size-10 flex justify-center items-center rounded-lg border transition-colors duration-300"
+                [ngClass]="{
+                  'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
+                    style === 'dark',
+                  'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
+                    style === 'default',
+                  'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                    style === 'light'
+                }"
+              >
+                <p class="text-center">
+                  {{ currentItemsPerPageValue }}
+                </p>
+              </button>
+
+              <!-- Div que se expande hacia arriba con las opciones -->
+              <div
+                class="content-container w-max absolute bottom-full left-0 mb-2 rounded-lg bg-white border transition-all duration-300 overflow-hidden"
+                [ngClass]="{
+                  show: isDivOpen,
+                  hide: !isDivOpen,
+                  'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
+                    style === 'dark',
+                  'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
+                    style === 'default',
+                  'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                    style === 'light'
+                }"
+              >
+                <div class="flex flex-col-reverse">
+                  @for (item of itemsPerPage; track $index) {
+                    <button
+                      class="size-10 disabled:opacity-50 disabled:cursor-default disabled:pointer-events-none"
+                      [ngClass]="{
+                        'rounded-b-lg': $index === 0,
+                        'rounded-t-lg': $index === itemsPerPage.length - 1,
+                        'text-purple-400': item === currentItemsPerPageValue,
+                        'border-t': $index < itemsPerPage.length - 1,
+                        'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
+                          style === 'dark',
+                        'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
+                          style === 'default',
+                        'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-700':
+                          style === 'light'
+                      }"
+                      (click)="changeTableSize(item)"
+                    >
+                      {{ item }}
+                    </button>
+                  }
+                </div>
               </div>
+
             </div>
+
+            <p>elementos por página.</p>
           </div>
 
-          <p>elementos por página.</p>
-        </div>
-
-        <!-- Paginación -->
-        <nav
-          aria-label="Pagination"
-          class="w-fit flex items-center max-sm:w-full max-sm:justify-center rounded-lg divide-x divide-gray-200 border max-md:flex-1 max-md:justify-center"
-          [ngClass]="{
-            'dark:bg-neutral-900 dark:border-neutral-700 dark:divide-neutral-700':
-              style === 'dark',
-            'dark:bg-neutral-800 dark:border-neutral-600 dark:divide-neutral-600':
-              style === 'default',
-            'dark:bg-neutral-800 dark:border-neutral-600 dark:divide-neutral-800':
-              style === 'light'
-          }"
-        >
-          <button
-            type="button"
-            class="size-10 rounded-tl-lg rounded-bl-lg inline-flex justify-center items-center gap-x-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-neutral-900"
+          <!-- Paginación -->
+          <nav
+            aria-label="Pagination"
+            class="w-fit flex items-center max-sm:w-full max-sm:justify-center rounded-lg divide-x divide-gray-200 border max-md:flex-1 max-md:justify-center"
             [ngClass]="{
-              'dark:hover:bg-neutral-950': style === 'dark',
-              'dark:hover:bg-neutral-850': style === 'default'
+              'dark:bg-neutral-900 dark:border-neutral-700 dark:divide-neutral-700':
+                style === 'dark',
+              'dark:bg-neutral-800 dark:border-neutral-600 dark:divide-neutral-600':
+                style === 'default',
+              'dark:bg-neutral-750 dark:border-neutral-775 dark:divide-neutral-700':
+                style === 'light'
             }"
-            [disabled]="currentPageValue === 1"
-            (click)="changePage(currentPageValue - 1)"
-            aria-label="Previous"
           >
-            <span aria-hidden="true">«</span>
-          </button>
 
-          <!-- Cantidad de páginas -->
-          @for (page of getVisiblePages(); track $index) {
-          <button
-            *ngIf="page !== -1; else ellipsis"
-            type="button"
-            class="size-10 flex justify-center items-center text-gray-800 dark:text-neutral-200 hover:bg-gray-100 focus:outline-none text-sm disabled:opacity-50 disabled:pointer-events-none"
-            [ngClass]="{
-              'dark:text-purple-400': page === currentPageValue,
-              'dark:hover:bg-neutral-950': style === 'dark',
-              'dark:hover:bg-neutral-850': style === 'default'
-            }"
-            (click)="changePage(page)"
-          >
-            {{ page }}
-          </button>
-          <ng-template #ellipsis>
+            <!-- Botón para retroceder una página -->
             <button
               type="button"
-              class="size-10 flex justify-center items-center text-gray-800 dark:text-neutral-200 focus:outline-none text-sm disabled:opacity-50 disabled:pointer-events-none"
-              disabled
+              class="size-10 rounded-tl-lg rounded-bl-lg inline-flex justify-center items-center gap-x-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-white"
+              [ngClass]="{
+                'dark:hover:bg-neutral-950': style === 'dark',
+                'dark:hover:bg-neutral-850': style === 'default',
+                'dark:hover:bg-neutral-800': style === 'light'
+              }"
+              [disabled]="currentPageValue === 1"
+              (click)="changePage(currentPageValue - 1)"
+              aria-label="Previous"
             >
-              ...
+              <span aria-hidden="true">«</span>
             </button>
-          </ng-template>
-          }
 
-          <button
-            type="button"
-            class="size-10 rounded-tr-lg rounded-br-lg inline-flex justify-center items-center gap-x-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-white"
-            [ngClass]="{
-              'dark:hover:bg-neutral-950': style === 'dark',
-              'dark:hover:bg-neutral-850': style === 'default'
-            }"
-            [disabled]="currentPageValue === totalPages"
-            (click)="changePage(currentPageValue + 1)"
-            aria-label="Next"
-          >
-            <span aria-hidden="true">»</span>
-          </button>
-        </nav>
-      </div>
-    }
+            <!-- Cantidad de páginas -->
+            @for (page of getVisiblePages(); track $index) {
+
+              <!-- Opciones dinámicas -->
+              <button
+                *ngIf="page !== -1; else ellipsis"
+                type="button"
+                class="size-10 flex justify-center items-center text-gray-800 dark:text-neutral-200 hover:bg-gray-100 focus:outline-none text-sm disabled:opacity-50 disabled:pointer-events-none"
+                [ngClass]="{
+                  'dark:text-purple-400': page === currentPageValue,
+                  'dark:hover:bg-neutral-950': style === 'dark',
+                  'dark:hover:bg-neutral-850': style === 'default',
+                  'dark:hover:bg-neutral-800': style === 'light'
+                }"
+                (click)="changePage(page)"
+              >
+                {{ page }}
+              </button>
+
+              <!-- Puntos suspensivos -->
+              <ng-template #ellipsis>
+                <button
+                  type="button"
+                  class="size-10 flex justify-center items-center text-gray-800 dark:text-neutral-200 focus:outline-none text-sm disabled:opacity-50 disabled:pointer-events-none"
+                  disabled
+                >
+                  ...
+                </button>
+              </ng-template>
+
+            }
+
+            <!-- Botón para avanzar una página -->
+            <button
+              type="button"
+              class="size-10 rounded-tr-lg rounded-br-lg inline-flex justify-center items-center gap-x-2 text-sm text-gray-800 hover:bg-gray-100 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-white"
+              [ngClass]="{
+                'dark:hover:bg-neutral-950': style === 'dark',
+                'dark:hover:bg-neutral-850': style === 'default',
+                'dark:hover:bg-neutral-800': style === 'light'
+              }"
+              [disabled]="currentPageValue === totalPages"
+              (click)="changePage(currentPageValue + 1)"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">»</span>
+            </button>
+            
+          </nav>
+
+        </div>
+      }
+    </div>
   </div>
-</div>
 } @else {
-<div
-  class="w-full flex flex-col justify-center items-center text-sm text-neutral-200 rounded-lg"
-  [ngClass]="{
-    'dark:bg-neutral-900 dark:border-neutral-700': style === 'dark',
-    'dark:bg-neutral-800 dark:border-neutral-600': style === 'default'
-  }"
->
-  <div class="p-2 flex justify-center items-center text-center">
-    <p class="text-center">
-      Falta algún dato obligatorio para mostrar la tabla
-    </p>
-  </div>
   <div
-    class="w-full h-[1px]"
+    class="w-full flex flex-col justify-center items-center text-sm text-neutral-200 rounded-lg"
     [ngClass]="{
-      'dark:bg-neutral-700': style === 'dark',
-      'dark:bg-neutral-600': style === 'default'
+      'dark:bg-neutral-900 dark:border-neutral-700': style === 'dark',
+      'dark:bg-neutral-800 dark:border-neutral-600': style === 'default'
     }"
-  ></div>
-  <div class="p-2">
-    <div class="flex flex-wrap justify-center items-center gap-2 text-center">
-      <p>headersDisplayed</p>
-      <p
-        [ngClass]="{
-          'text-red-400': headersDisplayed === undefined,
-          'text-green-400': headersDisplayed !== undefined
-        }"
-      >
-        ({{ headersDisplayed === undefined ? "faltante" : "disponible" }})
+  >
+    <div class="p-2 flex justify-center items-center text-center">
+      <p class="text-center">
+        Falta algún dato obligatorio para mostrar la tabla
       </p>
     </div>
-    <div class="flex flex-wrap justify-center items-center gap-2 text-center">
-      <p>headersDisplayedNames</p>
-      <p
-        [ngClass]="{
-          'text-red-400': headersDisplayedNames === undefined,
-          'text-green-400': headersDisplayedNames !== undefined
-        }"
-      >
-        ({{ headersDisplayedNames === undefined ? "faltante" : "disponible" }})
-      </p>
-    </div>
-    <div class="flex flex-wrap justify-center items-center gap-2 text-center">
-      <p>dataTable</p>
-      <p
-        [ngClass]="{
-          'text-red-400': dataTable === undefined,
-          'text-green-400': dataTable !== undefined
-        }"
-      >
-        ({{ dataTable === undefined ? "faltante" : "disponible" }})
-      </p>
+    <div
+      class="w-full h-[1px]"
+      [ngClass]="{
+        'dark:bg-neutral-700': style === 'dark',
+        'dark:bg-neutral-600': style === 'default'
+      }"
+    ></div>
+    <div class="p-2">
+      <div class="flex flex-wrap justify-center items-center gap-2 text-center">
+        <p>headersDisplayed</p>
+        <p
+          [ngClass]="{
+            'text-red-400': headersDisplayed === undefined,
+            'text-green-400': headersDisplayed !== undefined
+          }"
+        >
+          ({{ headersDisplayed === undefined ? "faltante" : "disponible" }})
+        </p>
+      </div>
+      <div class="flex flex-wrap justify-center items-center gap-2 text-center">
+        <p>headersDisplayedNames</p>
+        <p
+          [ngClass]="{
+            'text-red-400': headersDisplayedNames === undefined,
+            'text-green-400': headersDisplayedNames !== undefined
+          }"
+        >
+          ({{ headersDisplayedNames === undefined ? "faltante" : "disponible" }})
+        </p>
+      </div>
+      <div class="flex flex-wrap justify-center items-center gap-2 text-center">
+        <p>dataTable</p>
+        <p
+          [ngClass]="{
+            'text-red-400': dataTable === undefined,
+            'text-green-400': dataTable !== undefined
+          }"
+        >
+          ({{ dataTable === undefined ? "faltante" : "disponible" }})
+        </p>
+      </div>
     </div>
   </div>
-</div>
 }

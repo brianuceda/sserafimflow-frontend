@@ -17,6 +17,10 @@ export default class BanksComponent {
   private _banksService = inject(BanksService);
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
     this._banksService.getAllBanksAssociated().subscribe({
       next: (data: Bank[]) => {
         this.banks = data
