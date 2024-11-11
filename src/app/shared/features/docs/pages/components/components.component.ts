@@ -36,6 +36,7 @@ export default class ComponentsComponent implements OnInit {
     date = date.split('/').reverse().join('-');
     this.testForm.controls['datepicker'].setValue(date);
   }
+  
   onSubmit() {
     console.log('Fecha seleccionada:', this.testForm.value.datepicker);
   }

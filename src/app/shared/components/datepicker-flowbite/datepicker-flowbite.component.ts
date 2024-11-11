@@ -1,4 +1,12 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Datepicker } from 'flowbite-datepicker';
 import { CommonModule } from '@angular/common';
 
@@ -44,7 +52,7 @@ export interface DatepickerOptions {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './datepicker-flowbite.component.html',
-  styleUrl: './datepicker-flowbite.component.scss'
+  styleUrl: './datepicker-flowbite.component.scss',
 })
 export class DatepickerFlowbiteComponent {
   @Input() label?: string; // ? OPCIONAL
@@ -52,12 +60,14 @@ export class DatepickerFlowbiteComponent {
 
   @Input() startToday?: boolean = false;
   @Input() startDate?: string;
-  @Input() customConfig?: DatepickerOptions;
+  @Input() config?: DatepickerOptions;
   @Input() disabled: boolean = false;
 
   @Output() dateChanged = new EventEmitter<string>();
 
-  @ViewChild('datepicker', { static: true }) datepicker!: ElementRef<HTMLInputElement>;
+  @ViewChild('datepicker', { static: true })
+  datepicker!: ElementRef<HTMLInputElement>;
+  datepickerInstance!: Datepicker;
 
   ngAfterViewInit() {
     let defaultConfig: DatepickerOptions = {
@@ -72,20 +82,36 @@ export class DatepickerFlowbiteComponent {
       defaultViewDate: new Date().toLocaleDateString('es-ES'),
     };
 
-    let modifiedOptions = { ...defaultConfig, ...this.customConfig };
+    let modifiedOptions = { ...defaultConfig, ...this.config };
 
-    const datepickerInstance = new Datepicker(this.datepicker.nativeElement, modifiedOptions);
+    this.datepickerInstance = new Datepicker(
+      this.datepicker.nativeElement,
+      modifiedOptions
+    );
 
-    this.datepicker.nativeElement.addEventListener('changeDate', (event: any) => {
-      this.dateChanged.emit(event.target.value);
-    });
+    this.datepicker.nativeElement.addEventListener(
+      'changeDate',
+      (event: any) => {
+        this.dateChanged.emit(event.target.value);
+      }
+    );
 
     if (this.startToday === true) {
-      datepickerInstance?.setDate(new Date().toLocaleDateString('es-ES'));
+      this.datepickerInstance?.setDate(new Date().toLocaleDateString('es-ES'));
     }
 
     if (this.startDate) {
-      datepickerInstance?.setDate(this.startDate);
+      this.datepickerInstance?.setDate(this.startDate);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes['startDate'] &&
+      changes['startDate'].currentValue &&
+      this.datepickerInstance
+    ) {
+      this.datepickerInstance.setDate(changes['startDate'].currentValue);
     }
   }
 }

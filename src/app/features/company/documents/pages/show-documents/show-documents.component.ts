@@ -4,8 +4,17 @@ import { DocumentsService } from '../../data-access/services/documents.service';
 import { CurrencyEnum, StateEnum } from '../../../../../shared/data-access/models/enums.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { EventEmitted, TableComponent } from '../../../../../shared/components/table/table.component';
 import { Document as SharedDocument } from '../../../../../shared/data-access/models/document.model';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogTitle,
+  MatDialogContent,
+} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import CreateModifyDocumentComponent from '../create-modify-document/create-modify-document.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-documents',
@@ -15,6 +24,25 @@ import { Document as SharedDocument } from '../../../../../shared/data-access/mo
   styleUrl: './show-documents.component.scss',
 })
 export default class ShowDocumentsComponent {
+  public eventsList: EventEmitted[] = [
+    {
+      title: 'Agregar a Cartera',
+      svg: `<svg class="size-[18px]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8H5m12 0a1 1 0 0 1 1 1v2.6M17 8l-4-4M5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.6M5 8l4-4 4 4m6 4h-4a2 2 0 1 0 0 4h4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1Z"/></svg>`,
+      emitEvents: 'emitEvents',
+      pathToGo: '/app/empresa/carteras/asignar-documentos'
+    },{
+      title: 'Vender',
+      svg: `<svg class="size-[18px]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2"></path><path d="M14 8h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5m2 0v1.5m0 -9v1.5"></path></svg>`,
+      emitEvents: 'emitEvents',
+      pathToGo: '/app/empresa/ventas/vender-documento'
+    },
+    {
+      title: 'Reiniciar tabla',
+      svg: `<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3"></path><path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3"></path></svg>`,
+      emitEvents: 'resetTableConfig'
+    }
+  ];
+
   public isLoading: true | false | null = true;
   public selectedState: StateEnum = StateEnum.ALL;
 
@@ -26,9 +54,19 @@ export default class ShowDocumentsComponent {
   public dataTable: any[] = [];
 
   private _documentsService = inject(DocumentsService);
+  private _router = inject(Router);
+  private _dialog = inject(MatDialog);
 
   ngOnInit() {
     this.loadData();
+  }
+
+  emitEditRow(id: Event) {
+    this._router.navigate(['/app/empresa/documentos/crear-modificar/', id]);
+  }
+
+  emitDeleteRow(id: Event) {
+    console.log('Delete row', id);
   }
 
   private formatNumber(value: string | number, targetCurrency: CurrencyEnum) {
@@ -94,7 +132,7 @@ export default class ShowDocumentsComponent {
     //     currency: 'Soles Peruanos',
     //     issuedate: '9/11/2024',
     //     duedate: '27/11/2024',
-    //     state: 'Pagado',
+    //     state: 'Cobrado',
     //     clientname: 'Juan Perez',
     //     clientphone: '999888777',
     //   },
@@ -116,7 +154,7 @@ export default class ShowDocumentsComponent {
     //     currency: 'Soles Peruanos',
     //     issuedate: '9/11/2024',
     //     duedate: '27/11/2024',
-    //     state: 'Pagado',
+    //     state: 'Cobrado',
     //     clientname: 'Juan Perez',
     //     clientphone: '999888777',
     //   },

@@ -79,6 +79,9 @@
         [headersDisplayedNames]="headersDisplayedNames"
         [dataTable]="dataTable"
         [selectedColumns]="selectedColumns"
+        [eventsList]="eventsList"
+        (editRow)="emitEditRow($event)"
+        (deleteRow)="emitDeleteRow($event)"
       ></app-table>
     </div>
 

@@ -86,71 +86,21 @@
 
         <!-- Configuración Personalizada -->
         <div class="w-auto flex flex-wrap items-center gap-1 max-sm:gap-2 min-h-10 max-sm:w-full">
-          <!-- Emitir acciones -->
-          <button
-            *ngIf="haveSelectionCol"
-            (click)="emitActionsMethod()"
-            title="Emitir acciones"
-            class="size-10 max-sm:w-full flex justify-center items-center rounded-lg border bg-white border-gray-200 transition-colors duration-300"
-            [ngClass]="{
-              'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                style === 'dark',
-              'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                style === 'default',
-              'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
-                style === 'light'
-            }"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="shrink-0 size-4 text-purple-400"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+          
+          <ng-container *ngFor="let action of eventsList">
+            <button
+              (click)="executeAction(action.emitEvents, action.pathToGo)"
+              [title]="action.title"
+              class="size-10 max-sm:w-full flex justify-center items-center rounded-lg border bg-white border-gray-200 transition-colors duration-300"
+              [ngClass]="{
+                'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700': style === 'dark',
+                'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600': style === 'default',
+                'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800': style === 'light'
+              }"
             >
-              <path d="M12 12l0 .01"></path>
-              <path d="M14.828 9.172a4 4 0 0 1 0 5.656"></path>
-              <path d="M17.657 6.343a8 8 0 0 1 0 11.314"></path>
-              <path d="M9.168 14.828a4 4 0 0 1 0 -5.656"></path>
-              <path d="M6.337 17.657a8 8 0 0 1 0 -11.314"></path>
-            </svg>
-          </button>
-
-          <!-- Reiniciar tabla -->
-          <button
-            (click)="resetTableConfig()"
-            title="Restablecer configuraciones"
-            class="size-10 max-sm:w-full flex justify-center items-center rounded-lg border bg-white border-gray-200 transition-colors duration-300"
-            [ngClass]="{
-              'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                style === 'dark',
-              'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                style === 'default',
-              'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
-                style === 'light'
-            }"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="shrink-0 size-4 text-gray-700 dark:text-neutral-200"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3"></path>
-              <path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3"></path>
-            </svg>
-          </button>
+              <span [innerHTML]="action.svg | safeHtml"></span>
+            </button>
+          </ng-container>
         </div>
 
       </div>

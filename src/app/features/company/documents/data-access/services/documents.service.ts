@@ -20,4 +20,20 @@ export class DocumentsService {
     }
     return this._http.get<SharedDocument[]>(url);
   }
+
+  getById(id: string): Observable<Partial<SharedDocument>> {
+    return this._http.get<Partial<SharedDocument>>(`${this._baseUrl}document/${id}`);
+  }
+
+  createDocument(document: Partial<SharedDocument>): Observable<any> {
+    return this._http.post<any>(`${this._baseUrl}document/create`, document);
+  }
+
+  editDocument(document: Partial<SharedDocument>): Observable<any> {
+    return this._http.put<any>(`${this._baseUrl}document/edit`, document);
+  }
+
+  deleteDocument(id: string): Observable<void> {
+    return this._http.delete<void>(`${this._baseUrl}document/delete/${id}`);
+  }
 }

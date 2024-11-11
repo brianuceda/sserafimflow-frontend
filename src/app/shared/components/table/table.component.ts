@@ -1,11 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, inject, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  inject,
+  Input,
+  NO_ERRORS_SCHEMA,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { toast } from 'ngx-sonner';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SafeHtmlPipe } from '../../data-access/pipes/safehtml.pipe';
 
 export interface ActionsCol {
   edit: boolean;
   delete: boolean;
+}
+
+export interface EventEmitted {
+  title: string;
+  svg: string;
+  emitEvents: string;
+  pathToGo?: string;
 }
 
 export type ItemsPerPage = 5 | 10 | 15 | 30 | 50 | 100;
@@ -13,13 +33,16 @@ export type ItemsPerPage = 5 | 10 | 15 | 30 | 50 | 100;
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SafeHtmlPipe],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.scss'
+  styleUrl: './table.component.scss',
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class TableComponent {
   // ! IMPORTANTE: SI LA TABLA ES MODIFICABLE, SE DEBE TENER UN IDENTIFICADOR ÚNICO (id) PARA CADA FILA EN 'dataTable'
   // ! IMPORTANTE: LOS IDS DEBEN SER ÚNICAMENTE NÚMEROS, NO SE PERMITEN STRINGS
+
+  @Input() eventsList: EventEmitted[] = [];
 
   // Filas por página
   public itemsPerPage: ItemsPerPage[] = [5, 10, 15, 30, 50, 100]; // ? OPCIONAL
@@ -48,7 +71,8 @@ export class TableComponent {
   public showedData: any[] = []; // NT
   public isCtrlPressed: boolean = false; // NT
 
-  @ViewChild('searchInputElement') searchInputElement!: ElementRef<HTMLInputElement>; // NT
+  @ViewChild('searchInputElement')
+  searchInputElement!: ElementRef<HTMLInputElement>; // NT
   @ViewChild('tableElement') tableElement!: ElementRef<HTMLTableElement>; // NT
   @ViewChild('itemsPerPageMenuElement') itemsPerPageMenuElement!: ElementRef; // NT
 
@@ -57,6 +81,7 @@ export class TableComponent {
   @Output() deleteRow = new EventEmitter<any>(); //NT
 
   private _cdr = inject(ChangeDetectorRef); // NT
+  private _router = inject(Router);
 
   ngOnInit() {
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -82,7 +107,10 @@ export class TableComponent {
   @HostListener('document:click', ['$event'])
   clickOutside(event: Event) {
     if (this.headersDisplayed && this.headersDisplayedNames && this.dataTable) {
-      if (this.isDivOpen && !this.itemsPerPageMenuElement.nativeElement.contains(event.target)) {
+      if (
+        this.isDivOpen &&
+        !this.itemsPerPageMenuElement.nativeElement.contains(event.target)
+      ) {
         this.isDivOpen = false;
       }
     }
@@ -121,10 +149,13 @@ export class TableComponent {
       }
     });
 
-    const startIndex = (this.currentPageValue - 1) * this.currentItemsPerPageValue;
+    const startIndex =
+      (this.currentPageValue - 1) * this.currentItemsPerPageValue;
     const endIndex = startIndex + this.currentItemsPerPageValue;
 
-    this.totalPages = Math.ceil(filteredData.length / this.currentItemsPerPageValue);
+    this.totalPages = Math.ceil(
+      filteredData.length / this.currentItemsPerPageValue
+    );
 
     this.showedData = filteredData.slice(startIndex, endIndex);
 
@@ -133,7 +164,6 @@ export class TableComponent {
     this._cdr.detectChanges();
     this.updateCheckboxesForCurrentPage();
   }
-
 
   onOptionSelected(event: Event) {
     const target = event.target as HTMLSelectElement;
@@ -196,7 +226,10 @@ export class TableComponent {
 
   // Marca / desmarca las casillas basadas en los IDs seleccionados
   updateCheckboxesForCurrentPage() {
-    const checkboxes = this.tableElement.nativeElement.querySelectorAll<HTMLInputElement>('.row-checkbox-table');
+    const checkboxes =
+      this.tableElement.nativeElement.querySelectorAll<HTMLInputElement>(
+        '.row-checkbox-table'
+      );
 
     checkboxes.forEach((checkbox) => {
       const itemId = parseInt(checkbox.value, 10);
@@ -208,8 +241,8 @@ export class TableComponent {
   updateFilteredItemsPerPage() {
     const totalItems = this.dataTable.length;
 
-    let filtered = this.itemsPerPage.filter(item => item <= totalItems);
-    const closest = this.itemsPerPage.find(item => item >= totalItems);
+    let filtered = this.itemsPerPage.filter((item) => item <= totalItems);
+    const closest = this.itemsPerPage.find((item) => item >= totalItems);
 
     if (closest && !filtered.includes(closest)) {
       filtered.push(closest);
@@ -221,7 +254,9 @@ export class TableComponent {
   // Actualiza el número de páginas disponibles
   updatePaginationValues(newSize: number) {
     this.totalPages = Math.ceil(this.dataTable.length / newSize);
-    this.pagesValues = Array(this.totalPages).fill(0).map((_, i) => i + 1);
+    this.pagesValues = Array(this.totalPages)
+      .fill(0)
+      .map((_, i) => i + 1);
   }
 
   paginationValuesOnSearch(totalItems: number) {
@@ -245,7 +280,8 @@ export class TableComponent {
 
   // Selecciona o deselecciona todas las casillas de verificación de la tabla
   toggleAllCheckboxesVisiblesInHTML(event?: Event) {
-    let isChecked = (event ? (event.target as HTMLInputElement).checked : false) ?? false;
+    let isChecked =
+      (event ? (event.target as HTMLInputElement).checked : false) ?? false;
 
     if (isChecked) {
       this.dataTable.forEach((item: any) => {
@@ -255,7 +291,10 @@ export class TableComponent {
       this.selectedColumns.clear();
     }
 
-    const checkboxes = this.tableElement.nativeElement.querySelectorAll<HTMLInputElement>('.row-checkbox-table');
+    const checkboxes =
+      this.tableElement.nativeElement.querySelectorAll<HTMLInputElement>(
+        '.row-checkbox-table'
+      );
     checkboxes.forEach((checkbox) => {
       checkbox.checked = isChecked;
     });
@@ -266,7 +305,9 @@ export class TableComponent {
     if (this.haveSelectionCol && this.isCtrlPressed) {
       event.stopPropagation();
 
-      const checkbox = (event.currentTarget as HTMLElement).querySelector('.row-checkbox-table') as HTMLInputElement;
+      const checkbox = (event.currentTarget as HTMLElement).querySelector(
+        '.row-checkbox-table'
+      ) as HTMLInputElement;
 
       if (checkbox) {
         if (!this.selectedColumns.has(item.id)) {
@@ -290,6 +331,19 @@ export class TableComponent {
       } else {
         this.selectedColumns.delete(item.id);
       }
+    }
+  }
+
+  executeAction(functionName: string, pathToGo?: string) {
+    switch (functionName) {
+      case 'resetTableConfig':
+        this.resetTableConfig();
+        break;
+      case 'emitEvents':
+        this.emitEvents(pathToGo);
+        break;
+      default:
+        console.warn(`Function ${functionName} not found`);
     }
   }
 
@@ -330,16 +384,24 @@ export class TableComponent {
     this._cdr.detectChanges();
   }
 
-  emitActionsMethod() {
+  emitEvents(pathToGo?: string) {
     this.emitActions.emit(this.selectedColumns);
+    if (pathToGo) {
+      const selectedIds = Array.from(this.selectedColumns);
+      this._router.navigate([pathToGo], {
+        queryParams: { ids: selectedIds.join(',') },
+      });
+    } else {
+      this.emitActions.emit(this.selectedColumns);
+    }
   }
 
   emitEditRow(item: any) {
-    this.editRow.emit(item);
+    this.editRow.emit(item.id);
   }
 
   emitDeleteRow(item: any) {
-    this.deleteRow.emit(item);
+    this.deleteRow.emit(item.id);
   }
 
   showSuccess(item: any) {

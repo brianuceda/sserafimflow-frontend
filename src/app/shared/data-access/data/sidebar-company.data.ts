@@ -32,7 +32,7 @@ export const sidebarDataCompany: SidebarItem[] = [
     route: 'empresa/documentos',
     childrens: [
       { title: 'Mostrar', route: 'mostrar' },
-      { title: 'Crear y Modificar', route: 'crear' },
+      { title: 'Crear y Modificar', route: 'crear-modificar' },
     ],
   },
   {

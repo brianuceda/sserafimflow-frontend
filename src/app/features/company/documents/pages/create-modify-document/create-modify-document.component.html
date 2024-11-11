@@ -1,1 +1,320 @@
-<p>create-modify-document works!</p>
+<section class="w-full h-full flex justify-center items-center">
+  @if (isLoading === false) {
+
+    <form
+      class="w-full flex flex-col justify-center items-center gap-8"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="w-full flex justify-center gap-20 max-lg:gap-12 max-sm:flex-col max-sm:gap-4 flex-wrap">
+
+        <!-- Documento -->
+        <div class="max-w-[369px] w-full flex-1 flex flex-col gap-6 max-sm:max-w-none">
+          <h2 class="max-sm:ps-3 font-medium text-[18px] pb-2 border-b border-b-neutral-500 border-opacity-50 mb-1">
+            Sobre el Documento
+          </h2>
+          
+          <!-- Tipo -->
+          <div>
+            <label for="documentType" class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
+              >Tipo de Documento
+            </label>
+            <div class="documentType">
+              <select
+                formControlName="documentType"
+                id="documentType"
+                data-hs-select='{
+                  "placeholder": "<span class=\"inline-flex items-center text-neutral-500 \"><svg class=\"shrink-0 size-3.5 me-2\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3\"/></svg> Filter</span>",
+                  "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span class=\"me-2\" data-icon></span><span class=\"text-gray-800 dark:text-neutral-200 \" data-title></span></button>",
+                  "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800",
+                  "dropdownClasses": "mt-2 max-h-72 p-1 space-y-0.5 z-20 w-full bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-800 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700 dark:bg-neutral-750 dark:border-neutral-800",
+                  "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-750 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800 transition-colors duration-300",
+                  "optionTemplate": "<div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div><div class=\"hs-selected:font-semibold text-sm text-gray-800 dark:text-neutral-200 \" data-title></div></div><div class=\"ms-auto\"><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-4 text-purple-400\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z\"/></svg></span></div></div>",
+                  "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 dark:text-neutral-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+                }'
+                class="hidden"
+              >
+                <option value="">Choose</option>
+                <option
+                  [selected]="form.get('documentType')!.value === 'INVOICE'"
+                  value="INVOICE"
+                  data-hs-select-option='{
+                    "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/invoice.svg\" alt=\"James Collins\" />"
+                  }'
+                >
+                  Factura
+                </option>
+                <option
+                  [selected]="form.get('documentType')!.value === 'LETTER'"
+                  value="LETTER"
+                  data-hs-select-option='{
+                    "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/letter.svg\" alt=\"James Collins\" />"
+                  }'
+                >
+                  Letra de Cambio
+                </option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Cantidad -->
+          <div>
+            <label for="amount" class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200">
+              Monto de Dinero
+            </label>
+            <div
+              class="w-full py-2 px-3 bg-white border border-gray-200 rounded-lg dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800 transition-colors duration-300"
+              data-hs-input-number=""
+            >
+              <div class="flex items-center gap-x-1.5">
+                <button
+                  type="button"
+                  class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-850 dark:text-white dark:hover:bg-neutral-775 dark:focus:bg-neutral-750"
+                  tabindex="-1"
+                  aria-label="Decrease"
+                  data-hs-input-number-decrement=""
+                >
+                  <svg
+                    class="shrink-0 size-3.5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M5 12h14"></path>
+                  </svg>
+                </button>
+                <input
+                  id="amount"
+                  name="amount"
+                  formControlName="amount"
+                  value="0"
+                  class="w-10 flex-1 p-0 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white"
+                  style="appearance: textfield; -moz-appearance: textfield"
+                  type="number"
+                  aria-roledescription="Number field"
+                  data-hs-input-number-input=""
+                  (keyup)="enforceMinMax($event)"
+                />
+                <button
+                  type="button"
+                  class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-850 dark:text-white dark:hover:bg-neutral-775 dark:focus:bg-neutral-750"
+                  tabindex="-1"
+                  aria-label="Increase"
+                  data-hs-input-number-increment=""
+                >
+                  <svg
+                    class="shrink-0 size-3.5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5v14"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Moneda -->
+          <div>
+            <label
+              for="currency"
+              class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
+              >Moneda del Documento
+            </label>
+            <div>
+              <select
+                id="currency"
+                formControlName="currency"
+                class="relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg max-sm:rounded-none text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800"
+                data-hs-select='{
+                  "placeholder": "<span class=\"inline-flex items-center text-neutral-500 \"><svg class=\"shrink-0 size-3.5 me-2\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3\"/></svg> Filtro</span>",
+        
+                  "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span class=\"me-2\" data-icon></span><span class=\"text-gray-800 dark:text-neutral-200 \" data-title></span></button>",
+        
+                  "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg max-sm:rounded-none text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:outline-none dark:text-neutral-200 dark:focus:ring-0 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800",
+        
+                  "dropdownClasses": "mt-2 max-h-72 p-1 space-y-0.5 z-20 w-full bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-750 dark:border-neutral-800",
+        
+                  "optionClasses": "py-2 px-3 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:text-neutral-200 dark:focus:bg-neutral-800",
+        
+                  "optionTemplate": "<div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div><div class=\"hs-selected:font-semibold text-sm text-gray-800 dark:text-neutral-200 \" data-title></div></div><div class=\"ms-auto\"><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-4 text-purple-400\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z\"/></svg></span></div></div>",
+        
+                  "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 dark:text-neutral-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+                }'
+              >
+                <option
+                  [selected]="form.get('currency')!.value === 'PEN'"
+                  value="PEN"
+                  data-hs-select-option='{
+                    "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/peru-svgrepo-com.svg\" alt=\"James Collins\" />"
+                  }'
+                >
+                  Sol Peruano
+                </option>
+                <option
+                  [selected]="form.get('currency')!.value === 'USD'"
+                  value="USD"
+                  data-hs-select-option='{
+                    "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/united-states-svgrepo-com.svg\" alt=\"James Collins\" />"
+                  }'
+                >
+                  Dólar Americano
+                </option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Fecha de Descuento -->
+          <app-datepicker-flowbite
+          label="Fecha de Descuento (vencimiento)"
+          [startDate]="form.get('dueDate')!.value"
+          [customStyle]="'default'"
+          (dateChanged)="onDateChange($event)"
+          [config]="{ clearBtn: false, minDate: '11/11/2024'}"
+        ></app-datepicker-flowbite>
+        </div>
+
+        <!-- Cliente -->
+        <div class="max-w-[369px] w-full flex-1 flex flex-col gap-6 max-sm:max-w-none">
+          <h2 class="max-sm:ps-3 font-medium text-[18px] pb-2 border-b border-b-neutral-500 border-opacity-50 mb-1">
+            Sobre el Cliente
+          </h2>
+          
+          <!-- Nombre -->
+          <div>
+            <label for="clientName" class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200">
+              Nombre del Cliente
+            </label>
+            <div class="relative">
+              <!-- Part: Icon -->
+              <div
+                class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
+              >
+                <svg
+                  class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                </svg>
+              </div>
+
+              <!-- Part: Input -->
+              <input
+                id="clientName"
+                name="clientName"
+                formControlName="clientName"
+                type="text"
+                class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border border-gray-200 dark:bg-neutral-750 dark:border-neutral-800 dark:hover:bg-neutral-775 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500 transition-colors duration-300"
+                placeholder="Juanito Perez"
+              />
+            </div>
+            <!-- Validators -->
+            @if (isRequired({field: 'clientName'})) {
+              <small class="text-red-400">El nombre del cliente es obligatorio</small>
+            }
+          </div>
+
+          <!-- Telefono -->
+          <div>
+            <label
+              for="clientPhone"
+              class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
+              >Teléfono</label
+            >
+            <div class="relative">
+              <!-- Part: Icon -->
+              <div
+                class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
+              >
+                <svg
+                  class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 4h12M6 4v16M6 4H5m13 0v16m0-16h1m-1 16H6m12 0h1M6 20H5M9 7h1v1H9V7Zm5 0h1v1h-1V7Zm-5 4h1v1H9v-1Zm5 0h1v1h-1v-1Zm-3 4h2a1 1 0 0 1 1 1v4h-4v-4a1 1 0 0 1 1-1Z"
+                  />
+                </svg>
+              </div>
+
+              <!-- Part: Input -->
+              <input
+                id="clientPhone"
+                name="clientPhone"
+                formControlName="clientPhone"
+                type="number"
+                pattern="\d{9}"
+                style="appearance: textfield; -moz-appearance: textfield"
+                class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border border-gray-200 dark:bg-neutral-750 dark:border-neutral-800 dark:hover:bg-neutral-775 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500 transition-colors duration-300"
+                placeholder="999888777"
+                (keyup)="enforcePhonePattern($event)"
+              />
+            </div>
+            <!-- Validators -->
+            @if (isRequired({field: 'clientPhone'})) {
+              <small class="text-red-400">El teléfono del cliente es obligatorio</small>
+            } @if (hasMinLengthError({field: 'clientPhone'}) ||
+              hasMaxLengthError({field: 'clientPhone'})) {
+                <small class="text-red-400">El teléfono del cliente debe ser válido</small>
+              }
+          </div>
+        </div>
+
+      </div>
+
+      <div class="max-w-[300px] w-full flex gap-2 mt-4">
+        <button
+          [disabled]="form.invalid"
+          (click)="onSubmit()"
+          type="button"
+          class="w-full flex-1 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent focus:outline-none text-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-900 disabled:opacity-50 disabled:pointer-events-none transition-colors duration-300"
+        >
+        {{ actionTitle }}
+        </button>
+      </div>
+    </form>
+  
+  } @else if (isLoading === true) {
+  
+    <app-loader></app-loader>
+  
+  } @else if (isLoading === null) {
+  
+    <p class="text-red-200 dark:text-red-400">¡Ocurrió un error interno!</p>
+  
+  }
+</section>

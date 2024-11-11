@@ -8,7 +8,12 @@ export default [
     canActivate: [CompanyGuard],
   },
   {
-    path: 'crear',
+    path: 'crear-modificar',
+    loadComponent: () => import('./pages/create-modify-document/create-modify-document.component'),
+    canActivate: [CompanyGuard],
+  },
+  {
+    path: 'crear-modificar/:id',
     loadComponent: () => import('./pages/create-modify-document/create-modify-document.component'),
     canActivate: [CompanyGuard],
   },
