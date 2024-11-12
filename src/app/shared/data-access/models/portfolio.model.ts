@@ -1,3 +1,4 @@
+import { Document } from "./document.model";
 import { StateEnum } from "./enums.model";
 
 export interface Portfolio {

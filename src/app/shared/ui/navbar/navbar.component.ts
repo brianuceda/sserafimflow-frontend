@@ -40,6 +40,11 @@ export class NavbarComponent {
     currentPath.shift();
     currentPath.shift();
 
+    // Si hay parametros, no los toma en cuenta
+    if (currentPath[currentPath.length - 1].includes('?')) {
+      currentPath[currentPath.length - 1] = currentPath[currentPath.length - 1].split('?')[0];
+    }
+
     this.arrayPath = this.convertPathToTitles(currentPath);
   }
 

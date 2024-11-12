@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { toast } from 'ngx-sonner';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SafeHtmlPipe } from '../../data-access/pipes/safehtml.pipe';
 
 export interface ActionsCol {
@@ -33,7 +33,7 @@ export type ItemsPerPage = 5 | 10 | 15 | 30 | 50 | 100;
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, SafeHtmlPipe],
+  imports: [CommonModule, FormsModule, SafeHtmlPipe, RouterLink],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   schemas: [NO_ERRORS_SCHEMA],
@@ -52,8 +52,8 @@ export class TableComponent {
   public currentPageValue: number = 1; // NT
   public totalPages: number = 1; // NT
   // Búsqueda
-  public searchInput: string = ''; // ? OPCIONAL
-  public lowerSelectedSearchTerm?: string; // NT
+  @Input() searchInput: string = ''; // ? OPCIONAL
+  @Input() lowerSelectedSearchTerm?: string; // NT
 
   // Tabla
   @Input() style: 'dark' | 'default' | 'light' = 'default'; // ? OPCIONAL
@@ -347,16 +347,25 @@ export class TableComponent {
     }
   }
 
+  isObject(value: any) {
+    return typeof value === 'object';
+  }
+
   // Restablece la tabla a su estado original
   resetTableConfig(isInitLoad: boolean = false) {
-    // Buscador
-    if (this.searchInputElement) {
-      this.searchInput = '';
-      this.searchInputElement.nativeElement.value = '';
+    if (isInitLoad && this.searchInput && this.lowerSelectedSearchTerm) {
+      this.searchInputElement.nativeElement.value = this.searchInput;
+      this.lowerSelectedSearchTerm = this.lowerSelectedSearchTerm;
+      this.updateShowedData();
+    } else {
+      if (!isInitLoad || !this.searchInput || !this.lowerSelectedSearchTerm) {
+        this.searchInput = '';
+        this.lowerSelectedSearchTerm = this.headersDisplayed[0];
+        if (this.searchInputElement) {
+          this.searchInputElement.nativeElement.value = '';
+        }
+      }
     }
-
-    // Filtro
-    this.lowerSelectedSearchTerm = this.headersDisplayed[0];
 
     // Items por página
     this.currentItemsPerPageValue = this.itemsPerPage[0];
@@ -369,15 +378,15 @@ export class TableComponent {
     this.currentPageValue = 1;
     this.updatePaginationValues(this.currentItemsPerPageValue);
 
-    if (this.haveSelectionCol) {
-      // Checkboxes a deseleccionados en vista
-      if (isInitLoad == false) {
-        this.toggleAllCheckboxesVisiblesInHTML();
+    if (this.haveSelectionCol || isInitLoad && this.searchInput && this.lowerSelectedSearchTerm) {
+      // Checkboxes marcados por defecto
+      if (isInitLoad) {
+        this.updateShowedData();
       }
 
-      // Checkboxes marcados por defecto
-      if (isInitLoad == true) {
-        this.updateShowedData();
+      // Checkboxes a deseleccionados en vista
+      if (!isInitLoad) {
+        this.toggleAllCheckboxesVisiblesInHTML();
       }
     }
 
@@ -410,5 +419,19 @@ export class TableComponent {
     toast.success('Usuario seleccionado: ' + firstAttr, {
       closeButton: true,
     });
+  }
+
+  getNestedContent(item: any, header: string): any {
+    const value = item[header.toLowerCase()];
+    if (typeof value === 'object' && value !== null) {
+      return {
+        name: value.name || null,
+        url: value.url || null,
+        imageurl: value.imageurl || null,
+        text: value.text || null,
+      };
+    }
+    // Si no es un objeto, devuelve el valor directamente
+    return { text: value };
   }
 }

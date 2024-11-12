@@ -1,1 +1,24 @@
-<p>sell-document works!</p>
+<section class="w-full h-full">
+
+  @if (isLoading === false) {
+
+    <div>
+      <p>sell-document works!</p>
+    </div>
+
+  } @else if (isLoading === true) {
+
+    <section>
+      <app-loader></app-loader>
+    </section>
+
+  } @else if (isLoading === null) {
+
+    <section>
+      <p class="text-red-200 dark:text-red-400">¡Ocurrió un error interno!</p>
+    </section>
+
+  }
+  
+</section>
+

@@ -3,9 +3,21 @@ import { LoaderComponent } from '../../../../../shared/components/loader/loader.
 import { DocumentsService } from '../../data-access/services/documents.service';
 import { Router } from '@angular/router';
 import { Document as SharedDocument } from '../../../../../shared/data-access/models/document.model';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CurrencyEnum, DocumentTypeEnum } from '../../../../../shared/data-access/models/enums.model';
-import { DatepickerFlowbiteComponent, DatepickerOptions } from '../../../../../shared/components/datepicker-flowbite/datepicker-flowbite.component';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  CurrencyEnum,
+  DocumentTypeEnum,
+} from '../../../../../shared/data-access/models/enums.model';
+import {
+  DatepickerFlowbiteComponent,
+  DatepickerOptions,
+} from '../../../../../shared/components/datepicker-flowbite/datepicker-flowbite.component';
 import { toast } from 'ngx-sonner';
 import { FieldsDocumentCreateModify } from '../../models/document-register.model';
 import { hasAnyError } from '../../../../../shared/utils/form-validators';
@@ -13,16 +25,23 @@ import { hasAnyError } from '../../../../../shared/utils/form-validators';
 @Component({
   selector: 'app-create-modify-document',
   standalone: true,
-  imports: [LoaderComponent, ReactiveFormsModule, FormsModule, DatepickerFlowbiteComponent],
+  imports: [
+    LoaderComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    DatepickerFlowbiteComponent,
+  ],
   templateUrl: './create-modify-document.component.html',
   styleUrl: './create-modify-document.component.scss',
 })
 export default class CreateModifyDocumentComponent {
   actionTitle = 'Crear documento';
-
+  public datePickerConfig: DatepickerOptions = {
+    clearBtn: false,
+    minDate: new Date().toLocaleDateString('es-ES'),
+  };
   id?: number;
-  todayDate: string = new Date().toString();
-  
+
   public isLoading: true | false | null = false;
   public isEditing: boolean = false;
 
@@ -32,8 +51,8 @@ export default class CreateModifyDocumentComponent {
   private _documentsService = inject(DocumentsService);
   private _router = inject(Router);
   private _fb = inject(FormBuilder);
-  private _cdr = inject(ChangeDetectorRef)
-  
+  private _cdr = inject(ChangeDetectorRef);
+
   ngOnInit() {
     this.getDocumentIfEdit();
     this.initForm();
@@ -62,9 +81,9 @@ export default class CreateModifyDocumentComponent {
   }
 
   assingDataToForm(data: Partial<SharedDocument>) {
-    data.dueDate = data.dueDate?.split('-').reverse().join('/');
+    data.discountDate = data.discountDate?.split('-').reverse().join('/');
+    data.expirationDate = data.expirationDate?.split('-').reverse().join('/');
     this.form.patchValue(data);
-    console.log(this.form.value);
     this._cdr.detectChanges();
   }
 
@@ -85,7 +104,7 @@ export default class CreateModifyDocumentComponent {
     const min = parseInt(el.min) || -Infinity;
     const max = parseInt(el.max) || Infinity;
 
-    if (el.value != "") {
+    if (el.value != '') {
       if (parseInt(el.value) < min) {
         el.value = min.toString();
       }
@@ -98,30 +117,38 @@ export default class CreateModifyDocumentComponent {
   enforcePhonePattern(event: Event) {
     const el = event.target as HTMLInputElement;
     const value = el.value.replace(/[^0-9]/g, '').slice(0, 9);
-  
+
     el.value = value;
-  
+
     if (value) {
-      this.form.get('clientPhone')?.setValue(Number(value), { emitEvent: false });
+      this.form
+        .get('clientPhone')
+        ?.setValue(Number(value), { emitEvent: false });
     } else {
       this.form.get('clientPhone')?.setValue(null, { emitEvent: false });
     }
   }
 
-  onDateChange(date: string) {
+  onDiscountDateChange(date: string) {
     date = date.split('/').reverse().join('-');
-    this.form.controls['dueDate'].setValue(date);
+    this.form.controls['discountDate'].setValue(date);
+  }
+
+  onExpirationDateChange(date: string) {
+    date = date.split('/').reverse().join('-');
+    this.form.controls['expirationDate'].setValue(date);
   }
 
   initForm() {
     this.form = this._fb.group({
       documentType: [DocumentTypeEnum.INVOICE, [Validators.required]],
       amount: [null, [Validators.required, Validators.min(0)]],
-      currency: [CurrencyEnum.PEN, [
-        Validators.required,
-        Validators.pattern(/^(PEN|USD|CAD|EUR)$/)
-      ]],
-      dueDate: [null, [Validators.required]],
+      currency: [
+        CurrencyEnum.PEN,
+        [Validators.required, Validators.pattern(/^(PEN|USD|CAD|EUR)$/)],
+      ],
+      discountDate: [null, [Validators.required]],
+      expirationDate: [null, [Validators.required]],
       clientName: ['', [Validators.required, Validators.maxLength(100)]],
       clientPhone: [
         '',
@@ -133,20 +160,36 @@ export default class CreateModifyDocumentComponent {
   async onSubmit() {
     if (this.form.invalid) return;
 
-    const { documentType, amount, currency, dueDate, clientName, clientPhone } = this.form.value;
-    if (!documentType || !amount || !currency || !dueDate || !clientName || !clientPhone) return;
+    const {
+      documentType,
+      amount,
+      currency,
+      discountDate,
+      expirationDate,
+      clientName,
+      clientPhone,
+    } = this.form.value;
+    if (
+      !documentType ||
+      !amount ||
+      !currency ||
+      !discountDate ||
+      !expirationDate ||
+      !clientName ||
+      !clientPhone
+    )
+      return;
 
     const documentData = {
       id: this.id,
       documentType,
       amount,
       currency,
-      dueDate,
+      discountDate,
+      expirationDate,
       clientName,
-      clientPhone
+      clientPhone,
     };
-
-    console.log(documentData);
 
     // Lógica para decidir si crear o editar el documento
     const request = this.isEditing
@@ -156,13 +199,18 @@ export default class CreateModifyDocumentComponent {
     request.subscribe({
       next: (response: any) => {
         this._router.navigateByUrl('/app/empresa/documentos/mostrar');
-        toast.success(this.isEditing ? 'Documento actualizado con éxito!' : 'Documento creado con éxito!');
+        toast.success(
+          this.isEditing
+            ? 'Documento actualizado con éxito!'
+            : 'Documento creado con éxito!'
+        );
       },
       error: (error: any) => {
         console.error(error);
-        const errorMessage = error?.error?.message || 'Ocurrió un error interno';
+        const errorMessage =
+          error?.error?.message || 'Ocurrió un error interno';
         toast.error(errorMessage);
-      }
+      },
     });
   }
 }

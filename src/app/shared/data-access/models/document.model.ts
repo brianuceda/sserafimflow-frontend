@@ -8,7 +8,8 @@ export interface Document {
   amount: number;
   currency: string;
   issueDate: string;
-  dueDate: string;
+  discountDate: string;
+  expirationDate: string;
   state: string;
   clientName: string;
   clientPhone: string;

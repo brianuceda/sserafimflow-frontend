@@ -1,5 +1,6 @@
 import { Bank } from "./bank.model";
 import { Company } from "./company.model";
+import { RateTypeEnum } from "./enums.model";
 
 export interface PurchasedDocument {
   id: number;
@@ -11,7 +12,7 @@ export interface PurchasedDocument {
   receivedValue: number;
   days: number;
   tep: number;
-  rateType: string;
+  rateType: RateTypeEnum;
   rateValue: number;
   state: string;
 

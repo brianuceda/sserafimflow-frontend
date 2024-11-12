@@ -6,15 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EventEmitted, TableComponent } from '../../../../../shared/components/table/table.component';
 import { Document as SharedDocument } from '../../../../../shared/data-access/models/document.model';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogTitle,
-  MatDialogContent,
-} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import CreateModifyDocumentComponent from '../create-modify-document/create-modify-document.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-show-documents',
@@ -29,7 +21,7 @@ export default class ShowDocumentsComponent {
       title: 'Agregar a Cartera',
       svg: `<svg class="size-[18px]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8H5m12 0a1 1 0 0 1 1 1v2.6M17 8l-4-4M5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.6M5 8l4-4 4 4m6 4h-4a2 2 0 1 0 0 4h4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1Z"/></svg>`,
       emitEvents: 'emitEvents',
-      pathToGo: '/app/empresa/carteras/asignar-documentos'
+      pathToGo: '/app/empresa/carteras/crear-modificar'
     },{
       title: 'Vender',
       svg: `<svg class="size-[18px]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2"></path><path d="M14 8h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5m2 0v1.5m0 -9v1.5"></path></svg>`,
@@ -52,13 +44,28 @@ export default class ShowDocumentsComponent {
   public headersDisplayed: string[] = [];
   public selectedColumns: Set<number> = new Set();
   public dataTable: any[] = [];
+  
+  public lowerSelectedSearchTerm?: string;
+  public searchInput: string = '';
 
   private _documentsService = inject(DocumentsService);
+  private _activateRoute = inject(ActivatedRoute);
   private _router = inject(Router);
-  private _dialog = inject(MatDialog);
 
   ngOnInit() {
+    this.logQueryParams();
     this.loadData();
+  }
+
+  private logQueryParams() {
+    this._activateRoute.queryParams.subscribe((params) => {
+      const paramKeys = Object.keys(params);
+  
+      if (paramKeys.length === 1) {
+        this.lowerSelectedSearchTerm = paramKeys[0].toLowerCase();
+        this.searchInput = params[paramKeys[0]];
+      }
+    });
   }
 
   emitEditRow(id: Event) {
@@ -76,8 +83,17 @@ export default class ShowDocumentsComponent {
     });
   }
 
-  changeCurrency(event: any) {
+  changeState(event: any) {
     this.selectedState = event.target.value;
+
+    // Reinicia los parámetros de la URL
+    this._router.navigate([], {
+      queryParams: {}
+    });
+    this.lowerSelectedSearchTerm = undefined;
+    this.searchInput = '';
+
+    // Vuelve a cargar los datos
     this.loadData();
   }
 
@@ -98,8 +114,8 @@ export default class ShowDocumentsComponent {
   }
 
   convertDataToTable() {
-    this.headersDisplayed = ['id', 'documenttype', 'amount', 'currency', 'issuedate', 'duedate', 'state', 'clientname', 'clientphone'];
-    this.headersDisplayedNames = ['ID', 'Tipo de Documento', 'Monto', 'Moneda', 'Fecha de Emisión', 'Fecha de Vencimiento', 'Estado', 'Nombre del Cliente', 'Teléfono del Cliente'];
+    this.headersDisplayed = ['id', 'documenttype', 'amount', 'currency', 'issuedate', 'discountdate', 'expirationdate', 'state', 'clientname', 'clientphone', 'portfolio'];
+    this.headersDisplayedNames = ['ID', 'Tipo de Documento', 'Monto', 'Moneda', 'Fecha de Emisión', 'Fecha de Descuento', 'Fecha de Vencimiento', 'Estado', 'Nombre del Cliente', 'Teléfono del Cliente', 'Cartera'];
     this.selectedColumns = new Set([]);
 
     // this.dataTable.push(
@@ -176,20 +192,25 @@ export default class ShowDocumentsComponent {
       'PAID': 'Cobrado',
     };
 
-    this.dataTable = this.documents.map((document) => {
+    this.dataTable = this.documents.map((document: SharedDocument) => {
+      let portfolio = '-';
+      if (document.portfolio) {
+        portfolio = '[' + document.portfolio.id + '] ' + document.portfolio.name;
+      }
+
       return {
         id: document.id,
+        portfolio: portfolio,
         documenttype: document.documentType in documentTypes ? documentTypes[document.documentType] : document.documentType,
         amount: this.formatNumber(document.amount, document.currency as CurrencyEnum),
         currency: document.currency in currencies ? currencies[document.currency] : document.currency,
         issuedate: document.issueDate.split('-').reverse().join('/'),
-        duedate: document.dueDate.split('-').reverse().join('/'),
+        discountdate: document.discountDate.split('-').reverse().join('/'),
+        expirationdate: document.expirationDate.split('-').reverse().join('/'),
         state: document.state in states ? states[document.state] : document.state,
         clientname: document.clientName,
         clientphone: document.clientPhone,
       };
     });
-
-    console.log(this.dataTable);
   }
 }

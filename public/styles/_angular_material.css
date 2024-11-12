@@ -1,0 +1,30 @@
+.mat-mdc-select-multiple {
+  outline: none !important;
+  background: none !important;
+  border: none !important;
+  --tw-ring-color: none !important;
+}
+
+.mdc-text-field {
+  @apply hover:!bg-neutral-775;
+}
+
+.mdc-text-field--filled {
+  @apply !bg-neutral-750 !border-neutral-800 !rounded-t-lg h-8;
+}
+
+.mat-mdc-form-field-infix {
+  @apply !p-0;
+}
+
+.mat-mdc-select {
+  @apply !pt-6;
+}
+
+.mdc-floating-label {
+  @apply !text-neutral-500;
+}
+
+.mat-mdc-select-arrow {
+  @apply !text-neutral-200;
+}

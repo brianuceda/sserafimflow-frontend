@@ -1,6 +1,7 @@
 import { CurrencyEnum } from "./enums.model";
 
 export interface Bank {
+  id?: number;
   realName: string;
   ruc: number;
   imageUrl: string;

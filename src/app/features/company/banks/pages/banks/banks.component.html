@@ -1,61 +1,67 @@
 <section class="w-full h-full">
   <!-- Título -->
   <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
-    Bancos Asociados
+    <label for="searchInput">Bancos Asociados</label>
   </h2>
   
-  <!-- Filtro de búsqueda -->
-  <div class="relative max-w-[400px] max-sm:max-w-full mb-4">
-    <!-- Part: Icon -->
-    <div
-      class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
-    >
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+  <!-- Búsqueda -->
+  <div class="relative max-w-md max-sm:max-w-full w-full flex gap-1 max-sm:gap-2 flex-wrap mb-4" >
+    <!-- Buscador -->
+    <div class="flex-1">
+      <!-- Part: Icon -->
+      <div
+        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
       >
-        <g clip-path="url(#clip0_559_43)">
+        <svg
+          class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
           <path
-            d="M2.25 7.5C2.25 8.18944 2.3858 8.87213 2.64963 9.50909C2.91347 10.146 3.30018 10.7248 3.78769 11.2123C4.2752 11.6998 4.85395 12.0865 5.49091 12.3504C6.12787 12.6142 6.81056 12.75 7.5 12.75C8.18944 12.75 8.87213 12.6142 9.50909 12.3504C10.146 12.0865 10.7248 11.6998 11.2123 11.2123C11.6998 10.7248 12.0865 10.146 12.3504 9.50909C12.6142 8.87213 12.75 8.18944 12.75 7.5C12.75 6.81056 12.6142 6.12787 12.3504 5.49091C12.0865 4.85395 11.6998 4.2752 11.2123 3.78769C10.7248 3.30018 10.146 2.91347 9.50909 2.64963C8.87213 2.3858 8.18944 2.25 7.5 2.25C6.81056 2.25 6.12787 2.3858 5.49091 2.64963C4.85395 2.91347 4.2752 3.30018 3.78769 3.78769C3.30018 4.2752 2.91347 4.85395 2.64963 5.49091C2.3858 6.12787 2.25 6.81056 2.25 7.5Z"
-            stroke="#737373"
-            stroke-width="2"
+            stroke="currentColor"
             stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M15.75 15.75L11.25 11.25"
-            stroke="#737373"
             stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
           />
-        </g>
-        <defs>
-          <clipPath id="clip0_559_43">
-            <rect width="18" height="18" fill="white" />
-          </clipPath>
-        </defs>
-      </svg>
+        </svg>
+      </div>
+      <!-- Part: Input -->
+      <input
+        [(ngModel)]="searchInput"
+        type="text"
+        class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500 transition-colors duration-300 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800"
+        placeholder="Buscar..."
+        (input)="onSearch($event)"
+      />
     </div>
 
-    <!-- Part: Input -->
-    <input
-      id="search"
-      name="search"
-      type="text"
-      class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-lg max-sm:rounded-none disabled:opacity-50 disabled:pointer-events-none border border-gray-200 dark:bg-neutral-750 dark:border-neutral-800 dark:hover:bg-neutral-775 max-sm:border-x-0 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500 transition-colors duration-300"
-      placeholder="Buscar..."
-    />
+    <!-- Filtro de Búsqueda -->
+    <div class="relative">
+      <!-- Selector feo pero funcional -->
+      <select
+        class="cursor-pointer h-full dark:text-neutral-200 border-[1px] text-sm rounded-lg dark:ring-0 dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800 transition-colors duration-300"
+        [(ngModel)]="lowerSelectedSearchTerm"
+        (change)="onOptionSelected($event)"
+      >
+        <option value="" class="hidden">Elije una opción</option>
+        <option value="id">ID</option>
+        <option value="realName">Nombre</option>
+        <option value="ruc">RUC</option>
+        <option value="nominalRate">Tasa Nominal</option>
+        <option value="effectiveRate">Tasa Efectiva</option>
+      </select>
+    </div>
   </div>
 
   @if (isLoading === false) {
 
     <!-- Bancos -->
     <div class="grid grid-cols-4 max-[1800px]:grid-cols-3 max-2xl:grid-cols-2 max-lg:grid-cols-1 gap-2">
-      @for (item of banks; track $index) {
+      @for (item of filteredBanks; track $index) {
         <div class="p-4 border bg-neutral-750 border-neutral-800 max-sm:border-x-0 rounded-lg max-sm:rounded-none">
           <!-- Info -->
           <div class="flex gap-4 mb-4">

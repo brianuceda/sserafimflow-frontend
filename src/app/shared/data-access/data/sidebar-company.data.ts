@@ -22,7 +22,7 @@ export const sidebarDataCompany: SidebarItem[] = [
     route: 'empresa/carteras',
     childrens: [
       { title: 'Mostrar', route: 'mostrar' },
-      { title: 'Asignar Documentos', route: 'asignar-documentos' },
+      { title: 'Crear y Modificar', route: 'crear-modificar' },
       { title: 'Eliminar', route: 'eliminar' },
     ],
   },
@@ -40,9 +40,8 @@ export const sidebarDataCompany: SidebarItem[] = [
     title: 'Ventas',
     route: 'empresa/ventas',
     childrens: [
+      { title: 'Mostrar', route: 'mostrar' },
       { title: 'Vender Documento', route: 'vender-documento' },
-      { title: 'Documentos Vendidos', route: 'documentos-vendidos' },
-      { title: 'Ventas Cobradas', route: 'ventas-cobradas' },
     ],
   },
   {

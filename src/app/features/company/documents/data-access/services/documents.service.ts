@@ -13,12 +13,16 @@ export class DocumentsService {
 
   private _http = inject(HttpClient);
 
-  getAllDocuments(state?: StateEnum): Observable<SharedDocument[]> {
+  getAllDocuments(state: StateEnum): Observable<SharedDocument[]> {
     let url = `${this._baseUrl}document/documents-by-specific-state`;
     if (state !== StateEnum.ALL) {
       url += `?state=${state}`;
     }
     return this._http.get<SharedDocument[]>(url);
+  }
+
+  getAllDocumentsNotInAnyPortfolio(): Observable<SharedDocument[]> {
+    return this._http.get<SharedDocument[]>(`${this._baseUrl}document/documents-not-in-any-portfolio`);
   }
 
   getById(id: string): Observable<Partial<SharedDocument>> {

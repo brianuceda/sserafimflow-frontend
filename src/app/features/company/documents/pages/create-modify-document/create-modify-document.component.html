@@ -180,12 +180,22 @@
           
           <!-- Fecha de Descuento -->
           <app-datepicker-flowbite
-          label="Fecha de Descuento (vencimiento)"
-          [startDate]="form.get('dueDate')!.value"
-          [customStyle]="'default'"
-          (dateChanged)="onDateChange($event)"
-          [config]="{ clearBtn: false, minDate: '11/11/2024'}"
-        ></app-datepicker-flowbite>
+            label="Fecha de Descuento"
+            [startDate]="form.get('discountDate')!.value"
+            [customStyle]="'default'"
+            (dateChanged)="onDiscountDateChange($event)"
+            [config]="datePickerConfig"
+          ></app-datepicker-flowbite>
+
+          <!-- Fecha de Vencimiento -->
+          <app-datepicker-flowbite
+            [disabled]="form.get('discountDate')!.value === null"
+            label="Fecha de Vencimiento"
+            [startDate]="form.get('expirationDate')!.value"
+            [customStyle]="'default'"
+            (dateChanged)="onExpirationDateChange($event)"
+            [config]="datePickerConfig"
+          ></app-datepicker-flowbite>
         </div>
 
         <!-- Cliente -->

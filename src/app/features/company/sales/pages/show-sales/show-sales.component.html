@@ -1,7 +1,8 @@
 <section class="w-full h-full">
+
   <!-- Título -->
   <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
-    Tipo de Documento
+    Estado de la Venta
   </h2>
   
   <!-- Filtro de búsqueda -->
@@ -37,15 +38,6 @@
         Todos
       </option>
       <option
-        [selected]="selectedState === 'NOT_SELLED'"
-        value='NOT_SELLED'
-        data-hs-select-option='{
-          "icon": "<img class=\"shrink-0 size-5\" src=\"svgs/water-fee-svgrepo-com.svg\" alt=\"USD\" />"
-        }'
-      >
-        No Vendidos
-      </option>
-      <option
         [selected]="selectedState === 'PENDING'"
         value='PENDING'
         data-hs-select-option='{
@@ -65,7 +57,7 @@
       </option>
     </select>
   </div>
-  
+
   @if (isLoading === false) {
 
     <!-- Data -->
@@ -73,15 +65,11 @@
       <app-table
         class="min-w-[314px] w-full"
         [style]="'light'"
-        [haveSelectionCol]="true"
-        [haveActionsCol]="{edit: true, delete: true}"
         [headersDisplayed]="headersDisplayed"
         [headersDisplayedNames]="headersDisplayedNames"
         [dataTable]="dataTable"
         [selectedColumns]="selectedColumns"
         [eventsList]="eventsList"
-        (editRow)="emitEditRow($event)"
-        (deleteRow)="emitDeleteRow($event)"
         [lowerSelectedSearchTerm]="lowerSelectedSearchTerm"
         [searchInput]="searchInput"
       ></app-table>
@@ -100,5 +88,6 @@
     </section>
 
   }
+  
 </section>
 
