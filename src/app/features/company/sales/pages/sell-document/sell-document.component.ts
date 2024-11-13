@@ -116,7 +116,7 @@ export default class SellDocumentComponent {
     { value: 'EFFECTIVE', viewValue: 'Efectiva' },
   ];
 
-  selectedDocuments = new FormControl<number[]>([]);
+  selectedDocument = new FormControl<number | null>(null);
   selectedBank = new FormControl<number | null>(null);
   selectedRateType = new FormControl<string>('');
 
@@ -154,9 +154,9 @@ export default class SellDocumentComponent {
   }
 
   private tryToDoCalcs() {
-    this.selectedDocuments.valueChanges.subscribe(() => {
+    this.selectedDocument.valueChanges.subscribe(() => {
       if (
-        this.selectedDocuments.value!.length > 0 &&
+        this.selectedDocument.value !== null &&
         this.selectedBank.value !== null &&
         this.selectedRateType.value !== ''
       ) {
@@ -166,7 +166,7 @@ export default class SellDocumentComponent {
 
     this.selectedBank.valueChanges.subscribe(() => {
       if (
-        this.selectedDocuments.value!.length > 0 &&
+        this.selectedDocument.value !== null &&
         this.selectedBank.value !== null &&
         this.selectedRateType.value !== ''
       ) {
@@ -176,7 +176,7 @@ export default class SellDocumentComponent {
 
     this.selectedRateType.valueChanges.subscribe(() => {
       if (
-        this.selectedDocuments.value!.length > 0 &&
+        this.selectedDocument.value !== null &&
         this.selectedBank.value !== null &&
         this.selectedRateType.value !== ''
       ) {
@@ -189,7 +189,7 @@ export default class SellDocumentComponent {
     this._salesService
       .calculatePurchase(
         this.selectedBank.value!,
-        this.selectedDocuments.value![0],
+        this.selectedDocument.value!,
         this.selectedRateType.value
       )
       .subscribe({
@@ -211,7 +211,7 @@ export default class SellDocumentComponent {
       this._salesService
         .sellDocument(
           this.selectedBank.value!,
-          this.selectedDocuments.value![0],
+          this.selectedDocument.value!,
           this.selectedRateType.value
         )
         .subscribe({
@@ -237,7 +237,7 @@ export default class SellDocumentComponent {
         const validIds = ids.filter((id) =>
           this.documents.some((doc) => doc.id === id)
         );
-        this.selectedDocuments.setValue(validIds);
+        this.selectedDocument.setValue(validIds[0]);
       }
     });
   }
