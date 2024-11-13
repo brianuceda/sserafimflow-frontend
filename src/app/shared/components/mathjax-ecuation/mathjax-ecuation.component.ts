@@ -17,16 +17,12 @@ export class MathjaxEcuationComponent implements AfterViewInit {
     this.renderMath();
   }
 
-  renderMath() {
-    setTimeout(() => {
-      if (MathJax) {
-        MathJax.typesetPromise();
-      }
-    }, 0);
-  }
-
   // Forzar la renderización de MathJax cada vez que latexCode cambie
   ngOnChanges() {
+    this.renderMath();
+  }
+
+  renderMath() {
     setTimeout(() => {
       if (MathJax) {
         MathJax.typesetPromise();
