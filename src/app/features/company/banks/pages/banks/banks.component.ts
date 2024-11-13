@@ -45,9 +45,6 @@ export default class BanksComponent {
         this.searchInput = params[paramKeys[0]];
       }
 
-      console.log('this.searchInput', this.searchInput);
-      console.log('this.lowerSelectedSearchTerm', this.lowerSelectedSearchTerm);
-
       this.updateShowedData();
     });
   }

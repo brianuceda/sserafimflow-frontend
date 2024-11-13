@@ -8,7 +8,7 @@ declare var MathJax: any;
   standalone: true,
   imports: [SafeHtmlPipe],
   templateUrl: './mathjax-ecuation.component.html',
-  styleUrls: ['./mathjax-ecuation.component.scss']
+  styleUrls: ['./mathjax-ecuation.component.scss'],
 })
 export class MathjaxEcuationComponent implements AfterViewInit {
   @Input() latexCode: string = '';
@@ -18,6 +18,15 @@ export class MathjaxEcuationComponent implements AfterViewInit {
   }
 
   renderMath() {
+    setTimeout(() => {
+      if (MathJax) {
+        MathJax.typesetPromise();
+      }
+    }, 0);
+  }
+
+  // Forzar la renderización de MathJax cada vez que latexCode cambie
+  ngOnChanges() {
     setTimeout(() => {
       if (MathJax) {
         MathJax.typesetPromise();

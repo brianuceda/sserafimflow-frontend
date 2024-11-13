@@ -37,7 +37,7 @@ export class DocumentsService {
     return this._http.put<any>(`${this._baseUrl}document/edit`, document);
   }
 
-  deleteDocument(id: string): Observable<void> {
-    return this._http.delete<void>(`${this._baseUrl}document/delete/${id}`);
+  deleteDocument(documentId: number): Observable<void> {
+    return this._http.delete<void>(`${this._baseUrl}document/delete/${documentId}`);
   }
 }

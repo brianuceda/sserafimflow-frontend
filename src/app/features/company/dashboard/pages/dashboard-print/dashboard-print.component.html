@@ -1,0 +1,107 @@
+<br>
+
+@if (previewDataCurrency === 'PEN') {
+  <p>Moneda de Previsualización de Datos:</p>
+  <p>Sol Peruano ({{ previewDataCurrency }})</p>
+} @else {
+  <p>Moneda de Previsualización de Datos:</p>
+  <p>Dólar Americano ({{ previewDataCurrency }})</p>
+}
+
+<p>-</p>
+
+<p>Valor Nominal Total Emitido:</p>
+<p>{{ dashboardData.totalNominalValueIssued }}</p>
+
+<p>-</p>
+
+<p>Valor Nominal Total Recibido:</p>
+<p>{{ dashboardData.totalNominalValueReceived }}</p>
+
+<p>-</p>
+
+<p>Valor Nominal Total Descontado:</p>
+<p>{{ dashboardData.totalNominalValueDiscounted }}</p>
+
+<p>-</p>
+
+<p>Banco Más Usado para Ventas:</p>
+<p>{{ dashboardData.mostUsedBankForSales }}</p>
+
+<p>-</p>
+
+<p>Tasa de Periodo Más Usada:</p>
+<p>
+  @if (dashboardData.mostUsedPeriodRate === 'NOMINAL') {
+    Tasa Nominal
+  } @else if (dashboardData.mostUsedPeriodRate === 'EFFECTIVE') {
+    Tasa Efectiva
+  } @else {
+    ?
+  }
+</p>
+
+<p>-</p>
+
+<p>Divisa Más Usada:</p>
+<p>
+  @if (dashboardData.mostUsedCurrency === 'PEN') {
+    Sol Peruano ({{ dashboardData.mostUsedCurrency }})
+  } @else if (dashboardData.mostUsedCurrency === 'USD') {
+    Dólar Americano ({{ dashboardData.mostUsedCurrency }})
+  } @else {
+    ?
+  }
+</p>
+
+<p>-</p>
+
+<p>Cantidad de Facturas Vendidas (por mes):</p>
+@for (month of months; track $index) {
+  <p>{{ month }}: {{ dashboardData.cantSoldInvoicesPerMonth[$index] }}</p>
+}
+
+<p>-</p>
+
+<p>Cantidad de Letras Vendidas (por mes):</p>
+@for (month of months; track $index) {
+  <p>{{ month }}: {{ dashboardData.cantSoldLettersPerMonth[$index] }}</p>
+}
+
+<p>-</p>
+
+<p>Monto por Facturas Vendidas (por mes):</p>
+@for (month of months; track $index) {
+  <p>{{ month }}: {{ formatNumber(dashboardData.amountSoldInvoicesPerMonth[$index]) }}</p>
+}
+
+<p>-</p>
+
+<p>Monto por Letras Vendidas (por mes):</p>
+@for (month of months; track $index) {
+  <p>{{ month }}: {{ formatNumber(dashboardData.amountSoldLettersPerMonth[$index]) }}</p>
+}
+
+<p>-</p>
+
+<p>Tasas de Cambio al {{ todayDate }}</p>
+@for (item of exchangeRateData; track $index) {
+  <p>{{ item.currencyname }} ({{ item.currency }}) - Compra: {{ item.purchaseprice }}</p>
+  <p>{{ item.currencyname }} ({{ item.currency }}) - Venta: {{ item.saleprice }}</p>
+  <p>-</p>
+}
+
+<p>-</p>
+
+<p>Tasa Efectiva del Periodo (TEP):</p>
+<app-mathjax-ecuation latexCode="\[ \text{TEP} = \left( 1 + \frac{\text{TN}}{m} \right)^n - 1 \]"></app-mathjax-ecuation>
+
+<p>-</p>
+
+<p>Tasa Descontada (%d):</p>
+<app-mathjax-ecuation latexCode="\[ d = \frac{\text{TEP}}{1 + \text{TEP}} \]"></app-mathjax-ecuation>
+
+<p>-</p>
+
+<p>Valor Recibido:</p>
+<app-mathjax-ecuation latexCode="\[ \text{Valor Neto} = \text{Valor Nominal} \times (1 - d) \]"></app-mathjax-ecuation>

@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DocumentsService } from '../../data-access/services/documents.service';
+import { toast } from 'ngx-sonner';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirm-delete-document',
@@ -9,23 +11,14 @@ import { DocumentsService } from '../../data-access/services/documents.service';
   styleUrl: './confirm-delete-document.component.scss'
 })
 export class ConfirmDeleteDocumentComponent {
-  private _documentsService = inject(DocumentsService);
+  public data = inject(MAT_DIALOG_DATA);
+  private dialogRef = inject(MatDialogRef<ConfirmDeleteDocumentComponent>);
+  
+  confirm() {
+    this.dialogRef.close('confirmed');
+  }
 
-  confirmDelete() {
-    this._documentsService.deleteDocument('documentId').subscribe({
-      next: () => {
-        this._documentsService.getAllDocuments().subscribe({
-          next: (documents) => {
-            return documents;
-          },
-          error: (error) => {
-            console.error(error);
-          }
-        });
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    });
+  closeDialog() {
+    this.dialogRef.close('cancelled');
   }
 }

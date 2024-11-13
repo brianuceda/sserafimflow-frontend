@@ -1,6 +1,15 @@
 import { MathjaxEcuationComponent } from '../../../../../shared/components/mathjax-ecuation/mathjax-ecuation.component';
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { ChartApexchartsComponent, ChartOptions } from '../../../../../shared/components/chart-apexcharts/chart-apexcharts.component';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  inject,
+  ViewChild,
+} from '@angular/core';
+import {
+  ChartApexchartsComponent,
+  ChartOptions,
+} from '../../../../../shared/components/chart-apexcharts/chart-apexcharts.component';
 import { DashboardService } from '../../data-access/services/dashboard.service';
 import { Dashboard } from '../../data-access/models/dashboard.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
@@ -12,31 +21,56 @@ import { toast } from 'ngx-sonner';
 import { CurrencyEnum } from '../../../../../shared/data-access/models/enums.model';
 import { Company } from '../../../../../shared/data-access/models/company.model';
 import { CommonModule } from '@angular/common';
+import { NgxPrintModule } from 'ngx-print';
+import { DashboardPrintComponent } from '../dashboard-print/dashboard-print.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, CommonModule, MathjaxEcuationComponent, ChartApexchartsComponent, TableComponent, LoaderComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    MathjaxEcuationComponent,
+    ChartApexchartsComponent,
+    TableComponent,
+    LoaderComponent,
+    DashboardPrintComponent,
+    NgxPrintModule,
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export default class DashboardComponent {
   public isLoading: true | false | null = true;
   public previewDataCurrency: CurrencyEnum = CurrencyEnum.PEN;
   public showExchangeRateTable: boolean = false;
   public dashboardData!: Dashboard;
+  
   // Tasa de cambio
-  public exchangeRateHeadersDisplayedNames = ['Nombre de la Moneda', 'Moneda', 'Precio de Compra', 'Precio de Venta'];
-  public exchangeRateHeadersDisplayed = ['currencyname', 'currency', 'purchaseprice', 'saleprice'];
+  public exchangeRateHeadersDisplayedNames = [
+    'Nombre de la Moneda',
+    'Moneda',
+    'Precio de Compra',
+    'Precio de Venta',
+  ];
+  public exchangeRateHeadersDisplayed = [
+    'currencyname',
+    'currency',
+    'purchaseprice',
+    'saleprice',
+  ];
   public exchangeRateData: any[] = [];
+
   // Gráficos
   public chartOptions1!: Partial<ChartOptions>;
   public chartOptions2!: Partial<ChartOptions>;
 
   private _dashboardService = inject(DashboardService);
   private _companyService = inject(CompanyService);
-  // private _dashboardSocketService = inject(DashboardSocketService);
-  private _cdr = inject(ChangeDetectorRef)
+  private _cdr = inject(ChangeDetectorRef);
+
+  // viewchild a printSection
+  @ViewChild('printSection') printSection?: ElementRef;
 
   ngOnInit() {
     this.loadChart1();
@@ -48,15 +82,17 @@ export default class DashboardComponent {
 
   changeCurrency(event: any) {
     this.previewDataCurrency = event.target.value;
-    
+
     let company: Partial<Company> = {
-      previewDataCurrency: this.previewDataCurrency
+      previewDataCurrency: this.previewDataCurrency,
     };
 
-    this._companyService.updateCompanyProfile(company).subscribe((data: any) => {
-      toast.info("Moneda de visualización actualizada");
-      this.callApi(this.previewDataCurrency);
-    });
+    this._companyService
+      .updateCompanyProfile(company)
+      .subscribe((data: any) => {
+        toast.info('Moneda de visualización actualizada');
+        this.callApi(this.previewDataCurrency);
+      });
   }
 
   callApi(targetCurrency?: CurrencyEnum) {
@@ -68,8 +104,8 @@ export default class DashboardComponent {
       error: (error) => {
         console.error(error);
         this.isLoading = null;
-      }
-    })
+      },
+    });
   }
 
   detectChangesWebSocket() {
@@ -87,33 +123,52 @@ export default class DashboardComponent {
 
   updateData(data: Dashboard) {
     this.dashboardData = data;
-    this.previewDataCurrency = data.mainCurrency;
+    this.previewDataCurrency = data.mainCurrency?.toString() as CurrencyEnum;
     this.formatChanges(data);
 
     this._cdr.detectChanges();
   }
 
   formatChanges(data: Dashboard) {
-    this.dashboardData.totalNominalValueIssued = this.formatNumber(data.totalNominalValueIssued, this.previewDataCurrency);
-    this.dashboardData.totalNominalValueReceived = this.formatNumber(data.totalNominalValueReceived, this.previewDataCurrency);
-    this.dashboardData.totalNominalValueDiscounted = this.formatNumber(data.totalNominalValueDiscounted, this.previewDataCurrency);
+    this.dashboardData.totalNominalValueIssued = this.formatNumber(
+      data.totalNominalValueIssued,
+      this.previewDataCurrency
+    );
+    this.dashboardData.totalNominalValueReceived = this.formatNumber(
+      data.totalNominalValueReceived,
+      this.previewDataCurrency
+    );
+    this.dashboardData.totalNominalValueDiscounted = this.formatNumber(
+      data.totalNominalValueDiscounted,
+      this.previewDataCurrency
+    );
 
-    let date: number[] = (data.todayExchangeRate.date as string).split('-').map(Number);
-    this.dashboardData.todayExchangeRate.date = new Date(date[0], (date[1] - 1), date[2]).toLocaleDateString('es-PE', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-
-    this.exchangeRateData = [];
-    this.dashboardData.todayExchangeRate.currencyRates.forEach((rate: any) => {
-      this.exchangeRateData.push({
-        currencyname: rate.currencyName,
-        currency: rate.currency,
-        purchaseprice: rate.purchasePrice,
-        saleprice: rate.salePrice,
+    if (this.dashboardData.todayExchangeRate) {
+      let date: number[] = (data.todayExchangeRate?.date as string)
+        .split('-')
+        .map(Number);
+      this.dashboardData.todayExchangeRate.date = new Date(
+        date[0],
+        date[1] - 1,
+        date[2]
+      ).toLocaleDateString('es-PE', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
       });
-    });
+
+      this.exchangeRateData = [];
+      this.dashboardData.todayExchangeRate.currencyRates.forEach(
+        (rate: any) => {
+          this.exchangeRateData.push({
+            currencyname: rate.currencyName,
+            currency: rate.currency,
+            purchaseprice: rate.purchasePrice,
+            saleprice: rate.salePrice,
+          });
+        }
+      );
+    }
 
     this.changeDataChart1();
     this.changeDataChart2();
@@ -275,7 +330,7 @@ export default class DashboardComponent {
           text: 'documentos',
         },
       },
-    }
+    };
   }
 
   changeDataChart2() {
@@ -298,11 +353,51 @@ export default class DashboardComponent {
         labels: {
           formatter: (val: number) => {
             // Si algun valor es distinto de 0, formatea los valores a 2 decimales
-            let hasNonZeroValue = this.dashboardData.amountSoldInvoicesPerMonth.some((value: number) => value != 0);
+            let hasNonZeroValue =
+              this.dashboardData.amountSoldInvoicesPerMonth.some(
+                (value: number) => value != 0
+              );
             return hasNonZeroValue ? val.toFixed(2) : val.toString();
-          }
+          },
         },
       },
+    };
+  }
+
+  exportAsDPF() {
+    if (this.printSection) {
+      this.printSection.nativeElement.style.display = 'block';
+      this.printSection.nativeElement.style.display = 'none';
     }
+  }
+
+  exportAsJSON() {
+    let onlyDashboardData = { ...this.dashboardData };
+    delete onlyDashboardData.todayExchangeRate;
+    delete onlyDashboardData.mainCurrency;
+
+    const exportData = {
+      dashboardData: onlyDashboardData,
+      previewDataCurrency: this.previewDataCurrency,
+      exchangeRateData: this.exchangeRateData,
+    };
+
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataUri =
+      'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+    const exportFileDefaultName = `Dashboard Data - ${new Date().toLocaleDateString(
+      'es-PE',
+      {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }
+    )}.json`;
+
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
   }
 }

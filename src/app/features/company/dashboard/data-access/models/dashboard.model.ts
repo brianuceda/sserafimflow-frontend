@@ -5,14 +5,14 @@ export interface Dashboard {
   totalNominalValueIssued: number | string;
   totalNominalValueReceived: number | string;
   totalNominalValueDiscounted: number | string;
-  pendingPortfoliosToPay: number;
+  mostUsedBankForSales: string;
   mostUsedPeriodRate?: 'NOMINAL' | 'EFFECTIVE';
   mostUsedCurrency?: CurrencyEnum;
-  cantSoldLettersPerMonth: number[];
   cantSoldInvoicesPerMonth: number[];
-  amountSoldLettersPerMonth: number[];
+  cantSoldLettersPerMonth: number[];
   amountSoldInvoicesPerMonth: number[];
-  mainCurrency: CurrencyEnum;
+  amountSoldLettersPerMonth: number[];
   
-  todayExchangeRate: ExchangeRate;
+  mainCurrency?: CurrencyEnum;
+  todayExchangeRate?: ExchangeRate;
 }

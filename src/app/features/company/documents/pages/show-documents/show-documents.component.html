@@ -69,23 +69,21 @@
   @if (isLoading === false) {
 
     <!-- Data -->
-    <div>
-      <app-table
-        class="min-w-[314px] w-full"
-        [style]="'light'"
-        [haveSelectionCol]="true"
-        [haveActionsCol]="{edit: true, delete: true}"
-        [headersDisplayed]="headersDisplayed"
-        [headersDisplayedNames]="headersDisplayedNames"
-        [dataTable]="dataTable"
-        [selectedColumns]="selectedColumns"
-        [eventsList]="eventsList"
-        (editRow)="emitEditRow($event)"
-        (deleteRow)="emitDeleteRow($event)"
-        [lowerSelectedSearchTerm]="lowerSelectedSearchTerm"
-        [searchInput]="searchInput"
-      ></app-table>
-    </div>
+    <app-table
+      class="min-w-[314px] w-full"
+      [style]="'light'"
+      [haveSelectionCol]="true"
+      [haveActionsCol]="{edit: true, delete: true}"
+      [headersDisplayed]="headersDisplayed"
+      [headersDisplayedNames]="headersDisplayedNames"
+      [dataTable]="dataTable"
+      [selectedColumns]="selectedColumns"
+      [eventsList]="eventsList"
+      (editRow)="emitEditRow($event)"
+      (deleteRow)="emitDeleteRow($event)"
+      [lowerSelectedSearchTerm]="lowerSelectedSearchTerm"
+      [searchInput]="searchInput"
+    ></app-table>
 
   } @else if (isLoading === true) {
 

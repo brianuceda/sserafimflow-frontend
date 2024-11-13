@@ -4,106 +4,107 @@
     <div class="min-w-full inline-block align-middle w-[inherit]">
       <!-- titleText -->
       @if (titleText) {
-      <h2 class="font-medium text-xl mb-4 dark:text-neutral-200">
-        {{ titleText }}
-      </h2>
+        <h2 class="font-medium text-xl mb-4 dark:text-neutral-200">
+          {{ titleText }}
+        </h2>
       }
 
       <!-- Opciones -->
-      <div class="mb-4 w-full flex justify-between items-center flex-wrap gap-1 max-sm:gap-2 max-sm:flex-col">
-
-        <!-- Búsqueda -->
-        <div
-          class="relative max-w-md max-sm:max-w-full w-full flex gap-1 max-sm:gap-2 flex-wrap"
-        >
-          <!-- Buscador -->
-          <div class="flex-1">
-            <!-- Part: Icon -->
-            <div
-              class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
-            >
-              <svg
-                class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
+      @if (haveConfig) {
+        <div class="mb-4 w-full flex justify-between items-center flex-wrap gap-1 max-sm:gap-2 max-sm:flex-col">
+  
+          <!-- Búsqueda -->
+          <div class="relative max-w-md max-sm:max-w-full w-full flex gap-1 max-sm:gap-2 flex-wrap">
+  
+            <!-- Buscador -->
+            <div class="flex-1">
+              <!-- Part: Icon -->
+              <div
+                class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
               >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-width="2"
-                  d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                />
-              </svg>
+                <svg
+                  class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                    d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <!-- Part: Input -->
+              <input
+                #searchInputElement
+                type="text"
+                class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500 transition-colors duration-300"
+                [ngClass]="{
+                  'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
+                    style === 'dark',
+                  'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
+                    style === 'default',
+                  'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                    style === 'light'
+                }"
+                placeholder="Buscar..."
+                (input)="onSearch($event)"
+              />
             </div>
-            <!-- Part: Input -->
-            <input
-              #searchInputElement
-              type="text"
-              class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border-gray-200 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500 transition-colors duration-300"
-              [ngClass]="{
-                'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                  style === 'dark',
-                'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                  style === 'default',
-                'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
-                  style === 'light'
-              }"
-              placeholder="Buscar..."
-              (input)="onSearch($event)"
-            />
+  
+            <!-- Filtro de Búsqueda -->
+            <div class="relative">
+              <!-- Selector feo pero funcional -->
+              <select
+                class="cursor-pointer h-full dark:text-neutral-200 border-[1px] text-sm rounded-lg dark:ring-0 transition-colors duration-300"
+                [(ngModel)]="lowerSelectedSearchTerm"
+                (change)="onOptionSelected($event)"
+                [ngClass]="{
+                  'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
+                    style === 'dark',
+                  'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
+                    style === 'default',
+                  'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
+                    style === 'light'
+                }"
+              >
+                <option value="" class="hidden">Elije una opción</option>
+                @for (item of headersDisplayed; track $index) {
+                <option [value]="item.toLowerCase()">
+                  {{ headersDisplayedNames[$index] }}
+                </option>
+                }
+              </select>
+            </div>
+  
           </div>
-
-          <!-- Filtro de Búsqueda -->
-          <div class="relative">
-            <!-- Selector feo pero funcional -->
-            <select
-              class="cursor-pointer h-full dark:text-neutral-200 border-[1px] text-sm rounded-lg dark:ring-0 transition-colors duration-300"
-              [(ngModel)]="lowerSelectedSearchTerm"
-              (change)="onOptionSelected($event)"
-              [ngClass]="{
-                'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                  style === 'dark',
-                'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                  style === 'default',
-                'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
-                  style === 'light'
-              }"
-            >
-              <option value="" class="hidden">Elije una opción</option>
-              @for (item of headersDisplayed; track $index) {
-              <option [value]="item.toLowerCase()">
-                {{ headersDisplayedNames[$index] }}
-              </option>
-              }
-            </select>
+  
+          <!-- Configuración Personalizada -->
+          <div class="w-auto flex flex-wrap items-center gap-1 max-sm:gap-2 min-h-10 max-sm:w-full">
+            
+            <ng-container *ngFor="let action of eventsList">
+              <button
+                (click)="executeAction(action.emitEvents, action.pathToGo)"
+                [title]="action.title"
+                class="size-10 max-sm:w-full flex justify-center items-center rounded-lg border bg-white border-gray-200 transition-colors duration-300"
+                [ngClass]="{
+                  'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700': style === 'dark',
+                  'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600': style === 'default',
+                  'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800': style === 'light'
+                }"
+              >
+                <span [innerHTML]="action.svg | safeHtml"></span>
+              </button>
+            </ng-container>
           </div>
+  
         </div>
-
-
-        <!-- Configuración Personalizada -->
-        <div class="w-auto flex flex-wrap items-center gap-1 max-sm:gap-2 min-h-10 max-sm:w-full">
-          
-          <ng-container *ngFor="let action of eventsList">
-            <button
-              (click)="executeAction(action.emitEvents, action.pathToGo)"
-              [title]="action.title"
-              class="size-10 max-sm:w-full flex justify-center items-center rounded-lg border bg-white border-gray-200 transition-colors duration-300"
-              [ngClass]="{
-                'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700': style === 'dark',
-                'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600': style === 'default',
-                'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800': style === 'light'
-              }"
-            >
-              <span [innerHTML]="action.svg | safeHtml"></span>
-            </button>
-          </ng-container>
-        </div>
-
-      </div>
+      }
 
       <!-- Tabla -->
       <div
@@ -251,10 +252,17 @@
                     @else {
                       <span
                         [ngClass]="{
-                          'py-[2px] px-4 rounded-xl !text-[12px] !font-semibold !text-neutral-800 cursor-pointer hover:scale-50' : item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'Pendiente' || item[header.toLowerCase()] === 'Cobrado',
-                          '!bg-blue-300' : item[header.toLowerCase()] === 'No Vendido',
+                          'py-[2px] px-4 rounded-xl !text-[12px] !font-semibold !text-neutral-800 cursor-pointer hover:scale-50' :
+                              item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'Pendiente' || item[header.toLowerCase()] === 'Cobrado',
+                          '!bg-blue-200' : item[header.toLowerCase()] === 'No Vendido',
                           '!bg-yellow-100' : item[header.toLowerCase()] === 'Pendiente',
                           '!bg-purple-300' : item[header.toLowerCase()] === 'Cobrado',
+
+                          '!text-cyan-100' : item[header.toLowerCase()] === 'Factura',
+                          '!text-orange-200' : item[header.toLowerCase()] === 'Letra de Cambio',
+
+                          '!text-red-300' : item[header.toLowerCase()] === 'Soles Peruanos',
+                          '!text-amber-100' : item[header.toLowerCase()] === 'Dólares Americanos',
                         }"
                       >
                         {{ item[header.toLowerCase()] }}

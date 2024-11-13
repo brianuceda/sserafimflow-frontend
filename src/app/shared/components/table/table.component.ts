@@ -33,7 +33,7 @@ export type ItemsPerPage = 5 | 10 | 15 | 30 | 50 | 100;
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, SafeHtmlPipe, RouterLink],
+  imports: [CommonModule, FormsModule, SafeHtmlPipe],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   schemas: [NO_ERRORS_SCHEMA],
@@ -63,6 +63,7 @@ export class TableComponent {
   @Input() headersDisplayedNames!: string[]; // * OBLIGATORIO
   @Input() dataTable!: any[]; // * OBLIGATORIO
 
+  @Input() haveConfig: boolean = true; // ? OPCIONAL
   @Input() haveSelectionCol: boolean = false; // ? OPCIONAL
   @Input() haveActionsCol: ActionsCol = { edit: false, delete: false }; // ? OPCIONAL [edit, delete]
 
