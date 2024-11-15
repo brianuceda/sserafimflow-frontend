@@ -13,24 +13,24 @@
         <div class="w-full flex gap-3 max-2xl:flex-col">
 
           <!-- Selector de Banco (único) -->
-          <mat-form-field class="w-full flex-[2]">
+          <!-- <mat-form-field class="w-full flex-[2]">
             <mat-label>Selecciona un banco</mat-label>
             <mat-select [formControl]="selectedBank">
               <mat-option *ngFor="let bank of banks" [value]="bank.id">
                 {{ bank.id }} - {{ bank.realname }}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
           
           <!-- Selector de Tasa (único) -->
-          <mat-form-field class="w-full flex-[1]">
+          <!-- <mat-form-field class="w-full flex-[1]">
             <mat-label>Selecciona un tipo de tasa</mat-label>
             <mat-select [formControl]="selectedRateType">
               <mat-option *ngFor="let rate of rates" [value]="rate.value">
                 {{ rate.viewValue }}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
           
         </div>
         
@@ -38,14 +38,14 @@
           Bancos Disponibles
         </h2>
 
-        <app-table
+        <!-- <app-table
           class="min-w-[314px] w-full"
           [style]="'light'"
           [headersDisplayed]="banksHeadersDisplayed"
           [headersDisplayedNames]="banksHeadersDisplayedNames"
           [dataTable]="banks"
           [eventsList]="eventsList"
-        ></app-table>
+        ></app-table> -->
     
       </div>
 
@@ -56,27 +56,27 @@
         </h2>
         
         <!-- Selector de documentos (múltiple) -->
-        <mat-form-field class="w-full">
+        <!-- <mat-form-field class="w-full">
           <mat-label>Selecciona los documentos</mat-label>
           <mat-select [formControl]="selectedDocuments" multiple>
             <mat-option *ngFor="let document of documentList" [value]="document.id">
               {{ document.id }} - {{ document.documenttype }} - {{ document.amount }} - {{ document.clientname }}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
         
         <h2 class="max-sm:ps-3 font-medium text-[18px] pb-2 border-b border-b-neutral-500 border-opacity-50 mb-1">
           Documentos no Vendidos
         </h2>
 
-        <app-table
+        <!-- <app-table
           class="min-w-[314px] w-full"
           [style]="'light'"
           [headersDisplayed]="documentsHeadersDisplayed"
           [headersDisplayedNames]="documentsHeadersDisplayedNames"
           [dataTable]="documents"
           [eventsList]="eventsList"
-        ></app-table>
+        ></app-table> -->
       </div>
     </div>
 
