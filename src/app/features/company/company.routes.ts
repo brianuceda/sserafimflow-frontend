@@ -19,7 +19,7 @@ export default [
   },
   {
     path: 'bancos',
-    loadComponent: () => import('./banks/pages/banks/banks.component'),
+    loadComponent: () => import('./banks/pages/show-banks/show-banks.component'),
     canActivate: [CompanyGuard],
   },
   {

@@ -1,6 +1,7 @@
-@import url('../public/styles/_all.css');
-@import url('../public/styles/_angular_material.css');
 @import url('../public/styles/_scrollbar.css');
+@import url('../public/styles/_mathjax.css');
+@import url('../public/styles/_toast.css');
+@import url('../public/styles/_angular_material.css');
 @import url('../public/styles/_apexcharts.css');
 @import url('../public/styles/_flowbite.css');
 @import url('../public/styles/_preline.css');
@@ -14,4 +15,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+mjx-container.MathJax {
+  pointer-events: none !important;
 }

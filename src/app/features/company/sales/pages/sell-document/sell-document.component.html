@@ -5,6 +5,10 @@
     <div class="flex gap-3 max-[1400px]:flex-col mb-6">
       <!-- Banco y Tasa -->
       <div class="flex-1 flex flex-col gap-4">
+        
+        <h2 class="max-sm:ps-3 font-medium text-[18px] pb-2 border-b border-b-neutral-500 border-opacity-50 mb-1">
+          Banco y Tipo de Tasa
+        </h2>
 
         <div class="w-full flex gap-3 max-2xl:flex-col">
 
@@ -29,6 +33,10 @@
           </mat-form-field>
           
         </div>
+        
+        <h2 class="max-sm:ps-3 font-medium text-[18px] pb-2 border-b border-b-neutral-500 border-opacity-50 mb-1">
+          Bancos Disponibles
+        </h2>
 
         <app-table
           class="min-w-[314px] w-full"
@@ -53,6 +61,10 @@
           </mat-select>
         </mat-form-field> -->
         
+        <h2 class="max-sm:ps-3 font-medium text-[18px] pb-2 border-b border-b-neutral-500 border-opacity-50 mb-1">
+          Documento
+        </h2>
+        
         <!-- Selector de documento (único) -->
         <mat-form-field class="w-full">
           <mat-label>Selecciona un documento</mat-label>
@@ -63,6 +75,10 @@
           </mat-select>
         </mat-form-field>
         
+        <h2 class="max-sm:ps-3 font-medium text-[18px] pb-2 border-b border-b-neutral-500 border-opacity-50 mb-1">
+          Documentos no Vendidos
+        </h2>
+
         <app-table
           class="min-w-[314px] w-full"
           [style]="'light'"
@@ -75,86 +91,102 @@
     </div>
 
     <!-- Fórmulas -->
-    @if (purchaseEquations) {
-      <div class="w-full break-words">
-        <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
-          Fórmulas Utilizadas
-        </h2>
-        <div class="flex gap-3 max-sm:gap-2 flex-wrap">
-  
-          <!-- Ecuación para el TEP -->
-          <div class="flex flex-col min-w-[500px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
-            <h3 class="text-sm text-center text-neutral-400 font-semibold pb-3">
-              Tasa Efectiva del Periodo (TEP)
-            </h3>
-            <div class="flex justify-center items-center flex-1 gap-5">
-  
-              <!-- Ecuacion -->
-              <app-mathjax-ecuation class="text-neutral-500"
-                latexCode="\[ \text{TEP} = \left( 1 + \frac{\text{TN}}{m} \right)^n - 1 \]">
-              </app-mathjax-ecuation>
-  
-              <span class="h-full w-[1px] bg-neutral-600 rounded-lg"></span>
-  
-              <!-- Ecuacion Aplicada -->
+    <div class="w-full break-words">
+      <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
+        Fórmulas Utilizadas
+      </h2>
+      <div class="flex gap-3 max-sm:gap-2 flex-wrap">
+
+        <!-- Ecuación para el TEP -->
+        <div class="flex flex-col min-w-[500px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+          <h3 class="text-sm text-center text-neutral-400 font-semibold pb-3">
+            Tasa Efectiva del Periodo (TEP)
+          </h3>
+          <div class="flex justify-center items-center flex-1 gap-5">
+
+            <!-- Ecuacion -->
+            <app-mathjax-ecuation class="text-neutral-500"
+              latexCode="\[ \text{TEP} = \left( 1 + \frac{\text{TN}}{m} \right)^n - 1 \]">
+            </app-mathjax-ecuation>
+
+            <span class="h-full w-[1px] bg-neutral-600 rounded-lg"></span>
+
+            <!-- Ecuacion Aplicada -->
+            @if (purchaseEquations) {
               <app-mathjax-ecuation
                 latexCode="\[ \text{TEP} = \left( 1 + \frac{\text{ {{purchaseEquations.tep.tn}} }}{ {{purchaseEquations.tep.m}} } \right)^ { {{purchaseEquations.tep.n}} } - 1 = \text{ {{purchaseEquations.tep.value}} } \]">
               </app-mathjax-ecuation>
-  
-            </div>
-          </div>
-          
-          <!-- Ecuación para la Tasa Descontada -->
-          <div class="flex flex-col min-w-[500px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
-            <h3 class="text-sm text-center text-neutral-400 font-semibold pb-3">
-              Tasa Descontada (%d)
-            </h3>
-            <div class="flex justify-center items-center flex-1 gap-5">
-  
-              <!-- Ecuacion -->
-              <app-mathjax-ecuation class="text-neutral-500"
-                latexCode="\[ d = \frac{\text{TEP}}{1 + \text{TEP}} \]">
+            } @else {
+              <app-mathjax-ecuation
+                latexCode="\[ \text{TEP} = \text{...} \]">
               </app-mathjax-ecuation>
-  
-              <span class="h-full w-[1px] bg-neutral-600 rounded-lg"></span>
-  
-              <!-- Ecuacion Aplicada -->
+            }
+
+          </div>
+        </div>
+        
+        <!-- Ecuación para la Tasa Descontada -->
+        <div class="flex flex-col min-w-[500px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+          <h3 class="text-sm text-center text-neutral-400 font-semibold pb-3">
+            Tasa Descontada (%d)
+          </h3>
+          <div class="flex justify-center items-center flex-1 gap-5">
+
+            <!-- Ecuacion -->
+            <app-mathjax-ecuation class="text-neutral-500"
+              latexCode="\[ d = \frac{\text{TEP}}{1 + \text{TEP}} \]">
+            </app-mathjax-ecuation>
+
+            <span class="h-full w-[1px] bg-neutral-600 rounded-lg"></span>
+
+            <!-- Ecuacion Aplicada -->
+            @if (purchaseEquations) {
               <app-mathjax-ecuation
                 latexCode="\[ d = \frac{\text{ {{purchaseEquations.discountedRate.tep}} }}{1 + \text{ {{purchaseEquations.discountedRate.tep}} }} = \text{ {{purchaseEquations.discountedRate.value}} } \]">
               </app-mathjax-ecuation>
-  
-            </div>
-          </div>
-          
-          <!-- Ecuación para el Valor Recibido -->
-          <div class="flex flex-col min-w-[700px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
-            <h3 class="text-sm text-center text-neutral-400 font-semibold pb-3">
-              Valor Recibido
-            </h3>
-            <div class="flex justify-center items-center flex-1 gap-5">
-  
-              <!-- Ecuacion -->
-              <app-mathjax-ecuation class="text-neutral-500"
-                latexCode="\[ \text{Valor Neto} = \text{Valor Nominal} \times (1 - d) \]">
+            } @else {
+              <app-mathjax-ecuation
+                latexCode="\[ d = \text{...} \]">
               </app-mathjax-ecuation>
-  
-              <span class="h-full w-[1px] bg-neutral-600 rounded-lg"></span>
-  
-              <!-- Ecuacion Aplicada -->
+            }
+
+          </div>
+        </div>
+        
+        <!-- Ecuación para el Valor Recibido -->
+        <div class="flex flex-col min-w-[700px] max-sm:min-w-full scrollbar-container overflow-y-hidden flex-1 rounded-lg max-sm:rounded-none border border-neutral-800 bg-neutral-750 p-4 pb-0">
+          <h3 class="text-sm text-center text-neutral-400 font-semibold pb-3">
+            Valor Recibido
+          </h3>
+          <div class="flex justify-center items-center flex-1 gap-5">
+
+            <!-- Ecuacion -->
+            <app-mathjax-ecuation class="text-neutral-500"
+              latexCode="\[ \text{Valor Neto} = \text{Valor Nominal} \times (1 - d) \]">
+            </app-mathjax-ecuation>
+
+            <span class="h-full w-[1px] bg-neutral-600 rounded-lg"></span>
+
+            <!-- Ecuacion Aplicada -->
+            @if (purchaseEquations) {
               <app-mathjax-ecuation
                 latexCode="\[ \text{Valor Neto} = \text{ {{purchaseEquations.receivedValue.nominalValue}} } \times (1 - {{purchaseEquations.receivedValue.d}}) = \text{ {{purchaseEquations.receivedValue.value}} } \]">
               </app-mathjax-ecuation>
-  
-            </div>
-          </div>
-  
-        </div>
-      </div>
+            } @else {
+              <app-mathjax-ecuation
+                latexCode="\[ \text{Valor Neto} = \text{...} \]">
+              </app-mathjax-ecuation>
+            }
 
-      <button (click)="sellDocument()" type="button" class="px-4 py-3 w-full font-semibold rounded-lg border border-purple-500 border-opacity-50 bg-purple-500 hover:bg-purple-600 transition-colors duration-300 mt-6">
-        Vender Documento
-      </button>
-    }
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <button (click)="sellDocument()" type="button" class="px-4 py-3 w-full font-semibold rounded-lg border border-purple-500 border-opacity-50 bg-purple-500 hover:bg-purple-600 disabled:hover:bg-purple-500 transition-colors duration-300 mt-6 disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="!purchaseEquations">
+      Vender Documento
+    </button>
 
   } @else if (isLoading === true) {
 

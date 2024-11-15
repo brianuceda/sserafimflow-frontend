@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import ShowBanksComponent from './show-banks.component';
 
-import { DeletePortfolioComponent } from './delete-portfolio.component';
-
-describe('DeletePortfolioComponent', () => {
-  let component: DeletePortfolioComponent;
-  let fixture: ComponentFixture<DeletePortfolioComponent>;
+describe('BanksComponent', () => {
+  let component: ShowBanksComponent;
+  let fixture: ComponentFixture<ShowBanksComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeletePortfolioComponent]
+      imports: [ShowBanksComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DeletePortfolioComponent);
+    fixture = TestBed.createComponent(ShowBanksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,12 +9,12 @@ export default [
   },
   {
     path: 'crear-modificar',
-    loadComponent: () => import('./pages/assign-documents-to-portfolio/assign-documents-to-portfolio.component'),
+    loadComponent: () => import('./pages/create-modify-portfolio/create-modify-portfolio.component'),
     canActivate: [CompanyGuard],
   },
   {
-    path: 'eliminar',
-    loadComponent: () => import('./pages/delete-portfolio/delete-portfolio.component'),
+    path: 'asignar-documentos',
+    loadComponent: () => import('./pages/assign-documents-to-portfolio/assign-documents-to-portfolio.component'),
     canActivate: [CompanyGuard],
   },
 ] as Routes;

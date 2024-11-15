@@ -1,4 +1,5 @@
 <section class="w-full h-full">
+
   <!-- Título -->
   <h2 class="mb-[6px] max-sm:ml-3 font-semibold text-[18px]">
     <label for="searchInput">Bancos Asociados</label>
@@ -61,7 +62,7 @@
 
     <!-- Bancos -->
     <div class="grid grid-cols-4 max-[1800px]:grid-cols-3 max-2xl:grid-cols-2 max-lg:grid-cols-1 gap-2">
-      @for (item of filteredBanks; track $index) {
+      @for (item of filteredListData; track $index) {
         <div class="p-4 border bg-neutral-750 border-neutral-800 max-sm:border-x-0 rounded-lg max-sm:rounded-none">
           <!-- Info -->
           <div class="flex gap-4 mb-4">

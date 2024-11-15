@@ -55,6 +55,10 @@ export class TableComponent {
   @Input() searchInput: string = ''; // ? OPCIONAL
   @Input() lowerSelectedSearchTerm?: string; // NT
 
+  log(str: string) {
+    console.log(str);
+  }
+
   // Tabla
   @Input() style: 'dark' | 'default' | 'light' = 'default'; // ? OPCIONAL
   @Input() titleText?: string; // ? OPCIONAL
@@ -71,6 +75,8 @@ export class TableComponent {
 
   public showedData: any[] = []; // NT
   public isCtrlPressed: boolean = false; // NT
+
+  public actualAction: boolean = false;
 
   @ViewChild('searchInputElement')
   searchInputElement!: ElementRef<HTMLInputElement>; // NT

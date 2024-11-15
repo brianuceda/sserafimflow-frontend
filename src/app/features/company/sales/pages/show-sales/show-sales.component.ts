@@ -153,7 +153,7 @@ export default class ShowSalesComponent {
       this.headersDisplayedNames = [
         'ID',
         'Fecha de Venta',
-        'Fecha de Cobro',
+        'Fecha de Descuento',
         'Estado',
         'Moneda',
         'Valor Nominal',
@@ -184,7 +184,7 @@ export default class ShowSalesComponent {
       ];
       this.headersDisplayedNames = [
         'ID',
-        'Fecha de Cobro',
+        'Fecha de Descuento',
         'Estado',
         'Moneda',
         'Valor Nominal',
@@ -208,9 +208,7 @@ export default class ShowSalesComponent {
         return {
           id: document.id,
           purchasedate: document.purchaseDate.split('-').reverse().join('/'),
-          paydate: document.payDate
-            ? document.payDate
-            : '-',
+          paydate: document.payDate ? document.payDate : '-',
           state:
             document.state in this.viewNamesStates
               ? this.viewNamesStates[document.state]

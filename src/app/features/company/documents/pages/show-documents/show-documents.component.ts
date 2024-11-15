@@ -15,8 +15,8 @@ import {
 } from '../../../../../shared/components/table/table.component';
 import { Document as SharedDocument } from '../../../../../shared/data-access/models/document.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ConfirmDeleteDocumentComponent } from '../../modal/confirm-delete-document/confirm-delete-document.component';
 import { toast } from 'ngx-sonner';
+import { DialogAngularMaterialComponent } from '../../../../../shared/components/dialog-angular-material/dialog-angular-material.component';
 
 @Component({
   selector: 'app-show-documents',
@@ -36,7 +36,7 @@ export default class ShowDocumentsComponent {
       title: 'Agregar a Cartera',
       svg: `<svg class="size-[18px]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8H5m12 0a1 1 0 0 1 1 1v2.6M17 8l-4-4M5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.6M5 8l4-4 4 4m6 4h-4a2 2 0 1 0 0 4h4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1Z"/></svg>`,
       emitEvents: 'emitEvents',
-      pathToGo: '/app/empresa/carteras/crear-modificar',
+      pathToGo: '/app/empresa/carteras/asignar-documentos',
     },
     {
       title: 'Vender',
@@ -102,7 +102,7 @@ export default class ShowDocumentsComponent {
     let amount = this.formatNumber(document.amount, document.currency as CurrencyEnum);
     let client = document.clientName;
   
-    const dialogRef = this._dialog.open(ConfirmDeleteDocumentComponent, {
+    const dialogRef = this._dialog.open(DialogAngularMaterialComponent, {
       data: {
         title: 'Eliminar Documento',
         message: `¿Desea eliminar la ${documentType} de ${amount} de ${client}?`,
@@ -117,6 +117,7 @@ export default class ShowDocumentsComponent {
             this.loadData();
           },
           error: (error) => {
+            toast.error(error.error.message);
             console.error(error);
           }
         });
@@ -192,65 +193,8 @@ export default class ShowDocumentsComponent {
       'Teléfono del Cliente',
       'Cartera',
     ];
+    
     this.selectedColumns = new Set([]);
-
-    // this.dataTable.push(
-    //   {
-    //     id: 1,
-    //     documenttype: 'Factura',
-    //     amount: 'S/ 100.00',
-    //     currency: 'Soles Peruanos',
-    //     issuedate: '9/11/2024',
-    //     duedate: '27/11/2024',
-    //     state: 'No Vendido',
-    //     clientname: 'Juan Perez',
-    //     clientphone: '999888777',
-    //   },
-    //   {
-    //     id: 2,
-    //     documenttype: 'Letra de Cambio',
-    //     amount: 'S/ 200.00',
-    //     currency: 'Soles Peruanos',
-    //     issuedate: '9/11/2024',
-    //     duedate: '27/11/2024',
-    //     state: 'Pendiente',
-    //     clientname: 'Juan Perez',
-    //     clientphone: '999888777',
-    //   },
-    //   {
-    //     id: 3,
-    //     documenttype: 'Factura',
-    //     amount: 'S/ 300.00',
-    //     currency: 'Soles Peruanos',
-    //     issuedate: '9/11/2024',
-    //     duedate: '27/11/2024',
-    //     state: 'Cobrado',
-    //     clientname: 'Juan Perez',
-    //     clientphone: '999888777',
-    //   },
-    //   {
-    //     id: 4,
-    //     documenttype: 'Letra de Cambio',
-    //     amount: 'S/ 400.00',
-    //     currency: 'Soles Peruanos',
-    //     issuedate: '9/11/2024',
-    //     duedate: '27/11/2024',
-    //     state: 'No Vendido',
-    //     clientname: 'Juan Perez',
-    //     clientphone: '999888777',
-    //   },
-    //   {
-    //     id: 5,
-    //     documenttype: 'Factura',
-    //     amount: 'S/ 500.00',
-    //     currency: 'Soles Peruanos',
-    //     issuedate: '9/11/2024',
-    //     duedate: '27/11/2024',
-    //     state: 'Cobrado',
-    //     clientname: 'Juan Perez',
-    //     clientphone: '999888777',
-    //   },
-    // );
 
     let documentTypes: { [key: string]: string } = {
       INVOICE: 'Factura',

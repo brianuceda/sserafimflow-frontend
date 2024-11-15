@@ -9,6 +9,7 @@ import { FieldsCompanyRegister, FormCompanyRegister } from '../../../../auth/dat
 import { hasAnyError } from '../../../../shared/utils/form-validators';
 import { DatepickerFlowbiteComponent } from '../../../../shared/components/datepicker-flowbite/datepicker-flowbite.component';
 import { toast } from 'ngx-sonner';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile',
@@ -29,6 +30,7 @@ export default class ProfileComponent {
   private _companyService = inject(CompanyService);
   // change detector
   private _chdr = inject(ChangeDetectorRef);
+  readonly _dialog = inject(MatDialog);
 
   constructor() {
     this.form = this._formBuilder.group<Partial<FormCompanyRegister>>({
@@ -97,6 +99,10 @@ export default class ProfileComponent {
         console.error(error);
       }
     });
+  }
+
+  changeCurrency(event: any) {
+    
   }
 
   formatTimestamp(timestamp: string): string {

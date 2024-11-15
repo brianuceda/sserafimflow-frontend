@@ -10,22 +10,17 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-banks',
   standalone: true,
   imports: [LoaderComponent, CommonModule, FormsModule],
-  templateUrl: './banks.component.html',
-  styleUrl: './banks.component.scss',
+  templateUrl: './show-banks.component.html',
+  styleUrl: './show-banks.component.scss',
 })
-export default class BanksComponent {
+export default class ShowBanksComponent {
   public isLoading: true | false | null = true;
 
-  public banks: Partial<Bank>[] = [];
-  public filteredBanks: Partial<Bank>[] = [];
+  public listData: Partial<Bank>[] = [];
+  public filteredListData: Partial<Bank>[] = [];
 
   searchInput: string = '';
-  lowerSelectedSearchTerm:
-    | 'id'
-    | 'realName'
-    | 'ruc'
-    | 'nominalRate'
-    | 'effectiveRate' = 'id';
+  lowerSelectedSearchTerm: string = 'id';
 
   private _banksService = inject(BanksService);
   private _activateRoute = inject(ActivatedRoute);
@@ -52,14 +47,14 @@ export default class BanksComponent {
   loadData() {
     this._banksService.getAllBanksAssociated().subscribe({
       next: (data: Bank[]) => {
-        this.banks = data.map((bank) => ({
-          ...bank,
-          nominalRate: Number((Number(bank.nominalRate) * 100).toFixed(3)),
-          effectiveRate: Number((Number(bank.effectiveRate) * 100).toFixed(3)),
-          creationDate: bank.creationDate?.split('-').reverse().join('/'),
+        this.listData = data.map((item) => ({
+          ...item,
+          nominalRate: Number((Number(item.nominalRate) * 100).toFixed(3)),
+          effectiveRate: Number((Number(item.effectiveRate) * 100).toFixed(3)),
+          creationDate: item.creationDate?.split('-').reverse().join('/'),
         }));
 
-        this.filteredBanks = this.banks;
+        this.filteredListData = this.listData;
         this.isLoading = false;
 
         this.updateShowedData();
@@ -77,19 +72,14 @@ export default class BanksComponent {
     } else {
       this.searchInput = '';
       this.lowerSelectedSearchTerm = 'id';
-      this.filteredBanks = this.banks;
+      this.filteredListData = this.listData;
     }
   }
 
   onOptionSelected(event: Event) {
     const target = event.target as HTMLSelectElement;
     if (target && target.value) {
-      this.lowerSelectedSearchTerm = target.value as
-        | 'id'
-        | 'realName'
-        | 'ruc'
-        | 'nominalRate'
-        | 'effectiveRate';
+      this.lowerSelectedSearchTerm = target.value as string;
       this.updateShowedData();
     }
   }
@@ -102,14 +92,14 @@ export default class BanksComponent {
 
   updateShowedData() {
     if (this.searchInput && this.lowerSelectedSearchTerm) {
-      this.filteredBanks = this.banks.filter((bank) => {
-        const field = bank[this.lowerSelectedSearchTerm];
+      this.filteredListData = this.listData.filter((item) => {
+        const field = item[this.lowerSelectedSearchTerm as keyof Partial<Bank>];
         return (
           field && field.toString().toLowerCase().includes(this.searchInput)
         );
       });
     } else {
-      this.filteredBanks = this.banks;
+      this.filteredListData = this.listData;
     }
   }
 }

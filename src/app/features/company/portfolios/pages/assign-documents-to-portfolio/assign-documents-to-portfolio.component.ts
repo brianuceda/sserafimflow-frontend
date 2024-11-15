@@ -8,15 +8,34 @@ import { LoaderComponent } from '../../../../../shared/components/loader/loader.
 import { DocumentsService } from '../../../documents/data-access/services/documents.service';
 import { Document as SharedDocument } from '../../../../../shared/data-access/models/document.model';
 import { StateEnum } from '../../../../../shared/data-access/models/enums.model';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
 
 @Component({
   selector: 'app-assign-documents-to-portfolio',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, LoaderComponent],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, LoaderComponent, TableComponent],
   templateUrl: './assign-documents-to-portfolio.component.html',
   styleUrl: './assign-documents-to-portfolio.component.scss',
 })
 export default class AssignDocumentsToPortfolioComponent {
+  public viewNamesDocumentTypes: { [key: string]: string } = {
+    INVOICE: 'Factura',
+    LETTER: 'Letra de Cambio',
+  };
+  public viewNamesCurrencies: { [key: string]: string } = {
+    PEN: 'Soles Peruanos',
+    USD: 'Dólares Americanos',
+  };
+  public viewNamesStates: { [key: string]: string } = {
+    NOT_SELLED: 'No Vendido',
+    PENDING: 'Pendiente',
+    PAID: 'Cobrado',
+  };
+  public viewNamesRates: { [key: string]: string } = {
+    NOMINAL: 'Nominal',
+    EFFECTIVE: 'Efectiva',
+  };
+
   public isEditting: boolean = false;
   public isLoading: true | false | null = false;
 

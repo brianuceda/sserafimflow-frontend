@@ -122,25 +122,6 @@ export default class SellDocumentComponent {
 
   purchaseEquations!: PurchaseEquations;
 
-  // // Formulas
-  // tep: Tep = {
-  //   tn: 0.15,
-  //   m: 360,
-  //   n: 64,
-  //   value: 0.0152,
-  // };
-
-  // discountedRate: DiscountedRate = {
-  //   tep: 0.15,
-  //   value: 0.045,
-  // };
-
-  // receivedValue: ReceivedValue = {
-  //   nominalValue: 1520.23,
-  //   d: 0.045,
-  //   value: 1292.1955,
-  // };
-
   readonly _salesService = inject(SalesService);
   readonly _banksService = inject(BanksService);
   readonly _documentsService = inject(DocumentsService);
@@ -207,22 +188,29 @@ export default class SellDocumentComponent {
   }
 
   sellDocument() {
-    this,
-      this._salesService
-        .sellDocument(
-          this.selectedBank.value!,
-          this.selectedDocument.value!,
-          this.selectedRateType.value
-        )
-        .subscribe({
-          next: (response: any) => {
-            this._router.navigate(['/app/empresa/ventas/mostrar']);
-            toast.success(response.message);
-          },
-          error: (error: any) => {
-            console.error(error);
-          },
-        });
+    if (
+      this.selectedDocument.value === null || this.selectedDocument.value === undefined ||
+      this.selectedBank.value === null ||this.selectedBank.value === undefined ||
+      this.selectedRateType.value === ''
+    ) {
+      return;
+    }
+
+    this._salesService
+      .sellDocument(
+        this.selectedBank.value!,
+        this.selectedDocument.value!,
+        this.selectedRateType.value
+      )
+      .subscribe({
+        next: (response: any) => {
+          this._router.navigate(['/app/empresa/ventas/mostrar']);
+          toast.success(response.message);
+        },
+        error: (error: any) => {
+          console.error(error);
+        },
+      });
   }
 
   private logQueryParams() {

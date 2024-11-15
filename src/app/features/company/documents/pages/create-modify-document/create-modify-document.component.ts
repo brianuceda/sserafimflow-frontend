@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Document as SharedDocument } from '../../../../../shared/data-access/models/document.model';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -19,8 +20,21 @@ import {
   DatepickerOptions,
 } from '../../../../../shared/components/datepicker-flowbite/datepicker-flowbite.component';
 import { toast } from 'ngx-sonner';
-import { FieldsDocumentCreateModify } from '../../models/document-register.model';
 import { hasAnyError } from '../../../../../shared/utils/form-validators';
+
+interface FieldsDocumentCreateModify {
+  field: 'documentType' | 'amount' | 'currency' | 'discountDate' | 'expirationDate' | 'clientName' | 'clientPhone';
+}
+
+interface FormDocumentCreateModify {
+  documentType: FormControl<DocumentTypeEnum | null>;
+  amount: FormControl<number | null>;
+  currency: FormControl<CurrencyEnum | null>;
+  discountDate: FormControl<string | null>;
+  expirationDate: FormControl<string | null>;
+  clientName: FormControl<string | null>;
+  clientPhone: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-create-modify-document',
