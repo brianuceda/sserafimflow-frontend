@@ -69,6 +69,7 @@ export class TableComponent {
   @Input() dataTable!: any[]; // * OBLIGATORIO
 
   @Input() haveConfig: boolean = true; // ? OPCIONAL
+  @Input() disableHoverOnRows: boolean = false; // ? OPCIONAL
   @Input() haveSelectionCol: boolean = false; // ? OPCIONAL
   @Input() haveActionsCol: ActionsCol = { edit: false, delete: false }; // ? OPCIONAL [edit, delete]
 

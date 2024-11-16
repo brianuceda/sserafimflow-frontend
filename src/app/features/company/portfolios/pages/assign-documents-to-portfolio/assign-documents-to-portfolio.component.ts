@@ -101,12 +101,12 @@ export default class AssignDocumentsToPortfolioComponent {
   ];
   documentsHeadersDisplayedNames: string[] = [
     'ID',
-    'Tipo de Documento',
+    'Tipo',
     'Monto',
     'Moneda',
-    'Fecha de Descuento',
+    'Descuento',
     'Estado',
-    'Nombre del Cliente',
+    'Cliente',
   ];
   documents: any[] = [];
 
@@ -359,7 +359,7 @@ export default class AssignDocumentsToPortfolioComponent {
       documenttype:
         this.viewNamesDocumentTypes[doc.documentType] || doc.documentType,
       // amount: doc.currency,
-      amount: this.formatNumber(doc.amount),
+      amount: this.formatNumber(doc.amount, doc.currency as CurrencyEnum),
       currency: this.viewNamesCurrencies[doc.currency] || doc.currency,
       discountdate: doc.discountDate?.split('-').reverse().join('/'),
       state: this.viewNamesStates[doc.state] || doc.state,

@@ -7,15 +7,29 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Document } from '../../../../../shared/data-access/models/document.model';
 import { CurrencyEnum } from '../../../../../shared/data-access/models/enums.model';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
 
 @Component({
   selector: 'app-show-portfolios',
   standalone: true,
-  imports: [LoaderComponent, CommonModule, FormsModule],
+  imports: [LoaderComponent, CommonModule, FormsModule, TableComponent],
   templateUrl: './show-portfolios.component.html',
   styleUrl: './show-portfolios.component.scss',
 })
 export default class ShowPortfoliosComponent {
+  documentsHeadersDisplayed: string[] = [
+    'id',
+    'documenttype',
+    'amount',
+    'clientname',
+  ];
+  documentsHeadersDisplayedNames: string[] = [
+    'ID',
+    'Tipo',
+    'Monto',
+    'Cliente',
+  ];
+
   public viewNamesDocumentTypes: { [key: string]: string } = {
     INVOICE: 'Factura',
     LETTER: 'Letra de Cambio',
@@ -28,6 +42,11 @@ export default class ShowPortfoliosComponent {
     NOT_SELLED: 'No Vendida',
     PENDING: 'Pendiente',
     PAID: 'Cobrada',
+  };
+  public viewDocsNamesStates: { [key: string]: string } = {
+    NOT_SELLED: 'No Vendido',
+    PENDING: 'Pendiente',
+    PAID: 'Cobrado',
   };
   public viewNamesRates: { [key: string]: string } = {
     NOMINAL: 'Nominal',
@@ -135,14 +154,12 @@ export default class ShowPortfoliosComponent {
   changeDocumentsNames(documents: any[]): any[] {
     return documents.map((doc) => ({
       id: doc.id,
-      documentType:
+      documenttype:
         this.viewNamesDocumentTypes[doc.documentType] || doc.documentType,
       // amount: doc.currency,
       amount: this.formatNumber(doc.amount, doc.currency as CurrencyEnum),
-      currency: this.viewNamesCurrencies[doc.currency] || doc.currency,
-      discountDate: doc.discountDate?.split('-').reverse().join('/'),
-      state: this.viewNamesStates[doc.state] || doc.state,
-      clientName: doc.clientName,
+      discountdate: doc.discountDate?.split('-').reverse().join('/'),
+      clientname: doc.clientName,
     }));
   }
 

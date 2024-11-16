@@ -110,8 +110,7 @@
       <div
         class="scrollbar-container !overflow-y-hidden border rounded-lg max-sm:rounded-none"
         [ngClass]="{
-          'dark:border-neutral-700': style === 'dark',
-          'dark:border-neutral-600': style === 'default',
+          'dark:border-neutral-700': style === 'dark' || style === 'default',
           'dark:border-neutral-800' : style === 'light'
         }"
       >
@@ -183,12 +182,12 @@
             @for (item of showedData; track $index) {
               <tr
                 [ngClass]="{
-                  'dark:bg-neutral-900 dark:hover:bg-neutral-950 dark:border-neutral-700':
-                    style === 'dark',
-                  'dark:bg-neutral-800 dark:hover:bg-neutral-850 dark:border-neutral-600':
-                    style === 'default',
-                  'dark:bg-neutral-750 dark:hover:bg-neutral-775 dark:border-neutral-800':
-                    style === 'light',
+                  'dark:bg-neutral-900 dark:border-neutral-700': style === 'dark',
+                  'dark:bg-neutral-800 dark:border-neutral-700': style === 'default',
+                  'dark:bg-neutral-750 dark:border-neutral-800': style === 'light',
+                  'dark:hover:bg-neutral-950' : style === 'dark' && disableHoverOnRows === false,
+                  'dark:hover:bg-neutral-850' : style === 'default' && disableHoverOnRows === false,
+                  'dark:hover:bg-neutral-775' : style === 'light' && disableHoverOnRows === false,
                   'cursor-pointer': isCtrlPressed && haveSelectionCol
                 }"
                 (click)="toggleCheckboxOfRow($event, item)"
@@ -418,7 +417,7 @@
       </div>
 
       <!-- Páginas -->
-      @if (dataTable.length > 5) {
+      @if (dataTable.length > 5 && !disableHoverOnRows) {
         <div class="w-full mt-3 flex justify-between flex-wrap max-sm:flex-col gap-3">
 
           <!-- Filas por página -->
