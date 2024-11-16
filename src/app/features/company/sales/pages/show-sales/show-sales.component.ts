@@ -75,7 +75,7 @@ export default class ShowSalesComponent {
       this.loadData();
       this.cantInterval++;
 
-      if (this.cantInterval === 2) {
+      if (this.cantInterval === 1) {
         clearInterval(this.intervalId);
       }
     }, 3000);
@@ -206,7 +206,7 @@ export default class ShowSalesComponent {
         return {
           id: document.id,
           purchasedate: document.purchaseDate.split('-').reverse().join('/'),
-          paydate: document.payDate ? document.payDate : '-',
+          paydate: document.payDate ? document.payDate.split('-').reverse().join('/') : '-',
           state:
             document.state in this.viewNamesStates
               ? this.viewNamesStates[document.state]
