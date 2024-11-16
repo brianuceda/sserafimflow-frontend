@@ -63,9 +63,28 @@ export default class ShowSalesComponent {
   private _activateRoute = inject(ActivatedRoute);
   private _router = inject(Router);
 
+  private intervalId: any;
+  private cantInterval: number = 0;
+
   ngOnInit() {
     this.logQueryParams();
     this.loadData();
+
+    this.intervalId = setInterval(() => {
+      this.logQueryParams();
+      this.loadData();
+      this.cantInterval++;
+
+      if (this.cantInterval === 2) {
+        clearInterval(this.intervalId);
+      }
+    }, 3000);
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   private logQueryParams() {
