@@ -205,7 +205,7 @@ export default class ShowSalesComponent {
       (document: PurchasedDocument) => {
         return {
           id: document.id,
-          purchasedate: document.purchaseDate.split('-').reverse().join('/'),
+          purchasedate: document.purchaseDate ? document.purchaseDate.split('-').reverse().join('/') : '-',
           paydate: document.payDate ? document.payDate.split('-').reverse().join('/') : '-',
           state:
             document.state in this.viewNamesStates
