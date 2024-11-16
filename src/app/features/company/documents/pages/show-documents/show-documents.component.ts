@@ -92,23 +92,28 @@ export default class ShowDocumentsComponent {
 
   emitDeleteRow(id: Event) {
     const document = this.documents.find((doc) => doc.id === Number(id));
-  
+
     if (!document) {
       console.error(`Documento con ID ${Number(id)} no encontrado.`);
       return;
     }
 
-    let documentType = this.viewNamesDocumentTypes[document.documentType] || document.documentType;
-    let amount = this.formatNumber(document.amount, document.currency as CurrencyEnum);
+    let documentType =
+      this.viewNamesDocumentTypes[document.documentType] ||
+      document.documentType;
+    let amount = this.formatNumber(
+      document.amount,
+      document.currency as CurrencyEnum
+    );
     let client = document.clientName;
-  
+
     const dialogRef = this._dialog.open(DialogAngularMaterialComponent, {
       data: {
         title: 'Eliminar Documento',
         message: `¿Desea eliminar la ${documentType} de ${amount} de ${client}?`,
       },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'confirmed' && document.id) {
         this._documentsService.deleteDocument(document.id).subscribe({
@@ -119,20 +124,11 @@ export default class ShowDocumentsComponent {
           error: (error) => {
             toast.error(error.error.message);
             console.error(error);
-          }
+          },
         });
       } else if (result === 'cancelled') {
         console.log('Operación cancelada');
       }
-    });
-  }
-
-  private formatNumber(value: string | number, targetCurrency: CurrencyEnum) {
-    return parseFloat(value.toString()).toLocaleString('es-PE', {
-      style: 'currency',
-      currency: targetCurrency,
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 3,
     });
   }
 
@@ -193,7 +189,7 @@ export default class ShowDocumentsComponent {
       'Teléfono del Cliente',
       'Cartera',
     ];
-    
+
     this.selectedColumns = new Set([]);
 
     let documentTypes: { [key: string]: string } = {
@@ -243,5 +239,30 @@ export default class ShowDocumentsComponent {
         clientphone: document.clientPhone,
       };
     });
+  }
+
+  private formatNumber(value: string | number, targetCurrency?: CurrencyEnum) {
+    try {
+      let valueFormatted;
+
+      if (targetCurrency) {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          style: 'currency',
+          currency: targetCurrency,
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      } else {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      }
+
+      return valueFormatted;
+    } catch (error) {
+      console.error(error);
+      return value;
+    }
   }
 }

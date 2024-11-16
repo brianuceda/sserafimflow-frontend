@@ -59,6 +59,7 @@ export class TableComponent {
     console.log(str);
   }
 
+  @Input() forceActionsCol: boolean = false; // ? OPCIONAL
   // Tabla
   @Input() style: 'dark' | 'default' | 'light' = 'default'; // ? OPCIONAL
   @Input() titleText?: string; // ? OPCIONAL

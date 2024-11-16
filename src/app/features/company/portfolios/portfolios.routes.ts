@@ -8,12 +8,12 @@ export default [
     canActivate: [CompanyGuard],
   },
   {
-    path: 'crear-modificar',
-    loadComponent: () => import('./pages/create-modify-portfolio/create-modify-portfolio.component'),
+    path: 'asignar-documentos',
+    loadComponent: () => import('./pages/assign-documents-to-portfolio/assign-documents-to-portfolio.component'),
     canActivate: [CompanyGuard],
   },
   {
-    path: 'asignar-documentos',
+    path: 'asignar-documentos/:id',
     loadComponent: () => import('./pages/assign-documents-to-portfolio/assign-documents-to-portfolio.component'),
     canActivate: [CompanyGuard],
   },

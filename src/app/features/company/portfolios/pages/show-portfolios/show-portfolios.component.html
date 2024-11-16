@@ -63,14 +63,16 @@
     <!-- Bancos -->
     <div class="grid grid-cols-4 max-[1800px]:grid-cols-3 max-2xl:grid-cols-2 max-lg:grid-cols-1 gap-2">
       @for (item of filteredListData; track $index) {
-        <div class="p-4 border bg-neutral-750 border-neutral-800 max-sm:border-x-0 rounded-lg max-sm:rounded-none">
+        <button
+          (click)="assignDocumentsToPortfolioId(item.id)" type="button"
+          class="p-4 border bg-neutral-750 border-neutral-800 hover:bg-neutral-775 hover:transform hover:scale-[101%] max-sm:hover:transform-none max-sm:border-x-0 rounded-lg max-sm:rounded-none transition-transform duration-300">
           
           {{ item.id }}
           {{ item.name }}
           {{ item.state }}
           {{ item.documents?.length }}
           
-        </div>
+        </button>
       }
     </div>
 

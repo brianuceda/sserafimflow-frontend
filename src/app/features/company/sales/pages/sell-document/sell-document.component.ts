@@ -53,7 +53,6 @@ export default class SellDocumentComponent {
       emitEvents: 'resetTableConfig',
     },
   ];
-
   public viewNamesDocumentTypes: { [key: string]: string } = {
     INVOICE: 'Factura',
     LETTER: 'Letra de Cambio',
@@ -231,23 +230,28 @@ export default class SellDocumentComponent {
   }
 
   private formatNumber(value: string | number, targetCurrency?: CurrencyEnum) {
-    let valueFormatted;
+    try {
+      let valueFormatted;
 
-    if (targetCurrency) {
-      valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
-        style: 'currency',
-        currency: targetCurrency,
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 3,
-      });
-    } else {
-      valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 3,
-      });
+      if (targetCurrency) {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          style: 'currency',
+          currency: targetCurrency,
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      } else {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      }
+
+      return valueFormatted;
+    } catch (error) {
+      console.error(error);
+      return value;
     }
-
-    return valueFormatted;
   }
 
   loadData() {

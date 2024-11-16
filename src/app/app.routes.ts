@@ -4,9 +4,14 @@ import { BankGuard, CompanyGuard } from './core/role.guards';
 
 export const routes: Routes = [
   // Lading Page
+  // {
+  //   path: '',
+  //   loadChildren: () => import('./features/landing/landing.routes'),
+  // },
   {
     path: '',
-    loadChildren: () => import('./features/landing/landing.routes'),
+    redirectTo: '/app/empresa/dashboard',
+    pathMatch: 'full',
   },
   // Rutas Públicas
   {

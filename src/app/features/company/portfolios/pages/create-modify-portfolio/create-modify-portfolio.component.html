@@ -1,1 +1,72 @@
-<p>create-modify-portfolio works!</p>
+
+<form class="w-full flex-1 flex flex-col gap-3 justify-center items-center p-4 bg-neutral-700"
+  [formGroup]="form"
+  (ngSubmit)="createEditPortfolio()"
+  >
+
+  <!-- Nombre -->
+  <div class="w-full">
+  <label
+    for="name"
+    class="block w-fit text-sm font-medium mb-2 dark:text-neutral-200"
+    >Nombre</label
+  >
+  <div class="relative">
+    <!-- Part: Icon -->
+    <div
+      class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4"
+    >
+      <svg
+      class="shrink-0 size-[18px] text-neutral-300 dark:text-neutral-500"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M17 8H5m12 0a1 1 0 0 1 1 1v2.6M17 8l-4-4M5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.6M5 8l4-4 4 4m6 4h-4a2 2 0 1 0 0 4h4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1Z"
+        ></path>
+      </svg>
+    </div>
+
+    <!-- Part: Input -->
+    <input
+      id="name"
+      name="name"
+      formControlName="name"
+      type="text"
+      class="ps-11 block w-full py-3 px-4 text-sm ring-0 rounded-md disabled:opacity-50 disabled:pointer-events-none border border-gray-200 dark:bg-neutral-750 dark:border-neutral-800 dark:hover:bg-neutral-775 focus:ring-0 dark:text-neutral-200 dark:placeholder-neutral-500 transition-colors duration-300"
+      placeholder="Cartera de Ventas..."
+    />
+  </div>
+  <!-- Validators -->
+  @if (isRequired({field: 'name'})) {
+    <small class="text-red-400"
+      >El nombre de la empresa es obligatorio</small
+    >
+  } @if (hasMaxLengthError({field: 'name'})) {
+    <small class="text-red-400"
+      >El nombre de la cartera no debe exceder los 100 caracteres</small
+    >
+  }
+  </div>
+  <button
+    type="submit"
+    [disabled]="!form.valid"
+    class="px-4 py-2 w-full font-semibold rounded-lg bg-purple-500 hover:bg-purple-600 border border-purple-500 border-opacity-50 disabled:hover:bg-purple-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-neutral-200">
+    @if (state === 'create') {
+      Crear Cartera
+    } @else if (state === 'edit') {
+      Editar Cartera
+    }
+  </button>
+</form>

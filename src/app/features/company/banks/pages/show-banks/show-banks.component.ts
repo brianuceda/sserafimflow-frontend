@@ -5,6 +5,8 @@ import { BanksService } from '../../data-access/services/banks.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { toast } from 'ngx-sonner';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-banks',
@@ -101,5 +103,10 @@ export default class ShowBanksComponent {
     } else {
       this.filteredListData = this.listData;
     }
+  }
+
+  copyCreateBank() {
+    window.navigator.clipboard.writeText(environment.FRONTEND_URL + 'banco/registrarse');
+    toast.info('Ruta copiada al portapapeles');
   }
 }

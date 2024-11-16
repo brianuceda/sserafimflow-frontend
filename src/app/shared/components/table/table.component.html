@@ -274,10 +274,11 @@
                       <span
                         [ngClass]="{
                           'py-[2px] px-4 rounded-xl !text-[12px] !font-semibold !text-neutral-800 cursor-pointer hover:scale-50' :
-                              item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'Pendiente' || item[header.toLowerCase()] === 'Cobrado',
-                          '!bg-blue-200' : item[header.toLowerCase()] === 'No Vendido',
+                              item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'Pendiente' || item[header.toLowerCase()] === 'Cobrado' ||
+                              item[header.toLowerCase()] === 'No Vendida' || item[header.toLowerCase()] === 'Cobrada',
+                          '!bg-blue-200' : item[header.toLowerCase()] === 'No Vendido' || item[header.toLowerCase()] === 'No Vendida',
                           '!bg-yellow-100' : item[header.toLowerCase()] === 'Pendiente',
-                          '!bg-purple-300' : item[header.toLowerCase()] === 'Cobrado',
+                          '!bg-purple-300' : item[header.toLowerCase()] === 'Cobrado' || item[header.toLowerCase()] === 'Cobrada',
 
                           '!text-cyan-100' : item[header.toLowerCase()] === 'Factura',
                           '!text-orange-200' : item[header.toLowerCase()] === 'Letra de Cambio',
@@ -297,7 +298,7 @@
                 @if (haveActionsCol.edit === true || haveActionsCol.delete === true) {
                   <td class="p-4 whitespace-nowrap text-sm font-medium flex items-center justify-center gap-3">
 
-                    @if (showedData[$index].state === 'No Vendido') {
+                    @if (showedData[$index].state === 'No Vendido' || forceActionsCol) {
                       <!-- Editar -->
                       @if (haveActionsCol.edit === true) {
                         <button

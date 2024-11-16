@@ -22,7 +22,6 @@ export const sidebarDataCompany: SidebarItem[] = [
     route: 'empresa/carteras',
     childrens: [
       { title: 'Mostrar', route: 'mostrar' },
-      { title: 'Crear y Modificar', route: 'crear-modificar' },
       { title: 'Asignar Documentos', route: 'asignar-documentos' },
     ],
   },

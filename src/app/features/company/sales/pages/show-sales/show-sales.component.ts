@@ -79,26 +79,6 @@ export default class ShowSalesComponent {
     });
   }
 
-  private formatNumber(value: string | number, targetCurrency?: CurrencyEnum) {
-    let valueFormatted;
-
-    if (targetCurrency) {
-      valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
-        style: 'currency',
-        currency: targetCurrency,
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 3,
-      });
-    } else {
-      valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 3,
-      });
-    }
-
-    return valueFormatted;
-  }
-
   changeState(event: any) {
     this.selectedState = event.target.value;
 
@@ -128,6 +108,7 @@ export default class ShowSalesComponent {
       },
     });
   }
+
   convertDataToTable() {
     let havePayDate = this.documentsPurchased.some(
       (document: PurchasedDocument) => document.payDate
@@ -201,8 +182,6 @@ export default class ShowSalesComponent {
 
     this.selectedColumns = new Set([]);
 
-    console.log(this.documentsPurchased);
-
     this.dataTable = this.documentsPurchased.map(
       (document: PurchasedDocument) => {
         return {
@@ -262,5 +241,30 @@ export default class ShowSalesComponent {
       date.getUTCSeconds()
     ).padStart(2, '0')}`;
     return formattedDate;
+  }
+
+  private formatNumber(value: string | number, targetCurrency?: CurrencyEnum) {
+    try {
+      let valueFormatted;
+
+      if (targetCurrency) {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          style: 'currency',
+          currency: targetCurrency,
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      } else {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      }
+
+      return valueFormatted;
+    } catch (error) {
+      console.error(error);
+      return value;
+    }
   }
 }

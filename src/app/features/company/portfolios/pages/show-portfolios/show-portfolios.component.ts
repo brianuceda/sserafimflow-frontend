@@ -4,7 +4,9 @@ import { PortfoliosService } from '../../data-access/services/portfolios.service
 import { LoaderComponent } from '../../../../../shared/components/loader/loader.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Document } from '../../../../../shared/data-access/models/document.model';
+import { CurrencyEnum } from '../../../../../shared/data-access/models/enums.model';
 
 @Component({
   selector: 'app-show-portfolios',
@@ -14,15 +16,36 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './show-portfolios.component.scss',
 })
 export default class ShowPortfoliosComponent {
+  public viewNamesDocumentTypes: { [key: string]: string } = {
+    INVOICE: 'Factura',
+    LETTER: 'Letra de Cambio',
+  };
+  public viewNamesCurrencies: { [key: string]: string } = {
+    PEN: 'Soles Peruanos',
+    USD: 'Dólares Americanos',
+  };
+  public viewNamesStates: { [key: string]: string } = {
+    NOT_SELLED: 'No Vendida',
+    PENDING: 'Pendiente',
+    PAID: 'Cobrada',
+  };
+  public viewNamesRates: { [key: string]: string } = {
+    NOMINAL: 'Nominal',
+    EFFECTIVE: 'Efectiva',
+  };
+
   public isLoading: true | false | null = true;
 
-  public listData: Partial<Portfolio>[] = [];
-  public filteredListData: Partial<Portfolio>[] = [];
+  public listData: any[] = [];
+  public filteredListData: any[] = [];
+
+  selectedPortfolioId!: number;
 
   searchInput: string = '';
   lowerSelectedSearchTerm: string = 'id';
 
   private _portfoliosService = inject(PortfoliosService);
+  private _router = inject(Router);
   private _activateRoute = inject(ActivatedRoute);
 
   ngOnInit() {
@@ -52,25 +75,15 @@ export default class ShowPortfoliosComponent {
         }));
 
         this.filteredListData = this.listData;
-        this.isLoading = false;
-
         this.updateShowedData();
+
+        this.isLoading = false;
       },
       error: (error) => {
         this.isLoading = null;
         console.error(error);
       },
     });
-  }
-
-  resetTableConfig(isInitLoad: boolean = false) {
-    if (isInitLoad && this.searchInput && this.lowerSelectedSearchTerm) {
-      this.updateShowedData();
-    } else {
-      this.searchInput = '';
-      this.lowerSelectedSearchTerm = 'id';
-      this.filteredListData = this.listData;
-    }
   }
 
   onOptionSelected(event: Event) {
@@ -91,13 +104,70 @@ export default class ShowPortfoliosComponent {
     if (this.searchInput && this.lowerSelectedSearchTerm) {
       this.filteredListData = this.listData.filter((item) => {
         const field =
-        item[this.lowerSelectedSearchTerm as keyof Partial<Portfolio>];
+          item[this.lowerSelectedSearchTerm as keyof Partial<Portfolio>];
+
         return (
           field && field.toString().toLowerCase().includes(this.searchInput)
         );
       });
     } else {
-      this.filteredListData = this.listData;
+      this.filteredListData = [...this.listData];
+    }
+
+    this.changePortfoliosNames();
+  }
+
+  assignDocumentsToPortfolioId(portfolioId: number) {
+    this._router.navigate(['/app/empresa/carteras/asignar-documentos'], {
+      queryParams: { portfolioId },
+    });
+  }
+
+  changePortfoliosNames() {
+    this.filteredListData = this.filteredListData.map((portfolio) => ({
+      id: portfolio.id,
+      name: portfolio.name,
+      state: this.viewNamesStates[portfolio.state] || portfolio.state,
+      documents: this.changeDocumentsNames(portfolio.documents),
+    }));
+  }
+
+  changeDocumentsNames(documents: any[]): any[] {
+    return documents.map((doc) => ({
+      id: doc.id,
+      documentType:
+        this.viewNamesDocumentTypes[doc.documentType] || doc.documentType,
+      // amount: doc.currency,
+      amount: this.formatNumber(doc.amount, doc.currency as CurrencyEnum),
+      currency: this.viewNamesCurrencies[doc.currency] || doc.currency,
+      discountDate: doc.discountDate?.split('-').reverse().join('/'),
+      state: this.viewNamesStates[doc.state] || doc.state,
+      clientName: doc.clientName,
+    }));
+  }
+
+  private formatNumber(value: string | number, targetCurrency?: CurrencyEnum) {
+    try {
+      let valueFormatted;
+
+      if (targetCurrency) {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          style: 'currency',
+          currency: targetCurrency,
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      } else {
+        valueFormatted = parseFloat(value.toString()).toLocaleString('es-PE', {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 3,
+        });
+      }
+
+      return valueFormatted;
+    } catch (error) {
+      console.error(error);
+      return value;
     }
   }
 }

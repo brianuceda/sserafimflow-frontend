@@ -25,6 +25,10 @@ export class DocumentsService {
     return this._http.get<SharedDocument[]>(`${this._baseUrl}document/documents-not-in-any-portfolio`);
   }
 
+  getAllDocumentsExceptingPortfolioId(portfolioId: number): Observable<SharedDocument[]> {
+    return this._http.get<SharedDocument[]>(`${this._baseUrl}document/documents-not-in-portfolio?portfolioId=${portfolioId}`);
+  }
+
   getById(id: string): Observable<Partial<SharedDocument>> {
     return this._http.get<Partial<SharedDocument>>(`${this._baseUrl}document/${id}`);
   }
