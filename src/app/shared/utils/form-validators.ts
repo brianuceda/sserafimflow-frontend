@@ -8,26 +8,31 @@ export const hasAnyError = (input: any, form: FormGroup, validationName: 'requir
 export const isValidPassword = (): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors | null => {
     const password = control.value;
+    
+    // No validar si no hay valor
+    if (!password) {
+      return null;
+    }
 
     // Reglas para la contraseña:
     // - Mínimo 6 caracteres
     // - Al menos 1 letra minúscula
     // - Al menos 1 letra mayúscula
     // - Al menos 1 número
-    // - Debe contener al menos un carácter especial: !@#$%^&*()-+_=
+    // - Debe contener al menos un carácter especial
     // - No permitir comillas simples o dobles
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-+_=])[A-Za-z\d!@#$%^&*()\-+_=]{6,}$/;
-
-    // No permitir comillas simples o dobles
-    if (password.includes("'") || password.includes('"')) {
-      return { invalidPassword: 'Las comillas no están permitidas' };
-    }
-
-    // Validar si la contraseña cumple con el patrón
-    if (!passwordPattern.test(password)) {
+    
+    const hasMinLength = password.length >= 6;
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()\-+_=.;:,<>?/\\|{}[\]]/.test(password);
+    const hasNoQuotes = !password.includes("'") && !password.includes('"');
+    
+    if (!hasMinLength || !hasLowerCase || !hasUpperCase || !hasNumber || !hasSpecialChar || !hasNoQuotes) {
       return { invalidPassword: 'Contraseña poco segura' };
     }
-
+    
     return null; // Devuelve null si no hay errores
   };
 };
