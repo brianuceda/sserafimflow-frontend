@@ -102,22 +102,7 @@ export default class DashboardComponent {
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('API Error:', error);
-        // Set default values on error to prevent template rendering issues
-        this.dashboardData = {
-          totalNominalValueIssued: '0',
-          totalNominalValueReceived: '0',
-          totalNominalValueDiscounted: '0',
-          mostUsedBankForSales: 'N/A',
-          mostUsedPeriodRate: 'NOMINAL',
-          mostUsedCurrency: 'PEN',
-          cantSoldLettersPerMonth: Array(12).fill(0),
-          cantSoldInvoicesPerMonth: Array(12).fill(0),
-          amountSoldLettersPerMonth: Array(12).fill(0),
-          amountSoldInvoicesPerMonth: Array(12).fill(0),
-          mainCurrency: this.previewDataCurrency
-        } as Dashboard;
-        
+        console.error(error);
         this.isLoading = null;
       },
     });
@@ -138,39 +123,27 @@ export default class DashboardComponent {
 
   updateData(data: Dashboard) {
     this.dashboardData = data;
-    if (data && data.mainCurrency) {
-      this.previewDataCurrency = data.mainCurrency?.toString() as CurrencyEnum;
-    }
+    this.previewDataCurrency = data.mainCurrency?.toString() as CurrencyEnum;
     this.formatChanges(data);
 
     this._cdr.detectChanges();
   }
 
   formatChanges(data: Dashboard) {
-    if (!data) return;
-    
-    if (data.totalNominalValueIssued) {
-      this.dashboardData.totalNominalValueIssued = this.formatNumber(
-        data.totalNominalValueIssued,
-        this.previewDataCurrency
-      );
-    }
-    
-    if (data.totalNominalValueReceived) {
-      this.dashboardData.totalNominalValueReceived = this.formatNumber(
-        data.totalNominalValueReceived,
-        this.previewDataCurrency
-      );
-    }
-    
-    if (data.totalNominalValueDiscounted) {
-      this.dashboardData.totalNominalValueDiscounted = this.formatNumber(
-        data.totalNominalValueDiscounted,
-        this.previewDataCurrency
-      );
-    }
+    this.dashboardData.totalNominalValueIssued = this.formatNumber(
+      data.totalNominalValueIssued,
+      this.previewDataCurrency
+    );
+    this.dashboardData.totalNominalValueReceived = this.formatNumber(
+      data.totalNominalValueReceived,
+      this.previewDataCurrency
+    );
+    this.dashboardData.totalNominalValueDiscounted = this.formatNumber(
+      data.totalNominalValueDiscounted,
+      this.previewDataCurrency
+    );
 
-    if (this.dashboardData && this.dashboardData.todayExchangeRate) {
+    if (this.dashboardData.todayExchangeRate) {
       let date: number[] = (data.todayExchangeRate?.date as string)
         .split('-')
         .map(Number);
@@ -185,18 +158,16 @@ export default class DashboardComponent {
       });
 
       this.exchangeRateData = [];
-      if (this.dashboardData.todayExchangeRate.currencyRates) {
-        this.dashboardData.todayExchangeRate.currencyRates.forEach(
-          (rate: any) => {
-            this.exchangeRateData.push({
-              currencyname: rate.currencyName,
-              currency: rate.currency,
-              purchaseprice: rate.purchasePrice,
-              saleprice: rate.salePrice,
-            });
-          }
-        );
-      }
+      this.dashboardData.todayExchangeRate.currencyRates.forEach(
+        (rate: any) => {
+          this.exchangeRateData.push({
+            currencyname: rate.currencyName,
+            currency: rate.currency,
+            purchaseprice: rate.purchasePrice,
+            saleprice: rate.salePrice,
+          });
+        }
+      );
     }
 
     this.changeDataChart1();
@@ -342,18 +313,16 @@ export default class DashboardComponent {
   }
 
   changeDataChart1() {
-    if (!this.dashboardData) return;
-    
     this.chartOptions1 = {
       ...this.chartOptions1,
       series: [
         {
           name: 'Letras vendidas',
-          data: this.dashboardData.cantSoldLettersPerMonth || Array(12).fill(0),
+          data: this.dashboardData.cantSoldLettersPerMonth,
         },
         {
           name: 'Facturas vendidas',
-          data: this.dashboardData.cantSoldInvoicesPerMonth || Array(12).fill(0),
+          data: this.dashboardData.cantSoldInvoicesPerMonth,
         },
       ],
       yaxis: {
@@ -365,18 +334,16 @@ export default class DashboardComponent {
   }
 
   changeDataChart2() {
-    if (!this.dashboardData) return;
-    
     this.chartOptions2 = {
       ...this.chartOptions2,
       series: [
         {
           name: 'Monto por letras vendidas',
-          data: this.dashboardData.amountSoldLettersPerMonth || Array(12).fill(0),
+          data: this.dashboardData.amountSoldLettersPerMonth,
         },
         {
           name: 'Monto por facturas vendidas',
-          data: this.dashboardData.amountSoldInvoicesPerMonth || Array(12).fill(0),
+          data: this.dashboardData.amountSoldInvoicesPerMonth,
         },
       ],
       yaxis: {
@@ -386,10 +353,6 @@ export default class DashboardComponent {
         labels: {
           formatter: (val: number) => {
             // Si algun valor es distinto de 0, formatea los valores a 2 decimales
-            if (!this.dashboardData || !this.dashboardData.amountSoldInvoicesPerMonth) {
-              return val.toString();
-            }
-            
             let hasNonZeroValue =
               this.dashboardData.amountSoldInvoicesPerMonth.some(
                 (value: number) => value != 0

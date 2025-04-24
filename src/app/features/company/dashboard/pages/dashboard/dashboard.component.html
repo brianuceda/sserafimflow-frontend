@@ -50,7 +50,7 @@
     </div>
 
     <!-- Tasa de Cambio -->
-    @if (!isLoading && dashboardData && dashboardData.todayExchangeRate) {
+    @if (!isLoading && dashboardData.todayExchangeRate) {
       <div class="mb-4 max-sm:ml-3 flex flex-col items-end max-sm:items-start">
         <h2 class="mb-[6px] font-semibold text-[18px]" for="showExchangeRateTable">
           Tasas de Cambio 
@@ -112,7 +112,7 @@
 
   @if (!isLoading) {    
     <!-- Tabla de Tasas de Cambio del dia -->
-    @if (dashboardData && dashboardData.todayExchangeRate && dashboardData.todayExchangeRate.currencyRates && dashboardData.todayExchangeRate.currencyRates.length > 0 && showExchangeRateTable) {
+    @if (dashboardData.todayExchangeRate && dashboardData.todayExchangeRate.currencyRates.length > 0 && showExchangeRateTable) {
       <app-table
         class="block w-full"
         [style]="'light'"
