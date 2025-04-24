@@ -23,12 +23,12 @@ export default class LoginComponent {
   private _router = inject(Router);
 
   form = this._formBuilder.group<FormCompanyLogin>({
-    username: this._formBuilder.control('baufest@empresas.com', [
+    username: this._formBuilder.control('brian.uceda@hotmail.com', [
       Validators.required,
       Validators.maxLength(150),
       Validators.email,
     ]),
-    password: this._formBuilder.control('Password_1_Empresa_Baufest', [
+    password: this._formBuilder.control('brian.uceda123A!', [
       Validators.required,
       Validators.maxLength(50),
       isValidPassword(),
